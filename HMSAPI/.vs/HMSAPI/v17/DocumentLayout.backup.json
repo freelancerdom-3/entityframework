@@ -1,0 +1,181 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\service\\tbluser\\tbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tbluser\\tbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\efcontext\\hsmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\efcontext\\hsmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\controllers\\tbluser\\tblusercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\controllers\\tbluser\\tblusercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\model\\tbluser\\tblusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tbluser\\tblusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\service\\tbluser\\itbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tbluser\\itbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "HMSAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\appsettings.json",
+              "RelativeToolTip": "HMSAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-24T04:58:03.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HSMDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\EFContext\\HSMDBContext.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\EFContext\\HSMDBContext.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\EFContext\\HSMDBContext.cs",
+              "RelativeToolTip": "HMSAPI\\EFContext\\HSMDBContext.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAD4vwgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T04:45:32.064Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Program.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Program.cs",
+              "RelativeToolTip": "HMSAPI\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T05:03:30.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TblUserController.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
+              "RelativeToolTip": "HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAvwCAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T04:51:57.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TblUser.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\TblUser.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblUser\\TblUser.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\TblUser.cs*",
+              "RelativeToolTip": "HMSAPI\\Service\\TblUser\\TblUser.cs*",
+              "ViewState": "AgIAABQAAAAAAAAAAAAowBsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T04:51:18.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ITblUser.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\ITblUser.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblUser\\ITblUser.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\ITblUser.cs",
+              "RelativeToolTip": "HMSAPI\\Service\\TblUser\\ITblUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T04:40:11.241Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TblUserModel.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "RelativeToolTip": "HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T04:26:14.252Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "HMSAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "HMSAPI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAIAAAAAAAAAAABRwAkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-12T04:36:49.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "HMSAPI\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwDAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-12T04:36:00.028Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

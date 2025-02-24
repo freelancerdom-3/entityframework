@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "7BZms9yWzqcvmRQTFjvQMp2Q1GikuGwiVOd3KXziIcg=",
+  "Source": "HMSAPI",
+  "BasePath": "_content/HMSAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
