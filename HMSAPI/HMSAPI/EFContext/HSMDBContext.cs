@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.TblUser;
+﻿using HMSAPI.Model.TblModel;
+using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.EFContext
@@ -27,10 +28,13 @@ namespace HMSAPI.EFContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblRoleModel>().ToTable("TblRole");
+            base.OnModelCreating(modelBuilder);
 
         }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
+        public DbSet<TblRoleModel> TblRoles { get; set; }
     }
 }

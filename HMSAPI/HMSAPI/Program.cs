@@ -1,4 +1,5 @@
 using HMSAPI.EFContext;
+using HMSAPI.Service.TblRole;
 using HMSAPI.Service.TblUser;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ builder.Services.AddSwaggerGen();
 
 // Custom services
 builder.Services.AddScoped<ITblUser, TblUser>();
+builder.Services.AddScoped<ITblRole, TblRole>();
+
 
 var app = builder.Build();
 
