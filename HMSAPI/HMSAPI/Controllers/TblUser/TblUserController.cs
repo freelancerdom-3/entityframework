@@ -1,4 +1,5 @@
-﻿using HMSAPI.Service.TblUser;
+﻿using HMSAPI.Model.TblUser;
+using HMSAPI.Service.TblUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,9 +34,21 @@ namespace HMSAPI.Controllers.TblUser
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string? searchBy = null)
         {
-            return Ok(_serviceTblUser.GetAll());
+            return Ok(_serviceTblUser.GetAll(searchBy));
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult SignupUser(TblUserModel userModel)
+        {
+            return Ok(_serviceTblUser.SignupUser(userModel));
+        }
+        
+        [HttpGet("[action]")]
+        public IActionResult ForgetPassword(string email)
+        {
+            return Ok(_serviceTblUser.ForgetPassword(email));
         }
     }
 }
