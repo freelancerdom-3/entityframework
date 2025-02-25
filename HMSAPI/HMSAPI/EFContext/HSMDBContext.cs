@@ -1,5 +1,5 @@
-﻿using HMSAPI.Model.TblHospitalTyp;
-using HMSAPI.Model.TblUser;
+﻿using HMSAPI.Model.TblUser;
+using HMSAPI.Service.TblHospitalDept;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.EFContext
@@ -36,6 +36,8 @@ namespace HMSAPI.EFContext
         public DbSet<TblHospitalTypModel> TblHospitalTypes { get; set; }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
+
+        public DbSet<TblHospitalDeptModel> TblHospitalDepts { get; set; }
     }
 }
 
