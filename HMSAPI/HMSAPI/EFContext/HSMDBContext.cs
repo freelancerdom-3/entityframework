@@ -1,4 +1,6 @@
-﻿using HMSAPI.Model.TblUser;
+﻿using HMSAPI.Model.TblModel;
+using HMSAPI.Model.TblHospitalDep;
+using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblHospitalDept;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,11 +33,17 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
             modelBuilder.Entity<TblHospitalTypModel>().ToTable("TblHospitalTyp");
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblRoleModel>().ToTable("TblRole");
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TblHospitalDeptModel>().ToTable("TblHospitalDept");
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<TblHospitalTypModel> TblHospitalTypes { get; set; }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
+        public DbSet<TblRoleModel> TblRoles { get; set; }
 
         public DbSet<TblHospitalDeptModel> TblHospitalDepts { get; set; }
     }
