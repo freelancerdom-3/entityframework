@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.TblUser;
+﻿using HMSAPI.Model.TblMedicineType;
+using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.EFContext
@@ -26,10 +27,13 @@ namespace HMSAPI.EFContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TblMedicineTypeModel>().ToTable("TblMedicineType");
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
             base.OnModelCreating(modelBuilder); 
 
         }
+
+        public DbSet<TblMedicineTypeModel> TblMedicineTypes { get; set; }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
     }
