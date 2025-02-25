@@ -40,21 +40,21 @@ namespace HMSAPI.Service.TblDiseaseType
         }
 
         //GETALL
-            public List<TblDiseaseTypeModel> GetAll(string? searchby = null)
+        public List<TblDiseaseTypeModel> GetAll(string? searchby = null)
+        {
+            List<TblDiseaseTypeModel> lstDisease = new();
+            using (var connection = _hsmDbContext)
             {
-                List<TblDiseaseTypeModel> lstDisease = new();
-                using (var connection = _hsmDbContext) 
-                {
-                    lstDisease = string.IsNullOrEmpty(searchby) ? connection.tblDiseaseTypes.ToList():
-                           connection.tblDiseaseTypes.Where(x => x.DieseaseName.ToLower() == searchby.ToLower()).
-                           ToList();
-                }
-                return lstDisease;
+                lstDisease = string.IsNullOrEmpty(searchby) ? connection.tblDiseaseTypes.ToList() :
+                       connection.tblDiseaseTypes.Where(x => x.DieseaseName.ToLower() == searchby.ToLower()).
+                       ToList();
             }
+            return lstDisease;
+        }
 
         //GET ONE BY ID
 
-        
+
 
         //public List<TblDiseaseTypeModel> GetOne(string? searchby = null)
         //{
@@ -130,6 +130,6 @@ namespace HMSAPI.Service.TblDiseaseType
             return data;
         }
     }
-    }
+}
 
     
