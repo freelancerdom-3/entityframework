@@ -18,7 +18,7 @@ namespace HMSAPI.Service.TblUser
             bool result = false;
             using (var connection = _hsmDbContext)
             {
-                TblUserModel data = connection.TblUsers
+                TblUserModel? data = connection.TblUsers
                                   .Where(x => x.Email.ToLower() == email.ToLower()).
                                   FirstOrDefault();
                 //update
@@ -46,7 +46,8 @@ namespace HMSAPI.Service.TblUser
                     connection.TblUsers.Where(x=>x.FullName.ToLower()==searchBy.ToLower()).
                     ToList();
             }
-            return lstUsers;        }
+            return lstUsers;    
+        }
 
         public bool SignupUser(TblUserModel userModel)
         {
@@ -97,7 +98,7 @@ namespace HMSAPI.Service.TblUser
             {
                 match = connection.TblUsers
                     .Where(x => x.Email == email && x.Password == password)
-                    .FirstOrDefault().UserId > 0;
+                    .FirstOrDefault()?.UserId > 0;
             }
             return match;
 

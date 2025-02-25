@@ -1,4 +1,5 @@
 using HMSAPI.EFContext;
+using HMSAPI.Service.TblDiseaseType;
 using HMSAPI.Service.TblUser;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 // Custom services
 builder.Services.AddScoped<ITblUser, TblUser>();
+builder.Services.AddScoped<ITblDiseaseType, TblDiseaseType>();
 
 var app = builder.Build();
 
