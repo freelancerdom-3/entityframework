@@ -1,13 +1,15 @@
-﻿using HMSAPI.Model.TblUser;
+﻿using HMSAPI.Model.TblHospitalDep;
+using HMSAPI.Model.TblUser;
+using HMSAPI.Service.TblHospitalDept;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.EFContext
 {
-    public class HSMDBContext:DbContext
+    public class HSMDBContext : DbContext
     {
-        public HSMDBContext(DbContextOptions<HSMDBContext> option):base(option)
+        public HSMDBContext(DbContextOptions<HSMDBContext> option) : base(option)
         {
-                
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -17,7 +19,7 @@ namespace HMSAPI.EFContext
             //Connection string : servername, dbname, authentication type, secure,
             // register here,
             var configdata = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json",optional:false)
+                .AddJsonFile("appsettings.json", optional: false)
                 .Build();
             string? DFConnection = configdata.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(DFConnection);
@@ -27,10 +29,14 @@ namespace HMSAPI.EFContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
-            base.OnModelCreating(modelBuilder); 
+
+            modelBuilder.Entity<TblHospitalDeptModel>().ToTable("TblHospitalDept");
+            base.OnModelCreating(modelBuilder);
 
         }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
+
+        public DbSet<TblHospitalDeptModel> TblHospitalDepts { get; set; }
     }
 }

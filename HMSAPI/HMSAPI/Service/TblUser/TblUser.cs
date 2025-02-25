@@ -18,7 +18,7 @@ namespace HMSAPI.Service.TblUser
             bool result = false;
             using (var connection = _hsmDbContext)
             {
-                TblUserModel data = connection.TblUsers
+                TblUserModel? data = connection.TblUsers
                                   .Where(x => x.Email.ToLower() == email.ToLower()).
                                   FirstOrDefault();
                 //update
