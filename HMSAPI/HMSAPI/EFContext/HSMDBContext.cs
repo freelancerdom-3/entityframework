@@ -1,6 +1,7 @@
 ﻿using HMSAPI.Model.TblModel;
 using HMSAPI.Model.TblHospitalDep;
 using HMSAPI.Model.TblDiseaseType;
+using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblHospitalDept;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace HMSAPI.EFContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TblMedicineTypeModel>().ToTable("TblMedicineType");
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
             modelBuilder.Entity<TblHospitalTypModel>().ToTable("TblHospitalTyp");
         
@@ -44,6 +46,8 @@ namespace HMSAPI.EFContext
         }
 
         public DbSet<TblHospitalTypModel> TblHospitalTypes { get; set; }
+
+        public DbSet<TblMedicineTypeModel> TblMedicineTypes { get; set; }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
         public DbSet<TblDiseaseTypeModel> tblDiseaseTypes { get; set; }
