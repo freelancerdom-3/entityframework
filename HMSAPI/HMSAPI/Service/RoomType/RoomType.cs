@@ -78,7 +78,7 @@ namespace HMSAPI.Service.RoomType
             bool result = false;
             using (var connection = _hsmDbContext)
             {
-                RoomTYpeModel? data = connection.RoomTYpes.Where(x => x.Id == id).FirstOrDefault();
+                RoomTYpeModel? data = connection.RoomTYpes.Where(x => x.RoomId == id).FirstOrDefault();
                 if (data != null)
                 {
                     connection.RoomTYpes.Remove(data);

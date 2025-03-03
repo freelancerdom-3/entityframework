@@ -7,6 +7,6 @@ namespace HMSAPI.Model.RoomTypeModel
         [Key]
         public int RoomId { get; set; }
         public string? RoomType { get; set; }
-        public int Id { get; internal set; }
+     
     }
 }
