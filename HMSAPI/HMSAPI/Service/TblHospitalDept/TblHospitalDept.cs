@@ -1,8 +1,10 @@
 ﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalDep;
 //using HMSAPI.Model.TblUser;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 
 namespace HMSAPI.Service.TblHospitalDept
@@ -15,30 +17,41 @@ namespace HMSAPI.Service.TblHospitalDept
             _hsmDbContext = hSMDBContext;
         }
 
-        public bool AddDepartment(TblHospitalDeptModel deptModel)
+        public async Task<APIResponseModel> AddDepartment(TblHospitalDeptModel deptModel)
         {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+            try
             {
-                bool duplicateDepartment = connection.TblHospitalDepts
-                    .Any(x => x.Department.ToLower() == deptModel.Department.ToLower());
-
-
-                if (!duplicateDepartment)
+                using (var connection = _hsmDbContext)
                 {
-                    //#1
-                    _ = connection.TblHospitalDepts.Add(deptModel);
-                    connection.SaveChanges();
-                    //#3
-                    result = true;
-                }
-                else
-                {
-                    result = false;
+                    bool duplicateDepartment = connection.TblHospitalDepts
+                        .Any(x => x.Department.ToLower() == deptModel.Department.ToLower());
+
+                    if (!duplicateDepartment)
+                    {
+                        //#1
+                        _ = await connection.TblHospitalDepts.AddAsync(deptModel);
+                        connection.SaveChanges();
+                        //#3
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Inserted Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Data = false;
+                    }
                 }
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
 
         }
 

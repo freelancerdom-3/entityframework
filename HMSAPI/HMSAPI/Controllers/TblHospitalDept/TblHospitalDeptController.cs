@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.TblHospitalDep;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblHospitalDep;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblHospitalDept;
 using HMSAPI.Service.TblUser;
@@ -17,9 +18,9 @@ namespace HMSAPI.Controllers.TblHospitalDept
             _serviceTblHosDep = TblHosDept;
         }
         [HttpPost("[action]")]
-        public IActionResult AddDepartment(TblHospitalDeptModel DeptModel)
+        public async Task<APIResponseModel> AddDepartment(TblHospitalDeptModel DeptModel)
         {
-            return Ok(_serviceTblHosDep.AddDepartment(DeptModel));
+            return await _serviceTblHosDep.AddDepartment(DeptModel);
         }
 
         [HttpPut("[action]")]
