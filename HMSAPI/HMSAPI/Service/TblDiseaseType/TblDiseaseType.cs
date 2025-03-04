@@ -123,12 +123,12 @@ namespace HMSAPI.Service.TblDiseaseType
 
         public TblDiseaseTypeModel GetTblDiseaseTypeById(int Id)
         {
-            TblDiseaseTypeModel? data = new();
             using (var connection = _hsmDbContext)
             {
-                 data = connection.tblDiseaseTypes.Where(x => x.DieseaseID == Id).FirstOrDefault();
+                TblDiseaseTypeModel? data = connection.tblDiseaseTypes.Where(x => x.DieseaseID == Id).FirstOrDefault();
+                return data;
             }
-            return data;
+            
         }
     }
 }

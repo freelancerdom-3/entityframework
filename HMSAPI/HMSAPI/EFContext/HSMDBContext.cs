@@ -1,14 +1,15 @@
 ﻿using HMSAPI.Model.TblModel;
-using HMSAPI.Model.TblHospitalDep;
 using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblUser;
-using HMSAPI.Service.TblHospitalDept;
 using Microsoft.EntityFrameworkCore;
 using HMSAPI.Model.TblHospitalTyp;
 using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblShift;
 using HMSAPI.Model.TblUser.ViewModel;
+using HMSAPI.Model.TblHospitalDepartment;
+using HMSAPI.Model.TblEmployeeDepartmentMapping;
+using HMSAPI.Model.TblEmpyloeeDepartmentMapping.ViewModel;
 
 namespace HMSAPI.EFContext
 {
@@ -45,7 +46,9 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblDiseaseTypeModel>().ToTable("DiseaseType");
 ;            base.OnModelCreating(modelBuilder); 
 
-            modelBuilder.Entity<TblHospitalDeptModel>().ToTable("TblHospitalDept");
+            modelBuilder.Entity<TblHospitalDepartmentModel>().ToTable("TblHospitalDepartment");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblEmployeeDepartmentMappingModel>().ToTable("TblEmployeeDepartmentMapping");
             base.OnModelCreating(modelBuilder);
         }
 
@@ -58,9 +61,13 @@ namespace HMSAPI.EFContext
         public DbSet<TblDiseaseTypeModel> tblDiseaseTypes { get; set; }
         public DbSet<TblRoleModel> TblRoles { get; set; }
 
-        public DbSet<TblHospitalDeptModel> TblHospitalDepts { get; set; }
+        public DbSet<TblHospitalDepartmentModel> TblHospitalDepts { get; set; }
         public DbSet<RoomTYpeModel> RoomTYpes { get; set; }
         public DbSet<TblShiftModel> TblShifts { get; set; }
-    }
+
+        public DbSet <TblEmployeeDepartmentMappingModel> TblEmployeeDepartmentMappings{ get; set; }
+
+        public DbSet <GetTblEmployeeDepartmentmappingViewModel> GetTblEmployeeDepartmentMappingViewModel { get;set; }
+}
 }
 

@@ -6,6 +6,9 @@ using HMSAPI.Service.TblDiseaseType;
 using HMSAPI.Service.TblMedicineType;
 using HMSAPI.Service.TblUser;
 using Microsoft.EntityFrameworkCore;
+using HMSAPI.Service.TblShift;
+using HMSAPI.Service.RoomType;
+using HMSAPI.Service.TblEmployeeDepartmentMapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,13 +32,14 @@ builder.Services.AddSwaggerGen();
 
 // Custom services
 builder.Services.AddScoped<ITblUser, TblUser>();
-builder.Services.AddScoped<ITblHospitalDept, TblHospitalDept>();
+builder.Services.AddScoped<ITblHospitalDepartment, TblHospitalDepartment>();
 builder.Services.AddScoped<ITblRole, TblRole>();
-
+builder.Services.AddScoped<ITblShift, TblShift>();
 builder.Services.AddScoped<ITblDiseaseType, TblDiseaseType>();
 builder.Services.AddScoped<ITblMedicineType, TblMedicineType>();
-
+builder.Services.AddScoped<IRoomType, RoomType>();
 builder.Services.AddScoped<ITblHospitalTyp, TblHospitslTyp>();
+builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

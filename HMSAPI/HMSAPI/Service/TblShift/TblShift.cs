@@ -8,7 +8,7 @@ namespace HMSAPI.Service.TblShift
     {
 
         private readonly HSMDBContext _hsmDbContext;
-        private object connection;
+        //private object connection;
 
         public TblShift(HSMDBContext hSMDBContext)
         {
