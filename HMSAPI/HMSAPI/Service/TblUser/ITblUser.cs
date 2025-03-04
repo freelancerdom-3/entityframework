@@ -1,10 +1,11 @@
 ﻿using HMSAPI.Model.TblUser;
+using HMSAPI.Model.TblUser.ViewModel;
 
 namespace HMSAPI.Service.TblUser
 {
     public interface ITblUser
     {
-        List<TblUserModel> GetAll(string? searchBy=null);
+        List<GetTblUserViewModel> GetAll(string? searchBy=null);
         bool validateCredential(string email,string password);
         TblUserModel? validateCredentialWithData(string email,string password);
 

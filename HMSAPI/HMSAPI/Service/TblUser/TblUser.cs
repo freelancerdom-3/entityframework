@@ -1,5 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.TblUser;
+using HMSAPI.Model.TblUser.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 
@@ -37,14 +39,19 @@ namespace HMSAPI.Service.TblUser
 
         }
 
-        public List<TblUserModel> GetAll(string? searchBy = null)
+        public List<GetTblUserViewModel> GetAll(string? searchBy = null)
         {
-            List<TblUserModel> lstUsers = new();
+            List<GetTblUserViewModel> lstUsers = new();
             using (var connection = _hsmDbContext)
             {
-                lstUsers = string.IsNullOrEmpty(searchBy)? connection.TblUsers.ToList():
-                    connection.TblUsers.Where(x=>x.FullName.ToLower()==searchBy.ToLower()).
-                    ToList();
+                //lstUsers = string.IsNullOrEmpty(searchBy)? connection.TblUsers.ToList():
+                //    connection.TblUsers.Where(x=>x.FullName.ToLower()==searchBy.ToLower()).
+                //    ToList();
+
+                lstUsers= connection.GetTblUserViewModel.FromSqlRaw($@"SELECT tuser.*,trole.rolename 
+                FROM [HSMDB].[dbo].[TblUser] tuser
+                inner join tblrole trole on trole.roleid=tuser.roleid where fullname like '%{searchBy}%'").ToList();
+
             }
             return lstUsers;    
         }

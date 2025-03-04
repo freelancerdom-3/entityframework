@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HMSAPI.Model.TblHospitalTyp;
 using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblShift;
+using HMSAPI.Model.TblUser.ViewModel;
 
 namespace HMSAPI.EFContext
 {
@@ -53,6 +54,7 @@ namespace HMSAPI.EFContext
         public DbSet<TblMedicineTypeModel> TblMedicineTypes { get; set; }
 
         public DbSet<TblUserModel> TblUsers { get; set; }
+        public DbSet<GetTblUserViewModel> GetTblUserViewModel { get; set; }
         public DbSet<TblDiseaseTypeModel> tblDiseaseTypes { get; set; }
         public DbSet<TblRoleModel> TblRoles { get; set; }
 
