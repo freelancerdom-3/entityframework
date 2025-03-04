@@ -1,17 +1,20 @@
-﻿using HMSAPI.Model.TblUser;
-using HMSAPI.Model.TblUser.ViewModel;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblUser;
 
 namespace HMSAPI.Service.TblUser
 {
     public interface ITblUser
     {
-        List<GetTblUserViewModel> GetAll(string? searchBy=null);
-        bool validateCredential(string email,string password);
-        TblUserModel? validateCredentialWithData(string email,string password);
+        Task<APIResponseModel> GetAll(string? searchBy = null);
+        Task<APIResponseModel> validateCredential(string email, string password);
+        Task<APIResponseModel> validateCredentialWithData(string email, string password);
 
-        bool SignupUser(TblUserModel userModel);
-        bool ForgetPassword(string email);
+        Task<APIResponseModel> SignupUser(TblUserModel userModel);
+        Task<APIResponseModel> ForgetPassword(string email);
 
+        Task<APIResponseModel> MobileNumber();
 
+        //Task<APIResponseModel> AddRoleId(string roleId);
+        Task<APIResponseModel> AddRoleId(int userId);
     }
 }

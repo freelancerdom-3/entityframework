@@ -1,4 +1,6 @@
-﻿using HMSAPI.Model.TblUser;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblHospitalType;
+using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +20,20 @@ namespace HMSAPI.Controllers.TblUser
 
         [HttpGet("[action]")]
         [HttpGet("AuthenticateUser")]
-        public IActionResult ValidateCredential(string email, string password) {
+        public IActionResult ValidateCredential(string email, string password)
+        {
             return Ok(_serviceTblUser.validateCredential(email, password));
         }
 
-       
+
         //public IActionResult ValidateCredential1(string email, string password)
         //{
         //    return Ok(_serviceTblUser.validateCredential(email, password));
         //}
 
         [HttpGet("[action]")]
-        public IActionResult validateCredentialWithData(string email, string password) {
+        public IActionResult validateCredentialWithData(string email, string password)
+        {
             return Ok(_serviceTblUser.validateCredentialWithData(email, password));
         }
 
@@ -40,15 +44,22 @@ namespace HMSAPI.Controllers.TblUser
         }
 
         [HttpPost("[action]")]
-        public IActionResult SignupUser(TblUserModel userModel)
+        public async Task<APIResponseModel> SignupUser(TblUserModel userModel)
         {
-            return Ok(_serviceTblUser.SignupUser(userModel));
+            return await _serviceTblUser.SignupUser(userModel);
         }
-        
+
+
         [HttpGet("[action]")]
         public IActionResult ForgetPassword(string email)
         {
             return Ok(_serviceTblUser.ForgetPassword(email));
+        }
+
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> AddRoleId(int userId)
+        {
+            return await _serviceTblUser.AddRoleId(userId);
         }
     }
 }
