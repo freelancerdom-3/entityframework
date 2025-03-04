@@ -10,6 +10,8 @@ using HMSAPI.Model.TblUser.ViewModel;
 using HMSAPI.Model.TblHospitalDepartment;
 using HMSAPI.Model.TblEmployeeDepartmentMapping;
 using HMSAPI.Model.TblEmpyloeeDepartmentMapping.ViewModel;
+using HMSAPI.Model.TblMedicineDiseaseMapping;
+using HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel;
 
 namespace HMSAPI.EFContext
 {
@@ -50,6 +52,7 @@ namespace HMSAPI.EFContext
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblEmployeeDepartmentMappingModel>().ToTable("TblEmployeeDepartmentMapping");
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblMedicineDiseaseMappingModel>().ToTable("TblMedicineDiseaseMapping");
         }
 
         public DbSet<TblHospitalTypModel> TblHospitalTypes { get; set; }
@@ -66,6 +69,9 @@ namespace HMSAPI.EFContext
         public DbSet<TblShiftModel> TblShifts { get; set; }
 
         public DbSet <TblEmployeeDepartmentMappingModel> TblEmployeeDepartmentMappings{ get; set; }
+
+        public DbSet<TblMedicineDiseaseMappingModel> TblMedicineDiseaseMappings { get; set; }
+        public DbSet<GetTblMedicineDiseaseMappingViewModel> GetTblMedicineDiseaseMappingViewModels { get; set; }
 
         public DbSet <GetTblEmployeeDepartmentmappingViewModel> GetTblEmployeeDepartmentMappingViewModel { get;set; }
 }
