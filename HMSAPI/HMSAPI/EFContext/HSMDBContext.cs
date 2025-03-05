@@ -3,7 +3,6 @@ using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
-using HMSAPI.Model.TblHospitalTyp;
 using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblShift;
 using HMSAPI.Model.TblUser.ViewModel;
@@ -12,6 +11,8 @@ using HMSAPI.Model.TblEmployeeDepartmentMapping;
 using HMSAPI.Model.TblEmpyloeeDepartmentMapping.ViewModel;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel;
+using HMSAPI.Service.TblHospitalTyp;
+using HMSAPI.Model.TblHospitalType;
 
 namespace HMSAPI.EFContext
 {
@@ -41,10 +42,10 @@ namespace HMSAPI.EFContext
         {
             modelBuilder.Entity<TblMedicineTypeModel>().ToTable("TblMedicineType");
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
-            modelBuilder.Entity<TblHospitalTypModel>().ToTable("TblHospitalTyp");
         
             modelBuilder.Entity<TblRoleModel>().ToTable("TblRole");
-           
+            modelBuilder.Entity<TblHospitalTypeModel>().ToTable("TblHospitalType");
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblDiseaseTypeModel>().ToTable("DiseaseType");
 ;            base.OnModelCreating(modelBuilder); 
 
@@ -53,9 +54,9 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblEmployeeDepartmentMappingModel>().ToTable("TblEmployeeDepartmentMapping");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblMedicineDiseaseMappingModel>().ToTable("TblMedicineDiseaseMapping");
+            
         }
 
-        public DbSet<TblHospitalTypModel> TblHospitalTypes { get; set; }
 
         public DbSet<TblMedicineTypeModel> TblMedicineTypes { get; set; }
 
@@ -63,6 +64,8 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblUserViewModel> GetTblUserViewModel { get; set; }
         public DbSet<TblDiseaseTypeModel> tblDiseaseTypes { get; set; }
         public DbSet<TblRoleModel> TblRoles { get; set; }
+
+        public DbSet<TblHospitalTypeModel> TblHospitalTypes { get; set; }
 
         public DbSet<TblHospitalDepartmentModel> TblHospitalDepts { get; set; }
         public DbSet<RoomTYpeModel> RoomTYpes { get; set; }

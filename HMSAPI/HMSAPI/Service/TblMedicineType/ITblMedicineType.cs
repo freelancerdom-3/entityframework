@@ -1,17 +1,18 @@
-﻿using HMSAPI.Model.TblMedicineType;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblMedicineType;
 
 namespace HMSAPI.Service.TblMedicineType
 {
     public interface ITblMedicineType
     {
-        bool AddMedicine(TblMedicineTypeModel medicineModel);
+        Task<APIResponseModel> Add(TblMedicineTypeModel medicineModel);
 
-        TblMedicineTypeModel? GetOnlyOneByID (int id);
+        Task<APIResponseModel> GetByID(int id);
 
-        List<TblMedicineTypeModel> GetAll();
+        Task<APIResponseModel> GetAll();
 
-        bool UpdateByID(int Id);
+        Task<APIResponseModel> Update(TblMedicineTypeModel model);
 
-        bool DeleteByID(int Id);
+        Task<APIResponseModel> Delete(int Id);
     }
 }

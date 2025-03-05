@@ -290,36 +290,6 @@ namespace HMSAPI.Service.TblUser
             }
             return responseModel;
         }
-
-
-
-
-
-        public Task<APIResponseModel> validateCredential(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<APIResponseModel> validateCredentialWithData(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<APIResponseModel> ITblUser.SignupUser(TblUserModel userModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<APIResponseModel> ITblUser.ForgetPassword(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<APIResponseModel> MobileNumber()
-        {
-            throw new NotImplementedException();
-        }
-
         
     }
 }

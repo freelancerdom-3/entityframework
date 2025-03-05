@@ -10,13 +10,11 @@ namespace HMSAPI.Service.TblUser
 
         Task<APIResponseModel>  GetAll(string? searchBy=null);
   
-        Task<APIResponseModel> validateCredential(string email,string password);
+        Task<APIResponseModel> ValidateCredential(string email,string password);
         //Task<APIResponseModel> validateCredentialWithData(string email,string password);
 
         Task<APIResponseModel> SignupUser(TblUserModel userModel);
         Task<APIResponseModel> ForgetPassword(string email);
-
-        Task<APIResponseModel> MobileNumber();
 
         //Task<APIResponseModel> AddRoleId(string roleId);
         Task<APIResponseModel> Add(TblUserModel model);

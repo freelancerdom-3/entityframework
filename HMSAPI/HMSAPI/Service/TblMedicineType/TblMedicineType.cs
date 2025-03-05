@@ -1,5 +1,7 @@
 ﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
+using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblMedicineType
 {
@@ -13,92 +15,162 @@ namespace HMSAPI.Service.TblMedicineType
 
         
 
-        public bool AddMedicine(TblMedicineTypeModel medicineModel)
+        public async Task<APIResponseModel> Add(TblMedicineTypeModel medicineModel)
         {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new APIResponseModel();
+            try
             {
-                bool duplicateName = connection.TblMedicineTypes
-                .Any(X => X.TypeName.ToLower() == medicineModel.TypeName.ToLower());
+                bool result = false;
+                using (var connection = _hsmDbContext)
+                {
+                    bool duplicateName = connection.TblMedicineTypes
+                    .Any(X => X.TypeName.ToLower() == medicineModel.TypeName.ToLower());
 
-                if (!duplicateName)
-                {
-                    _ = connection.TblMedicineTypes.Add(medicineModel);
-                    connection.SaveChanges();
-                    result = true;
+                    if (!duplicateName)
+                    {
+                        _ =await connection.TblMedicineTypes.AddAsync(medicineModel);
+                        connection.SaveChanges();
+                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.Message = "Inserted Successfully";
+                        responseModel.Data = true;
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate found!";
+                        responseModel.Data = false;
+                    }
                 }
-                else
-                {
-                    result = false;
-                }
+            
             }
-
-            return result;
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
 
         }
 
-        public bool DeleteByID(int Id)
+        public async Task<APIResponseModel> Delete(int Id)
         {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+            try
             {
-                TblMedicineTypeModel? data = connection.TblMedicineTypes.Where(X => X.MedicineID == Id).FirstOrDefault();
-                if (data != null)
+                bool result = false;
+                using (var connection = _hsmDbContext)
                 {
-                    connection.TblMedicineTypes.Remove(data);
-                    connection.SaveChanges();
-                    result = true;
-                }
-                else
-                {
-                    result = false;
-                }
-                return result;
+                    TblMedicineTypeModel? data =await connection.TblMedicineTypes.Where(X => X.MedicineTypeID == Id).FirstOrDefaultAsync();
+                    if (data != null)
+                    {
+                        connection.TblMedicineTypes.Remove(data);
+                        connection.SaveChanges();
+                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.Message = "Deleted Successfully";
+                        responseModel.Data = true;
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.Message = "Medicine ID not found!";
+                        responseModel.Data = false;
+                    }
+                }   
+                
             }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
 
         }
 
-        public List<TblMedicineTypeModel> GetAll()
+        public async Task<APIResponseModel> GetAll()
         {
+            APIResponseModel responseModel = new APIResponseModel();
             List<TblMedicineTypeModel> lstmedicine = new List<TblMedicineTypeModel>();
-            using (var connection = _hsmDbContext)
+            try
             {
-                lstmedicine = connection.TblMedicineTypes.ToList();
+                using (var connection = _hsmDbContext)
+                {
+                    lstmedicine = await connection.TblMedicineTypes.ToListAsync();
+                    responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                    responseModel.Message = "Get All Record Successfully";
+                    responseModel.Data = lstmedicine;
+                }
             }
-            return lstmedicine;
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
                 
         }
 
-        public TblMedicineTypeModel? GetOnlyOneByID(int id)
+        public async Task<APIResponseModel> GetByID(int id)
         {
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+            try
             {
-                TblMedicineTypeModel? data = connection.TblMedicineTypes
-                    .Where(X => X.MedicineID == id).FirstOrDefault();
-                return data;
+                using (var connection = _hsmDbContext)
+                {
+                    TblMedicineTypeModel? data =await connection.TblMedicineTypes
+                        .Where(X => X.MedicineTypeID == id).FirstOrDefaultAsync();
+                    responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                    responseModel.Message = "Get All Record Successfully";
+                    responseModel.Data = data;
+                }
             }
-            
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
         }
 
-        public bool UpdateByID(int Id)
+        public async Task<APIResponseModel> Update(TblMedicineTypeModel model)
         {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+            try
             {
-                TblMedicineTypeModel? data = connection.TblMedicineTypes.Where(X => X.MedicineID == Id).FirstOrDefault();
-                if (data != null)
+                bool result = false;
+                using (var connection = _hsmDbContext)
                 {
-                    data.TypeName = "No Medicine";
-                    connection.Update(data);
-                    connection.SaveChanges();
-                    result = true;
+                    TblMedicineTypeModel? data = await connection.TblMedicineTypes
+                        .Where(X => X.MedicineTypeID == model.MedicineTypeID).FirstOrDefaultAsync();
+                    if (data != null)
+                    {
+                        data.TypeName = model.TypeName;
+                        connection.Update(data);
+                        connection.SaveChanges();
+                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.Data = true;
+                        responseModel.Message = "Record Updated Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.Data = false;
+                        responseModel.Message = "Not Updated";
+                    }
                 }
-                else
-                {
-                    result = false;
-                }
-                return result;
             }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
         }
     }
 }

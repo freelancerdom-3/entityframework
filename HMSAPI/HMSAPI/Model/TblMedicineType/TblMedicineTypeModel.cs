@@ -5,7 +5,7 @@ namespace HMSAPI.Model.TblMedicineType
     public class TblMedicineTypeModel
     {
         [Key]
-        public int MedicineID { get; set; }
+        public int MedicineTypeID { get; set; }
         public string? TypeName { get; set; }
     }
 }

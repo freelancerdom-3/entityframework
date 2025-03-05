@@ -22,7 +22,7 @@ namespace HMSAPI.Controllers.TblUser
         [HttpGet("AuthenticateUser")]
         public IActionResult ValidateCredential(string email, string password)
         {
-            return Ok(_serviceTblUser.validateCredential(email, password));
+            return Ok(_serviceTblUser.ValidateCredential(email, password));
         }
 
 
@@ -31,11 +31,11 @@ namespace HMSAPI.Controllers.TblUser
         //    return Ok(_serviceTblUser.validateCredential(email, password));
         //}
 
-        [HttpGet("[action]")]
-        public IActionResult validateCredentialWithData(string email, string password)
-        {
-            return Ok(_serviceTblUser.validateCredentialWithData(email, password));
-        }
+        //[HttpGet("[action]")]
+        //public IActionResult validateCredentialWithData(string email, string password)
+        //{
+        //    return Ok(_serviceTblUser.validateCredentialWithData(email, password));
+        //}
 
         [HttpGet("[action]")]
         public IActionResult GetAll(string? searchBy = null)
@@ -57,9 +57,9 @@ namespace HMSAPI.Controllers.TblUser
         }
 
         [HttpPost("[action]")]
-        public async Task<APIResponseModel> AddRoleId(int userId)
+        public async Task<APIResponseModel> Add(TblUserModel model)
         {
-            return await _serviceTblUser.AddRoleId(userId);
+            return await _serviceTblUser.Add(model);
         }
     }
 }

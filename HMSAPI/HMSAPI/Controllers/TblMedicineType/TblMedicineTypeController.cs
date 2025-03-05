@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.TblMedicineType;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Service.TblMedicineType;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,33 +17,33 @@ namespace HMSAPI.Controllers.TblMedicineType
         }
 
         [HttpPost("[action]")]
-        public IActionResult AddMedicine(TblMedicineTypeModel TypeName)
+        public async Task<APIResponseModel> Add(TblMedicineTypeModel medicineModel)
         {
-            return Ok(_serviceTblMedicineTyp.AddMedicine(TypeName));
+            return await _serviceTblMedicineTyp.Add(medicineModel);
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetOnlyOneByID(int id)
+        public async Task<APIResponseModel> GetByID(int id)
         {
-            return Ok(_serviceTblMedicineTyp.GetOnlyOneByID(id));
+            return await _serviceTblMedicineTyp.GetByID(id);
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAll()
+        public async Task<APIResponseModel> GetAll()
         {
-            return Ok(_serviceTblMedicineTyp.GetAll());
+            return await _serviceTblMedicineTyp.GetAll();
         }
 
         [HttpPatch("[action]")]
-        public IActionResult UpdateByID(int Id)
+        public async Task<APIResponseModel> Update(TblMedicineTypeModel model)
         {
-            return Ok(_serviceTblMedicineTyp.UpdateByID(Id));
+            return await _serviceTblMedicineTyp.Update(model);
         }
 
         [HttpDelete("[action]")]
-        public IActionResult DeleteById(int Id)
+        public async Task<APIResponseModel> Delete(int Id)
         {
-            return Ok(_serviceTblMedicineTyp.DeleteByID(Id));
+            return await _serviceTblMedicineTyp.Delete(Id);
         }
     }
 }
