@@ -1,14 +1,15 @@
-﻿using HMSAPI.Model.TblDiseaseType;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblDiseaseType;
 
 namespace HMSAPI.Service.TblDiseaseType
 {
     public interface ITblDiseaseType
     {
-        List<TblDiseaseTypeModel> GetAll (String? searchby=null);
-        bool UpdateDieasesWithID(int Id);
-        bool DeleteDieases(int Id);
-        bool AddDieases (TblDiseaseTypeModel diseaseTypeModel);
-
-       TblDiseaseTypeModel GetTblDiseaseTypeById(int Id);
+        Task<APIResponseModel> Add(TblDiseaseTypeModel diseasetypeModel);
+        Task<APIResponseModel> Update(int id);
+        Task<APIResponseModel> delete(TblDiseaseTypeModel diseasetypeModel);
+        Task<APIResponseModel> deleteByID(int id);
+        Task<APIResponseModel> GetTbl(int Id);
+        Task<APIResponseModel> GetAll(String? searchby = null);  
     }
 }

@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.TblDiseaseType;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Service.TblDiseaseType;
 //using HMSAPI.Service.TblUser;
 using Microsoft.AspNetCore.Http;
@@ -16,31 +17,44 @@ namespace HMSAPI.Controllers.TblDiseaseType
             _serviceTblDiesaesType = TblDiesaesType;
         }
 
-        [HttpGet("[action]")]
-        public IActionResult GetAll(string? searchBy = null)
-        {
-            return Ok(_serviceTblDiesaesType.GetAll(searchBy));
-        }
         [HttpPost("[action]")]
-        public IActionResult AddDiseases(TblDiseaseTypeModel typeModel)
+        public async Task<APIResponseModel> Add(TblDiseaseTypeModel DiseasetypeModel)
         {
-            return Ok(_serviceTblDiesaesType.AddDieases(typeModel));
-        }
-        [HttpDelete("action")]
-        public IActionResult DeleteDisease(int id)
-        {
-            return Ok(_serviceTblDiesaesType.DeleteDieases(id));
+
+            return await _serviceTblDiesaesType.Add(DiseasetypeModel);
         }
 
-        [HttpPut("action")]
-        public IActionResult UpdateDieases(int id)
+        [HttpPut("[action]")]
+        public async Task<APIResponseModel> Update(int id)
         {
-            return Ok(_serviceTblDiesaesType.UpdateDieasesWithID(id));
+            return await _serviceTblDiesaesType.Update(id);
         }
-        [HttpGet("action")]
-        public IActionResult GetTblDieasesTypeById(int id)
+
+        [HttpDelete("[action]")]
+        public async Task<APIResponseModel> delete(TblDiseaseTypeModel DiseasetypeModel)
         {
-            return Ok(_serviceTblDiesaesType.GetTblDiseaseTypeById(id));
-        }// GetTblDiseaseTypeById
+            return await _serviceTblDiesaesType.delete(DiseasetypeModel);
+        }
+
+        
+
+        [HttpDelete("[action]")]
+        public async Task<APIResponseModel> deleteByID(int id)
+        {
+            return await _serviceTblDiesaesType.deleteByID(id);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetTbl(int id)
+        {
+            return await _serviceTblDiesaesType.GetTbl(id);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        {
+            return await _serviceTblDiesaesType.GetAll(searchBy);
+        }
+
     }
 }

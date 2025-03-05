@@ -13,6 +13,10 @@ using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel;
 using HMSAPI.Service.TblHospitalTyp;
 using HMSAPI.Model.TblHospitalType;
+using HMSAPI.Model.TblRoomLocation;
+using HMSAPI.Service.TblRoomLocations;
+using HMSAPI.Service.TblRoomType;
+using HMSAPI.Model.TblRoom;
 
 namespace HMSAPI.EFContext
 {
@@ -54,7 +58,14 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblEmployeeDepartmentMappingModel>().ToTable("TblEmployeeDepartmentMapping");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblMedicineDiseaseMappingModel>().ToTable("TblMedicineDiseaseMapping");
-            
+            base.OnModelCreating(modelBuilder); 
+            modelBuilder.Entity<TblRoomTypeModel>().ToTable("TblRoomType");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblRoomModel>().ToTable("TblRoom");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblRoomLocationModel>().ToTable("TblRoomLocations");
+            base.OnModelCreating(modelBuilder);
+
         }
 
 
@@ -77,6 +88,9 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblMedicineDiseaseMappingViewModel> GetTblMedicineDiseaseMappingViewModels { get; set; }
 
         public DbSet <GetTblEmployeeDepartmentmappingViewModel> GetTblEmployeeDepartmentMappingViewModel { get;set; }
-}
+        public DbSet<TblRoomLocationModel> TblRoomLocations { get; set; }
+        public DbSet<TblRoomModel> TblRoom { get; set; }
+        public DbSet<TblRoomTypeModel> tblRoomTypes { get; set; }
+    }
 }
 

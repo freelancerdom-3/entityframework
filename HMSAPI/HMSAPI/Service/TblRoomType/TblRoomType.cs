@@ -1,46 +1,40 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblDiseaseType;
-using HMSAPI.Model.TblUser;
+using HMSAPI.Model.RoomTypeModel;
+using HMSAPI.Service.RoomType;
 using Microsoft.EntityFrameworkCore;
-
-
-//using HMSAPI.Service.TblUser;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HMSAPI.Service.TblDiseaseType
+namespace HMSAPI.Service.TblRoomType
 {
-    public class TblDiseaseType : ITblDiseaseType
+    public class TblRoomType : ITblRoomType
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblDiseaseType(HSMDBContext hSMDBContext)
+        public TblRoomType(HSMDBContext hSMDBContext)
         {
             _hsmDbContext = hSMDBContext;
         }
 
-        // ADD DIEASES 
 
-        public async Task<APIResponseModel> Add(TblDiseaseTypeModel tblDiseaseType)
+        public async Task<APIResponseModel> AddRoomType(TblRoomTypeModel TblRoomTyp)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    bool DuplicateDieases = connection.tblDiseaseTypes
-                        .Any(x => x.DieseaseName.ToLower() == tblDiseaseType.DieseaseName.ToLower());
-                    if (!DuplicateDieases)
+                    bool DuplicateRoomType = connection.tblRoomTypes
+                        .Any(x => x.RoomType.ToLower() == TblRoomTyp.RoomType.ToLower());
+                    if (!DuplicateRoomType)
                     {
-                        _ = await connection.tblDiseaseTypes.AddAsync(tblDiseaseType);
+                        _ = await connection.tblRoomTypes.AddAsync(TblRoomTyp);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Inserted Successfully";
-
                     }
                     else
                     {
@@ -61,17 +55,55 @@ namespace HMSAPI.Service.TblDiseaseType
             return responseModel;
         }
 
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> deleteRoomTypeByID(int id)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.tblDiseaseTypes.Where(x => x.DieseaseID == id).FirstOrDefaultAsync();
+                    TblRoomTypeModel? data = await connection.tblRoomTypes
+                        .Where(x => x.RoomTypeId == id).FirstOrDefaultAsync();
+                  
                     if (data != null)
                     {
-                        connection.tblDiseaseTypes.Update(data);
+                        connection.tblRoomTypes.Remove(data);
+                        connection.SaveChanges();
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Delete SuccessFully:";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "DieasesName Is Not Found";
+                        responseModel.Data = false;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
+
+
+        public async Task<APIResponseModel> UpdateRoomType(int id)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    TblRoomTypeModel? Data = await connection.tblRoomTypes.Where(x => x.RoomTypeId == id).FirstAsync();
+
+                    if (Data != null)
+                    {
+                        connection.tblRoomTypes.Update(Data);
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Update Dieases Successfully:";
@@ -91,94 +123,19 @@ namespace HMSAPI.Service.TblDiseaseType
                 responseModel.Data = false;
             }
             return responseModel;
-
         }
 
-        //Delete
-        public async Task<APIResponseModel> delete(TblDiseaseTypeModel tblDiseaseType)
+
+        public async Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
+            TblRoomTypeModel data = new TblRoomTypeModel();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.tblDiseaseTypes
-                   .Where(x => x.DieseaseName.ToLower() == tblDiseaseType.DieseaseName.ToLower())
-                   .FirstOrDefaultAsync();
-                    if (data != null)
-                    {
-                        connection.tblDiseaseTypes.Remove(data);
-                        connection.SaveChanges();
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Delete SuccessFully:";
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "DieasesName Is Not Found";
-                        responseModel.Data = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-        }
-
-        //DELETEBYID
-        public async Task<APIResponseModel> deleteByID(int id)
-
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                using (var connection = _hsmDbContext)
-                {
-                    TblDiseaseTypeModel? data = await connection.tblDiseaseTypes
-                   .Where(x => x.DieseaseID == id)
-                   .FirstOrDefaultAsync();
-                    if (data != null)
-                    {
-                        connection.tblDiseaseTypes.Remove(data);
-                        connection.SaveChanges();
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Delete SuccessFully:";
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "DieasesName Is Not Found";
-                        responseModel.Data = false;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-
-        }
-        
-
-        //GETTBL
-        public async Task<APIResponseModel> GetTbl(int id)
-        {
-            APIResponseModel responseModel = new();
-            TblDiseaseTypeModel data = new TblDiseaseTypeModel();
-            try
-            {
-                using (var connection = _hsmDbContext)
-                {
-                    data = await connection.tblDiseaseTypes.Where(x => x.DieseaseID == id).FirstAsync();
-
+                    data = await connection.tblRoomTypes.Where(x => x.RoomTypeId == id)
+                        .FirstAsync();
                     if (data != null)
                     {
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -202,24 +159,23 @@ namespace HMSAPI.Service.TblDiseaseType
             return responseModel;
         }
 
-        //GETALL
-        public async Task<APIResponseModel> GetAll(string? searchby = null)
+
+        public async Task<APIResponseModel> GetAllRoomType(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
-            List<TblDiseaseTypeModel> lstDisease = new();
+            List<TblRoomTypeModel> lstRoomType = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstDisease = string.IsNullOrEmpty(searchby) ? await connection.tblDiseaseTypes.ToListAsync() :
-                        await connection.tblDiseaseTypes.Where(x => x.DieseaseName.ToLower() == searchby.ToLower()).ToListAsync();
-
+                    lstRoomType = string.IsNullOrEmpty(searchBy) ? await connection.tblRoomTypes.ToListAsync() :
+                        await connection.tblRoomTypes.Where(x => x.RoomType.ToLower() == searchBy.ToLower()).ToListAsync();
                 }
-                if (lstDisease != null)
+                if (lstRoomType != null)
                 {
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get All Recode Successfull";
-                    responseModel.Data = lstDisease;
+                    responseModel.Data = lstRoomType;
 
                 }
                 else
@@ -231,12 +187,13 @@ namespace HMSAPI.Service.TblDiseaseType
 
             }
             catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+    {
+        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        responseModel.Message = ex.InnerException.Message;
+        responseModel.Data = null;
             }
-            return responseModel;
+    return responseModel;
         }
     }
+
 }

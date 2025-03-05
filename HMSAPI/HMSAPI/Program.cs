@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using HMSAPI.Service.TblShift;
 using HMSAPI.Service.RoomType;
 using HMSAPI.Service.TblEmployeeDepartmentMapping;
+using HMSAPI.Service.TblRoomLocations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddScoped<ITblMedicineType, TblMedicineType>();
 builder.Services.AddScoped<IRoomType, RoomType>();
 builder.Services.AddScoped<ITblHospitalTyp, TblHospitslTyp>();
 builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
+builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
