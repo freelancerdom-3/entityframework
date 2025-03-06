@@ -26,7 +26,7 @@ GO
 SET IDENTITY_INSERT [dbo].[TblMedicineDiseaseMapping] OFF
 GO
 ALTER TABLE [dbo].[TblMedicineDiseaseMapping]  WITH CHECK ADD FOREIGN KEY([DieseaseTypeID])
-REFERENCES [dbo].[DiseaseType] ([DieseaseID])
+REFERENCES [dbo].[TblDiseaseType] ([DieseaseID])
 GO
 ALTER TABLE [dbo].[TblMedicineDiseaseMapping]  WITH CHECK ADD FOREIGN KEY([MedicineTypeID])
 REFERENCES [dbo].[TblMedicineType] ([MedicineTypeID])
