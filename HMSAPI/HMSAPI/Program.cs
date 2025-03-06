@@ -11,6 +11,7 @@ using HMSAPI.Service.RoomType;
 using HMSAPI.Service.TblEmployeeDepartmentMapping;
 using HMSAPI.Service.TblRoomLocations;
 using HMSAPI.Service.TblHospitalType;
+using HMSAPI.Service.TblMedicineDiseaseMapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ builder.Services.AddScoped<IRoomType, RoomType>();
 builder.Services.AddScoped<ITblHospitalType, TblHospitalType>();
 builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
 builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
+builder.Services.AddScoped<ITblMedicineDiseaseMapping, TblMedicineDiseaseMapping>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
