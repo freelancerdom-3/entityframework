@@ -9,7 +9,7 @@ namespace HMSAPI.Model.TblShift
 
 
         [Key]
-        public int Shiftid { get; set; }
+        public int ShiftId { get; set; }
 
         public TimeSpan StartTime { get; set; }
 

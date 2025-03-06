@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Shift](
-	[Shiftid] [int] IDENTITY(1,1) NOT NULL,
+	[ShiftId] [int] IDENTITY(1,1) NOT NULL,
 	[StartTime] [time](7) NULL,
 	[EndTime] [time](7) NULL,
 	[Shiftname] [varchar](200) NULL,

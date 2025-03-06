@@ -70,7 +70,7 @@ namespace HMSAPI.Service.TblShift
                 using (var connection = _hsmDbContext)
                 {
 
-                    TblShiftModel? data = connection.TblShifts.Where(j => j.Shiftid == id).FirstOrDefault();
+                    TblShiftModel? data = connection.TblShifts.Where(j => j.ShiftId == id).FirstOrDefault();
 
                     if (data != null)
                     {
@@ -142,10 +142,10 @@ namespace HMSAPI.Service.TblShift
             {
                 using (var connection = _hsmDbContext)
                 {
-                   TblShiftModel? data= connection.TblShifts.Where(x=>x.Shiftid==id).FirstOrDefault();
+                   TblShiftModel? data= connection.TblShifts.Where(x=>x.ShiftId == id).FirstOrDefault();
                     responseModel.Data = new
                     {
-                      data.Shiftid,
+                      data.ShiftId,
                       data.StartTime,
                       data.EndTime,
                       data.Shiftname,
@@ -177,7 +177,7 @@ namespace HMSAPI.Service.TblShift
                 using (var connection = _hsmDbContext)
                 {
 
-                    TblShiftModel? data = connection.TblShifts.Where(j => j.Shiftid == id).FirstOrDefault();
+                    TblShiftModel? data = connection.TblShifts.Where(j => j.ShiftId == id).FirstOrDefault();
 
                     if (data != null)
                     {
