@@ -40,7 +40,7 @@ namespace HMSAPI.Controllers.TblEmployeeDepartmentMapping
         [HttpGet("[action]")]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await _serviceTblEmployeeDepartmentMapping.GetAll(searchBy = null);
+            return await _serviceTblEmployeeDepartmentMapping.GetAll(searchBy);
         }
 
         [HttpGet("[action]")]

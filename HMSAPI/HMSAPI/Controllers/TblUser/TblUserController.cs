@@ -38,9 +38,9 @@ namespace HMSAPI.Controllers.TblUser
         //}
 
         [HttpGet("[action]")]
-        public IActionResult GetAll(string? searchBy = null)
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return Ok(_serviceTblUser.GetAll(searchBy));
+            return await _serviceTblUser.GetAll(searchBy);
         }
 
         [HttpPost("[action]")]
