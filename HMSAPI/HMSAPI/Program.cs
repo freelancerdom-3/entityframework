@@ -43,6 +43,7 @@ builder.Services.AddScoped<ITblHospitalType, TblHospitalType>();
 builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
 builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
 builder.Services.AddScoped<ITblMedicineDiseaseMapping, TblMedicineDiseaseMapping>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
