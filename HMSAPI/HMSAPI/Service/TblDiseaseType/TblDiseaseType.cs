@@ -5,7 +5,7 @@ using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
 
 
-//using HMSAPI.Service.TblUser;
+using HMSAPI.Service.TblUser;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
@@ -68,7 +68,7 @@ namespace HMSAPI.Service.TblDiseaseType
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.tblDiseaseTypes.Where(x => x.DieseaseID == id).FirstOrDefaultAsync();
+                    TblDiseaseTypeModel? data = await connection.tblDiseaseTypes.Where(x => x.DieseaseTypeID == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
                         connection.tblDiseaseTypes.Update(data);
@@ -139,7 +139,7 @@ namespace HMSAPI.Service.TblDiseaseType
                 using (var connection = _hsmDbContext)
                 {
                     TblDiseaseTypeModel? data = await connection.tblDiseaseTypes
-                   .Where(x => x.DieseaseID == id)
+                   .Where(x => x.DieseaseTypeID == id)
                    .FirstOrDefaultAsync();
                     if (data != null)
                     {
@@ -177,7 +177,7 @@ namespace HMSAPI.Service.TblDiseaseType
             {
                 using (var connection = _hsmDbContext)
                 {
-                    data = await connection.tblDiseaseTypes.Where(x => x.DieseaseID == id).FirstAsync();
+                    data = await connection.tblDiseaseTypes.Where(x => x.DieseaseTypeID == id).FirstAsync();
 
                     if (data != null)
                     {

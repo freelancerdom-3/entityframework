@@ -51,7 +51,7 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblRoleModel>().ToTable("TblRole");
             modelBuilder.Entity<TblHospitalTypeModel>().ToTable("TblHospitalType");
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<TblDiseaseTypeModel>().ToTable("DiseaseType");
+            modelBuilder.Entity<TblDiseaseTypeModel>().ToTable("TblDiseaseType");
 ;            base.OnModelCreating(modelBuilder); 
 
             modelBuilder.Entity<TblHospitalDepartmentModel>().ToTable("TblHospitalDepartment");
