@@ -71,7 +71,7 @@ namespace HMSAPI.Service.TblUser
                     lstUsers = connection.GetTblUserViewModel.FromSqlRaw($@"SELECT tuser.*,trole.rolename 
                     FROM [HSMDB].[dbo].[TblUser] tuser
                     inner join tblrole trole on trole.roleid=tuser.roleid where fullname like '%{searchBy}%'").ToList();
-                    responseModel.Data = true;
+                    responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
                 }
