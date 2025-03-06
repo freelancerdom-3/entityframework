@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.TblShift;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblShift;
 using HMSAPI.Model.TblUser;
 
 namespace HMSAPI.Service.TblShift
@@ -7,14 +8,14 @@ namespace HMSAPI.Service.TblShift
     {
 
 
-        bool AddTimehift(TblShiftModel Shift);
-        List<TblShiftModel> GetAll();
+        Task<APIResponseModel> Add(TblShiftModel Shift);
+        Task<APIResponseModel> GetAll(string? searchBy = null);
 
 
 
-        bool deleteshift(int id);
+        Task<APIResponseModel> Delete(int id);
 
-        TblShiftModel getbyShitid(int id);
-        bool updateShift(int id);
+        Task<APIResponseModel> GetById(int id);
+        Task<APIResponseModel> Update(int id);
     }
 }

@@ -1,4 +1,6 @@
-﻿using HMSAPI.Model.TblModel;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblHospitalDep;
+using HMSAPI.Model.TblRole;
 using HMSAPI.Service.TblRole;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,36 +18,40 @@ namespace HMSAPI.Controllers.TblRole
             _serviceTblRole = tblRole;
         }
 
+        
+
+
+
         [HttpPost("[action]")]
 
-        public IActionResult AddRole(TblRoleModel roleModel)
+        public async Task<APIResponseModel> Add(TblRoleModel roleModel)
         {
-            return Ok(_serviceTblRole.AddRole(roleModel));
+            return await (_serviceTblRole.Add(roleModel));
         }
 
         [HttpPatch("[action]")]
-        public IActionResult Update(int id)
+        public async Task<APIResponseModel> Update(int id)
         {
-            return Ok(_serviceTblRole.Update(id));
+            return await (_serviceTblRole.Update(id));
         }
 
         [HttpDelete("[action]")]
 
-        public IActionResult delete(int id)
+        public async Task<APIResponseModel> delete(int id)
         {
-            return Ok(_serviceTblRole.delete(id));
+            return await (_serviceTblRole.delete(id));
         }
         [HttpGet("[action]")]
 
-        public IActionResult Getone(int id)
+        public async Task<APIResponseModel> GetById(int id)
         {
-            return Ok(_serviceTblRole.Getone(id));
+            return await (_serviceTblRole.GetById(id));
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAll(string? searchBy = null)
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return Ok(_serviceTblRole.GetAll(searchBy));
+            return await   (_serviceTblRole.GetAll(searchBy));
         }
     }
 }

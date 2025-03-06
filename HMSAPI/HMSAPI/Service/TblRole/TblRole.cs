@@ -1,5 +1,8 @@
 ﻿using HMSAPI.EFContext;
-using HMSAPI.Model.TblModel;
+using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblRole;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace HMSAPI.Service.TblRole
 {
@@ -11,93 +14,176 @@ namespace HMSAPI.Service.TblRole
         {
             _hsmDbContext = hSMDBContext;
         }
-        public bool AddRole(TblRoleModel roleModel)
+        public async Task<APIResponseModel> Add(TblRoleModel roleModel)
         {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+            try 
             {
-                bool duplicateRoleName = connection.TblRoles.Any(x => x.RoleName.ToLower() == roleModel.RoleName.ToLower());
-                if (!duplicateRoleName)
+                using (var connection = _hsmDbContext)
                 {
-                    _ = connection.TblRoles.Add(roleModel);
-                    connection.SaveChanges();
-                    result = true;
+
+
+                    bool duplicateRoleName = connection.TblRoles.Any(x => x.RoleName.ToLower() == roleModel.RoleName.ToLower());
+                    if (!duplicateRoleName)
+                    {
+                        _ = connection.TblRoles.Add(roleModel);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Inserted Successfully";
+
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Data = false;
+                    }
+                   
                 }
-                else 
-                { 
-                    result=false;
-                }
-                return result;
             }
-        }
-        public bool delete(int id)
-        {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            catch (Exception ex)
             {
-                TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == id).FirstOrDefault();
-                if (data != null)
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
+        }
+        public async Task<APIResponseModel> delete(int id)
+        {
+            APIResponseModel responseModel = new();
+            try 
+            {
+                using (var connection = _hsmDbContext)
                 {
-                    connection.TblRoles.Remove(data);
-                    connection.SaveChanges();
-                    result = true;
-                }
-                else
-                {
-                    result = false;
+                    
+                    TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == id).FirstOrDefault();
+                    if (data != null)
+                    {
+                        connection.TblRoles.Remove(data);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Inserted Successfully";
+
+                    }
+
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Data = false;
+                    }
 
                 }
-                return result;
             }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
         }
 
-        public List<TblRoleModel> GetAll(string? searchBy = null)
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
+            APIResponseModel responseModel = new();
+
             List<TblRoleModel> lstRolles = new();
-            using (var connection = _hsmDbContext)
+
+            try
             {
-                lstRolles = string.IsNullOrEmpty(searchBy) ? connection.TblRoles.ToList() : connection.TblRoles.Where(x => x.RoleName.ToLower() == searchBy.ToLower()).ToList();
+                using (var connection = _hsmDbContext)
+                {
+                    lstRolles = string.IsNullOrEmpty(searchBy) ? connection.TblRoles.ToList() : connection.TblRoles.Where(x => x.RoleName.ToLower() == searchBy.ToLower()).ToList();
+                    responseModel.Data = lstRolles;
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Inserted Successfully";
+                }
+
+               
             }
-            return lstRolles;
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
+
 
         }
 
-        public TblRoleModel Getone(int id)
+        public async Task<APIResponseModel> GetById (int id)
         {
-
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+            try 
             {
-                TblRoleModel? data = connection.TblRoles.
-                 Where(x => x.RoleId == id).FirstOrDefault();
-                return data;
+                using (var connection = _hsmDbContext)
+                {
+                    TblRoleModel? data = connection.TblRoles.
+                     Where(x => x.RoleId == id).FirstOrDefault();
+                    responseModel.Data = data.RoleName;
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Inserted Successfully";
+
+                }
             }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
 
 
         }
 
-        public bool Update(int id)
+        public async Task <APIResponseModel>  Update(int ObjId)
         {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+
+            try
             {
 
-                TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == id).FirstOrDefault();
-
-                if (data != null)
+                using (var connection = _hsmDbContext)
                 {
-                    data.RoleName = "vishal";
-                    connection.TblRoles.Update(data);
-                    connection.SaveChanges();
-                    result = true;
 
+                    TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == ObjId).FirstOrDefault();
 
+                    if (data != null)
+                    {
+                        data.RoleName = "vishal";
+                        connection.TblRoles.Update(data);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Inserted Successfully";
+
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Data = false;
+                    }
                 }
-                else
-                {
-                    result = false;
-                }
+
             }
-            return result;
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿
 using HMSAPI.Model.TblShift;
 using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
+using System.Net;
 namespace HMSAPI.Service.TblShift
 
 {
@@ -15,135 +17,198 @@ namespace HMSAPI.Service.TblShift
             _hsmDbContext = hSMDBContext;
         }
 
-        public bool AddTimehift(TblShiftModel Shift)
+        public async Task<APIResponseModel> Add(TblShiftModel Shift)
         {
-            bool result = true;
-            using (var connection = _hsmDbContext)
+            APIResponseModel responseModel = new();
+
+            try
             {
-
-
-                // var duplicateShift = connection.TblShifts.Any(x => x.Shiftname.ToLower() == TblShiftModel..ToLower());
-                // bool duplicateShift = connection.TblShifts
-                // .Any(x => x.TblShift.ToLower() == Shift.TblShiftModel.ToLower());
-
-
-                if (Shift.Shiftname != null)
+                using (var connection = _hsmDbContext)
                 {
 
-                    connection.TblShifts.Add(Shift);
-                    connection.SaveChanges();
-                }
-                else
-                {
-                    result = false;
-                }
+                    // bool duplicateRoleName = connection.TblRoles.Any(x => x.RoleName.ToLower() == roleModel.RoleName.ToLower());
+
+                    bool DuplicateShift = connection.TblShifts.Any(x => x.Shiftname.ToLower() == Shift.Shiftname.ToLower());
+
+                    if (!DuplicateShift)
+                    {
+
+                        connection.TblShifts.Add(Shift);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Inserted Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Data = false;
+                    }
 
 
+
+                }
 
             }
-
-
-
-
-            return result;
-        }
-
-        public bool deleteshift(int id)
-        {
-            bool result = false;
-            using (var connection = _hsmDbContext)
+            catch (Exception ex)
             {
-
-                TblShiftModel? data = connection.TblShifts.Where(j => j.Shiftid == id).FirstOrDefault();
-
-                if (data != null)
-                {
-                    connection.TblShifts.Remove(data);
-                    connection.SaveChanges();
-                    result = true;
-
-                }
-
-                else
-                {
-                    result = false;
-                }
-
-
-
-
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
             }
+            return responseModel;
 
-
-
-            return result;
         }
 
-        public List<TblShiftModel> GetAll()
+        public async Task<APIResponseModel> Delete(int id)
         {
+            APIResponseModel responseModel = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+
+                    TblShiftModel? data = connection.TblShifts.Where(j => j.Shiftid == id).FirstOrDefault();
+
+                    if (data != null)
+                    {
+                        connection.TblShifts.Remove(data);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Delete Successfully";
+
+                    }
+
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Enter Valid Number";
+                        responseModel.Data = false;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
+
+        }
+
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        {
+            APIResponseModel responseModel = new();
+
             List<TblShiftModel> shitList = new();
-            using (var connection = _hsmDbContext)
+
+            try
             {
-                shitList = connection.TblShifts.ToList();
-            }
-            return shitList;
-        }
-
-        public TblShiftModel getbyShitid(int id)
-        {
-            TblShiftModel data = new TblShiftModel();
-            using (var connection = _hsmDbContext)
-            {
-                data = connection.TblShifts.Where(k => k.Shiftid == id).FirstOrDefault();
-
-
-            }
-
-            return data;
-
-        }
-
-        public bool updateShift(int id)
-        {
-            bool result = false;
-            using (var connection = _hsmDbContext)
-            {
-
-                TblShiftModel? data = connection.TblShifts.Where(j => j.Shiftid == id).FirstOrDefault();
-
-                if (data != null)
+                using (var connection = _hsmDbContext)
                 {
-                    data.Shiftname = "Mornig Night";
-                    connection.TblShifts.Update(data);
-                    connection.SaveChanges();
-                    result = true;
-
-                }
-
-                else
-                {
-                    result = false;
+                    shitList = string.IsNullOrEmpty(searchBy)? connection.TblShifts.ToList():connection.TblShifts.Where(x=>x.Shiftname==searchBy).ToList();
+                    responseModel.Data = shitList;
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Inserted Successfully";
                 }
 
 
-
-                // return result;
             }
 
-            return result;
+
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
         }
 
+        public async Task<APIResponseModel> GetById(int id)
+        {
+            APIResponseModel responseModel = new();
+
+           // TblShiftModel data = new TblShiftModel();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                   TblShiftModel? data= connection.TblShifts.Where(x=>x.Shiftid==id).FirstOrDefault();
+                    responseModel.Data = new
+                    {
+                      data.Shiftid,
+                      data.StartTime,
+                      data.EndTime,
+                      data.Shiftname,
+                    };
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "done";
 
 
+                }
+            }
+
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
 
 
+        }
+
+        public async Task<APIResponseModel> Update(int id)
+        {
+            APIResponseModel responseModel = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+
+                    TblShiftModel? data = connection.TblShifts.Where(j => j.Shiftid == id).FirstOrDefault();
+
+                    if (data != null)
+                    {
+                        data.Shiftname = "Mornig Night";
+                        connection.TblShifts.Update(data);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Update Successfully";
 
 
+                    }
 
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Data = false;
+                    }
 
+                }
 
-
-
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
 
 
     }

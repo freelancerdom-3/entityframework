@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HMSAPI.Model.TblModel
+namespace HMSAPI.Model.TblRole
 {
     public class TblRoleModel
     {

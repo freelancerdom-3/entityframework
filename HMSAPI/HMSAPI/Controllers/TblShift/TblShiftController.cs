@@ -1,4 +1,6 @@
-﻿using HMSAPI.Model.TblShift;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblRole;
+using HMSAPI.Model.TblShift;
 using HMSAPI.Service.TblShift;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,47 +21,42 @@ namespace HMSAPI.Controllers.TblShift
         }
 
 
-        //[HttpPost("[action]")]
-        //public IActionResult SignupUser(TblUserModel userModel)
-        //{
-        //    return Ok(_serviceTblUser.SignupUser(userModel));
-        //}
-
+        
 
 
         [HttpPost("[action]")]
-        public IActionResult AddTimehift(TblShiftModel TblShiftModel)
+        public async Task<APIResponseModel> Add(TblShiftModel TblShiftModel)
         {
-            return Ok(_serviceTblShift.AddTimehift(TblShiftModel));
+            return await (_serviceTblShift.Add(TblShiftModel));
         }
 
 
         [HttpGet("[action]")]
-        public IActionResult GetAll()
+        public async Task<APIResponseModel> GetAll()
         {
-            return Ok(_serviceTblShift.GetAll());
+            return await(_serviceTblShift.GetAll());
         }
 
 
         [HttpDelete("[action]")]
-        public IActionResult DeleteShift(int id)
+        public async Task<APIResponseModel> Delete(int id)
         {
 
-            return Ok(_serviceTblShift.deleteshift(id));
+            return await(_serviceTblShift.Delete(id));
         }
 
         [HttpPut("[action]")]
-        public IActionResult updateShift(int id)
+        public async Task<APIResponseModel> Update(int id)
         {
-            return Ok(_serviceTblShift.updateShift(id));
+            return await(_serviceTblShift.Update(id));
         }
 
 
 
         [HttpGet("[action]")]
-        public IActionResult getbyShitid(int id)
+        public async Task<APIResponseModel> GetById(int id)
         {
-            return Ok(_serviceTblShift.getbyShitid(id));
+            return await(_serviceTblShift.GetById(id));
         }
 
 

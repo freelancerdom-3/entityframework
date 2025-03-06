@@ -1,22 +1,20 @@
-﻿using HMSAPI.Model.TblModel;
+﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblRole;
 
 namespace HMSAPI.Service.TblRole
 {
     public interface ITblRole
     {
-        bool AddRole(TblRoleModel roleModel);
 
+        //Task<APIResponseModel>
+        Task<APIResponseModel> Add(TblRoleModel roleModel);
 
+        Task<APIResponseModel> Update(int ObjId);
 
+        Task<APIResponseModel> delete(int id);
 
+        Task<APIResponseModel> GetById (int id);
 
-       //bool validateCredential(string RoleName);
-        bool Update(int id);
-
-        bool delete(int id);
-
-        TblRoleModel Getone(int id);
-
-        List<TblRoleModel> GetAll(string? searchBy = null);
+        Task<APIResponseModel> GetAll(string? searchBy = null);
     }
 }
