@@ -65,6 +65,8 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblRoomModel>().ToTable("TblRoom");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblRoomLocationModel>().ToTable("TblRoomLocations");
+
+            modelBuilder.Entity<TblShiftModel>().ToTable("TblShift");
             base.OnModelCreating(modelBuilder);
 
         }
