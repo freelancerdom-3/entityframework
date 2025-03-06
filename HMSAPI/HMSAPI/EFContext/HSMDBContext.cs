@@ -80,7 +80,6 @@ namespace HMSAPI.EFContext
         public DbSet<TblHospitalTypeModel> TblHospitalTypes { get; set; }
 
         public DbSet<TblHospitalDepartmentModel> TblHospitalDepts { get; set; }
-        public DbSet<RoomTYpeModel> RoomTYpes { get; set; }
         public DbSet<TblShiftModel> TblShifts { get; set; }
 
         public DbSet <TblEmployeeDepartmentMappingModel> TblEmployeeDepartmentMappings{ get; set; }
