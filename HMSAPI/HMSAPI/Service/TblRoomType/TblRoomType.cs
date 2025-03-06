@@ -19,7 +19,7 @@ namespace HMSAPI.Service.TblRoomType
         }
 
 
-        public async Task<APIResponseModel> AddRoomType(TblRoomTypeModel TblRoomTyp)
+        public async Task<APIResponseModel> Add(TblRoomTypeModel TblRoomTyp)
         {
             APIResponseModel responseModel = new();
             try
@@ -55,7 +55,7 @@ namespace HMSAPI.Service.TblRoomType
             return responseModel;
         }
 
-        public async Task<APIResponseModel> deleteRoomTypeByID(int id)
+        public async Task<APIResponseModel> delete(int id)
         {
             APIResponseModel responseModel = new();
             try
@@ -92,7 +92,7 @@ namespace HMSAPI.Service.TblRoomType
 
 
 
-        public async Task<APIResponseModel> UpdateRoomType(int id)
+        public async Task<APIResponseModel> Update(int id)
         {
             APIResponseModel responseModel = new();
             try
@@ -160,7 +160,7 @@ namespace HMSAPI.Service.TblRoomType
         }
 
 
-        public async Task<APIResponseModel> GetAllRoomType(string? searchBy = null)
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
             List<TblRoomTypeModel> lstRoomType = new();

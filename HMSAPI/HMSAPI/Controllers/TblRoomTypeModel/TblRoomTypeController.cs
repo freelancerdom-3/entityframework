@@ -19,30 +19,30 @@ namespace HMSAPI.Controllers.RoomType
 
 
         [HttpGet("[action]")]
-        public async Task<APIResponseModel> GetAllRoomType(string? searchBy = null)
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await _serviceRoomType.GetAllRoomType(searchBy);
+            return await _serviceRoomType.GetAll(searchBy);
         }
 
         [HttpPost("[action]")]
-        public async Task<APIResponseModel> AddRoomTyp(TblRoomTypeModel roomTypeModel)
+        public async Task<APIResponseModel> Add(TblRoomTypeModel roomTypeModel)
         {
-            return await _serviceRoomType.AddRoomType(roomTypeModel);
+            return await _serviceRoomType.Add(roomTypeModel);
           
         }
 
 
 
         [HttpPatch("[action]")]
-        public async Task<APIResponseModel> UpdateRoomType(int id)
+        public async Task<APIResponseModel> Update(int id)
         {
-            return await _serviceRoomType.UpdateRoomType(id);
+            return await _serviceRoomType.Update(id);
         }
 
         [HttpDelete("[action]")]
-        public async Task<APIResponseModel> deleteRoomTypeByID(int id)
+        public async Task<APIResponseModel> delete(int id)
         {
-            return await _serviceRoomType.deleteRoomTypeByID(id);
+            return await _serviceRoomType.delete(id);
         }
 
         [HttpGet("[action]")]

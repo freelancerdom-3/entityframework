@@ -6,11 +6,11 @@ namespace HMSAPI.Service.RoomType
 {
     public interface ITblRoomType
     {
-        Task<APIResponseModel> GetAllRoomType(string? searchBy = null);
-        Task<APIResponseModel> deleteRoomTypeByID(int id);
-        Task<APIResponseModel> AddRoomType(TblRoomTypeModel TblRoomType);
+        Task<APIResponseModel> GetAll(string? searchBy = null);
+        Task<APIResponseModel> delete(int id);
+        Task<APIResponseModel> Add(TblRoomTypeModel TblRoomType);
 
         Task<APIResponseModel> GetByID(int id);
-        Task<APIResponseModel> UpdateRoomType(int id);
+        Task<APIResponseModel> Update(int id);
     }
 }
