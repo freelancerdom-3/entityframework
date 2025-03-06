@@ -13,6 +13,8 @@ using HMSAPI.Service.TblHospitalType;
 using HMSAPI.Service.TblPatient;
 using HMSAPI.Service.TblMedicineDiseaseMapping;
 using HMSAPI.Service.TblEmployeeshiftMapping;
+using HMSAPI.Service.TblPateintDoctormapping;
+using HMSAPI.Service.TblTreatmentDetails;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +49,8 @@ builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
 builder.Services.AddScoped<ITblPatient, TblPatient>();
 builder.Services.AddScoped<ITblMedicineDiseaseMapping, TblMedicineDiseaseMapping>();
 builder.Services.AddScoped<ITblEmployeeshiftMapping, TblEmployeeshiftMapping>();
+builder.Services.AddScoped<ITblPateintDoctormapping, TblPateintDoctormapping>();
+builder.Services.AddScoped<ITblTreatmentDetails, TblTreatmentDetails>();
 
 var app = builder.Build();
 
