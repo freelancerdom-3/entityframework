@@ -10,6 +10,7 @@ using HMSAPI.Service.TblShift;
 using HMSAPI.Service.RoomType;
 using HMSAPI.Service.TblEmployeeDepartmentMapping;
 using HMSAPI.Service.TblRoomLocations;
+using HMSAPI.Service.TblHospitalType;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +40,7 @@ builder.Services.AddScoped<ITblShift, TblShift>();
 builder.Services.AddScoped<ITblDiseaseType, TblDiseaseType>();
 builder.Services.AddScoped<ITblMedicineType, TblMedicineType>();
 builder.Services.AddScoped<IRoomType, RoomType>();
-builder.Services.AddScoped<ITblHospitalTyp, TblHospitslTyp>();
+builder.Services.AddScoped<ITblHospitalType, TblHospitalType>();
 builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
 builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
 var app = builder.Build();

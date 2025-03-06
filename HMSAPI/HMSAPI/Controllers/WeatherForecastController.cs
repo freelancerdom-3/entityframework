@@ -42,10 +42,10 @@ namespace HMSAPI.Controllers
         //    return Ok(_serviceTblUser.validateCredential(email, password));
         //}
 
-        [HttpGet("[action]")]
-        public IActionResult validateCredential(string email, string password)
-        {
-            return Ok(_serviceTblUser.validateCredential(email, password));
-        }
+        //[HttpGet("[action]")]
+        //public IActionResult validateCredential(string email, string password)
+        //{
+        //    return Ok(_serviceTblUser.validateCredential(email, password));
+        //}
     }
 }

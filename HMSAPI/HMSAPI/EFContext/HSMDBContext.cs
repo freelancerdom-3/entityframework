@@ -1,5 +1,4 @@
-﻿using HMSAPI.Model.TblModel;
-using HMSAPI.Model.TblDiseaseType;
+﻿using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +16,8 @@ using HMSAPI.Model.TblRoomLocation;
 using HMSAPI.Service.TblRoomLocations;
 using HMSAPI.Service.TblRoomType;
 using HMSAPI.Model.TblRoom;
+using HMSAPI.Model.TblRole;
+using HMSAPI.Model.TblEmployeeshiftMapping;
 
 namespace HMSAPI.EFContext
 {
@@ -91,6 +92,7 @@ namespace HMSAPI.EFContext
         public DbSet<TblRoomLocationModel> TblRoomLocations { get; set; }
         public DbSet<TblRoomModel> TblRoom { get; set; }
         public DbSet<TblRoomTypeModel> tblRoomTypes { get; set; }
+        public DbSet<TblEmployeeshiftMappingModel> TblEmployeeshifts { get; set; }
     }
 }
 

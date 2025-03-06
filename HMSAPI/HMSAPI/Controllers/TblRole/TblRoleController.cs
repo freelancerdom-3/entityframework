@@ -1,5 +1,4 @@
 ﻿using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblHospitalDep;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Service.TblRole;
 using Microsoft.AspNetCore.Http;
