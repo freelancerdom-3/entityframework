@@ -68,7 +68,7 @@ namespace HMSAPI.EFContext
 
             modelBuilder.Entity<TblShiftModel>().ToTable("TblShift");
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<TblEmployeeshiftMappingModel>().ToTable("TblEmployeeshiftMapping");
         }
 
 

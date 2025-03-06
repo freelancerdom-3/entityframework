@@ -30,7 +30,7 @@ GO
 SET IDENTITY_INSERT [dbo].[TblEmployeeshiftMapping] OFF
 GO
 ALTER TABLE [dbo].[TblEmployeeshiftMapping]  WITH CHECK ADD FOREIGN KEY([ShiftId])
-REFERENCES [dbo].[TblShift] ([Shiftid])
+REFERENCES [dbo].[TblShift] ([ShiftId])
 GO
 ALTER TABLE [dbo].[TblEmployeeshiftMapping]  WITH CHECK ADD FOREIGN KEY([UserId])
 REFERENCES [dbo].[TblUser] ([UserId])
