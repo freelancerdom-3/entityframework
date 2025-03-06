@@ -1,5 +1,6 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
+using HMSAPI.Model.TblPatient.ViewModel;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblUser;
 using Microsoft.AspNetCore.Http;
@@ -20,22 +21,12 @@ namespace HMSAPI.Controllers.TblUser
 
         [HttpGet("[action]")]
         [HttpGet("AuthenticateUser")]
-        public IActionResult ValidateCredential(string email, string password)
+        public async Task<APIResponseModel> ValidateCredential(string email, string password)
         {
-            return Ok(_serviceTblUser.ValidateCredential(email, password));
+            return await _serviceTblUser.ValidateCredential(email, password);
         }
 
 
-        //public IActionResult ValidateCredential1(string email, string password)
-        //{
-        //    return Ok(_serviceTblUser.validateCredential(email, password));
-        //}
-
-        //[HttpGet("[action]")]
-        //public IActionResult validateCredentialWithData(string email, string password)
-        //{
-        //    return Ok(_serviceTblUser.validateCredentialWithData(email, password));
-        //}
 
         [HttpGet("[action]")]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
@@ -51,15 +42,28 @@ namespace HMSAPI.Controllers.TblUser
 
 
         [HttpGet("[action]")]
-        public IActionResult ForgetPassword(string email)
+        public async Task<APIResponseModel> ForgetPassword(string email)
         {
-            return Ok(_serviceTblUser.ForgetPassword(email));
+            return await _serviceTblUser.ForgetPassword(email);        
         }
 
         [HttpPost("[action]")]
-        public async Task<APIResponseModel> Add(TblUserModel model)
+        public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
         {
-            return await _serviceTblUser.Add(model);
+            return await _serviceTblUser.Add(patient);
         }
+
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> Update(TblUserModel model)
+        {
+            return await _serviceTblUser.Update(model);
+        }
+
+        [HttpDelete("[action]")]
+        public async Task<APIResponseModel> Delete(int id)
+        {   
+            return await _serviceTblUser.Delete(id);
+        }
+        
     }
 }

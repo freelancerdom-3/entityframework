@@ -3,6 +3,8 @@
 using HMSAPI.Model.TblUser.ViewModel;
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblUser;
+using HMSAPI.Model.TblPatient;
+using HMSAPI.Model.TblPatient.ViewModel;
 namespace HMSAPI.Service.TblUser
 {
     public interface ITblUser
@@ -17,7 +19,7 @@ namespace HMSAPI.Service.TblUser
         Task<APIResponseModel> ForgetPassword(string email);
 
         //Task<APIResponseModel> AddRoleId(string roleId);
-        Task<APIResponseModel> Add(TblUserModel model);
+        Task<APIResponseModel> Add(GetTblPatientViewModel model);
 
         Task<APIResponseModel> Update(TblUserModel model);
 

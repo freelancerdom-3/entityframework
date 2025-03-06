@@ -10,6 +10,7 @@ using HMSAPI.Service.TblShift;
 using HMSAPI.Service.TblEmployeeDepartmentMapping;
 using HMSAPI.Service.TblRoomLocations;
 using HMSAPI.Service.TblHospitalType;
+using HMSAPI.Service.TblPatient;
 using HMSAPI.Service.TblMedicineDiseaseMapping;
 using HMSAPI.Service.TblEmployeeshiftMapping;
 
@@ -43,6 +44,7 @@ builder.Services.AddScoped<ITblMedicineType, TblMedicineType>();
 builder.Services.AddScoped<ITblHospitalType, TblHospitalType>();
 builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
 builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
+builder.Services.AddScoped<ITblPatient, TblPatient>();
 builder.Services.AddScoped<ITblMedicineDiseaseMapping, TblMedicineDiseaseMapping>();
 builder.Services.AddScoped<ITblEmployeeshiftMapping, TblEmployeeshiftMapping>();
 

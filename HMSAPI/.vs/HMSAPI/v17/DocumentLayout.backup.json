@@ -1,176 +1,253 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\",
+  "WorkspaceRootPath": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\service\\tbluser\\tbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\service\\tbluser\\tbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tbluser\\tbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\efcontext\\hsmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\efcontext\\hsmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\model\\tblhospitaltype\\tblhospitaltypemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tblhospitaltype\\tblhospitaltypemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\controllers\\tbluser\\tblusercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\controllers\\tbluser\\tblusercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\service\\tblhospitaltype\\tblhospitaltype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tblhospitaltype\\tblhospitaltype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\controllers\\tblpatient\\tblpatientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\controllers\\tblpatient\\tblpatientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\model\\tbluser\\tblusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tbluser\\tblusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\service\\tblpatient\\tblpatient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tblpatient\\tblpatient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\service\\tbluser\\itbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\model\\tblpatient\\tblpatientmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tblpatient\\tblpatientmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\service\\tbluser\\itbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tbluser\\itbluser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\model\\tbluser\\tblusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tbluser\\tblusermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\service\\tblpatient\\itblpatient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tblpatient\\itblpatient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\freelancer.dom3\\source\\repos\\hmsapi\\hmsapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\model\\tblpatient\\viewmodel\\gettblpatientviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tblpatient\\viewmodel\\gettblpatientviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\efcontext\\hsmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\efcontext\\hsmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\service\\tblhospitaltype\\itblhospitaltype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\service\\tblhospitaltype\\itblhospitaltype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\controllers\\tblhospitaltype\\tblhospitaltypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\controllers\\tblhospitaltype\\tblhospitaltypecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|c:\\users\\nirmal patel\\entityframework\\hmsapi\\hmsapi\\model\\tbluser\\viewmodel\\gettbluserviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D9A9F07-536D-495A-B86D-EF710B82B39B}|HMSAPI\\HMSAPI.csproj|solutionrelative:hmsapi\\model\\tbluser\\viewmodel\\gettbluserviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "DockedHeight": 200,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\appsettings.json",
-              "RelativeDocumentMoniker": "HMSAPI\\appsettings.json",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\appsettings.json",
-              "RelativeToolTip": "HMSAPI\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-02-24T04:58:03.68Z",
+              "DocumentIndex": 0,
+              "Title": "TblUser.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblUser\\TblUser.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblUser\\TblUser.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblUser\\TblUser.cs",
+              "RelativeToolTip": "HMSAPI\\Service\\TblUser\\TblUser.cs",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAQwKYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T13:13:47.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HSMDBContext.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\EFContext\\HSMDBContext.cs",
-              "RelativeDocumentMoniker": "HMSAPI\\EFContext\\HSMDBContext.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\EFContext\\HSMDBContext.cs",
-              "RelativeToolTip": "HMSAPI\\EFContext\\HSMDBContext.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAD4vwgAAAAIAAAAAAAAAA==",
+              "DocumentIndex": 12,
+              "Title": "TblHospitalTypeController.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Controllers\\TblHospitalType\\TblHospitalTypeController.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Controllers\\TblHospitalType\\TblHospitalTypeController.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Controllers\\TblHospitalType\\TblHospitalTypeController.cs",
+              "RelativeToolTip": "HMSAPI\\Controllers\\TblHospitalType\\TblHospitalTypeController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-24T04:45:32.064Z",
+              "WhenOpened": "2025-03-06T12:21:56.759Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Program.cs",
-              "RelativeDocumentMoniker": "HMSAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Program.cs",
-              "RelativeToolTip": "HMSAPI\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABbAAAAAAAAAA==",
+              "Title": "TblPatientController.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Controllers\\TblPatient\\TblPatientController.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Controllers\\TblPatient\\TblPatientController.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Controllers\\TblPatient\\TblPatientController.cs",
+              "RelativeToolTip": "HMSAPI\\Controllers\\TblPatient\\TblPatientController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-21T05:03:30.633Z",
+              "WhenOpened": "2025-03-06T08:54:19.389Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TblUserController.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
-              "RelativeDocumentMoniker": "HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
-              "RelativeToolTip": "HMSAPI\\Controllers\\TblUser\\TblUserController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAvwCAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-21T04:51:57.576Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TblUser.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\TblUser.cs",
-              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblUser\\TblUser.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\TblUser.cs*",
-              "RelativeToolTip": "HMSAPI\\Service\\TblUser\\TblUser.cs*",
-              "ViewState": "AgIAABQAAAAAAAAAAAAowBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-21T04:51:18.576Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "ITblUser.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\ITblUser.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblUser\\ITblUser.cs",
               "RelativeDocumentMoniker": "HMSAPI\\Service\\TblUser\\ITblUser.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Service\\TblUser\\ITblUser.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblUser\\ITblUser.cs",
               "RelativeToolTip": "HMSAPI\\Service\\TblUser\\ITblUser.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAABkAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-21T04:40:11.241Z",
+              "WhenOpened": "2025-03-06T10:36:18.989Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "TblUserModel.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Model\\TblUser\\TblUserModel.cs",
-              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblUser\\TblUserModel.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Model\\TblUser\\TblUserModel.cs",
-              "RelativeToolTip": "HMSAPI\\Model\\TblUser\\TblUserModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAnAAAAAAAAAA==",
+              "Title": "TblPatient.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblPatient\\TblPatient.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblPatient\\TblPatient.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblPatient\\TblPatient.cs",
+              "RelativeToolTip": "HMSAPI\\Service\\TblPatient\\TblPatient.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA9wDMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-21T04:26:14.252Z",
+              "WhenOpened": "2025-03-06T08:52:07.708Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "HMSAPI\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Properties\\launchSettings.json",
-              "RelativeToolTip": "HMSAPI\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAIAAAAAAAAAAABRwAkAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-02-12T04:36:49.863Z",
+              "DocumentIndex": 9,
+              "Title": "GetTblPatientViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblPatient\\ViewModel\\GetTblPatientViewModel.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblPatient\\ViewModel\\GetTblPatientViewModel.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblPatient\\ViewModel\\GetTblPatientViewModel.cs",
+              "RelativeToolTip": "HMSAPI\\Model\\TblPatient\\ViewModel\\GetTblPatientViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T09:26:07.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "GetTblUserViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblUser\\ViewModel\\GetTblUserViewModel.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblUser\\ViewModel\\GetTblUserViewModel.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblUser\\ViewModel\\GetTblUserViewModel.cs",
+              "RelativeToolTip": "HMSAPI\\Model\\TblUser\\ViewModel\\GetTblUserViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T09:22:23.071Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "HMSAPI\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "C:\\Users\\freelancer.dom3\\source\\repos\\HMSAPI\\HMSAPI\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "HMSAPI\\Controllers\\WeatherForecastController.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAgwDAAAAAJAAAAAAAAAA==",
+              "Title": "TblUserModel.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "RelativeToolTip": "HMSAPI\\Model\\TblUser\\TblUserModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-12T04:36:00.028Z",
+              "WhenOpened": "2025-03-06T09:25:11.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HSMDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\EFContext\\HSMDBContext.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\EFContext\\HSMDBContext.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\EFContext\\HSMDBContext.cs",
+              "RelativeToolTip": "HMSAPI\\EFContext\\HSMDBContext.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAjwEgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T09:08:43.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TblPatientModel.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblPatient\\TblPatientModel.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblPatient\\TblPatientModel.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblPatient\\TblPatientModel.cs",
+              "RelativeToolTip": "HMSAPI\\Model\\TblPatient\\TblPatientModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T08:53:00.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TblHospitalType.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblHospitalType\\TblHospitalType.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblHospitalType\\TblHospitalType.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblHospitalType\\TblHospitalType.cs",
+              "RelativeToolTip": "HMSAPI\\Service\\TblHospitalType\\TblHospitalType.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAAAEUAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T05:59:09.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TblHospitalTypeModel.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblHospitalType\\TblHospitalTypeModel.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Model\\TblHospitalType\\TblHospitalTypeModel.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Model\\TblHospitalType\\TblHospitalTypeModel.cs",
+              "RelativeToolTip": "HMSAPI\\Model\\TblHospitalType\\TblHospitalTypeModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T08:55:42.624Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ITblHospitalType.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblHospitalType\\ITblHospitalType.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblHospitalType\\ITblHospitalType.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblHospitalType\\ITblHospitalType.cs",
+              "RelativeToolTip": "HMSAPI\\Service\\TblHospitalType\\ITblHospitalType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T08:55:52.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ITblPatient.cs",
+              "DocumentMoniker": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblPatient\\ITblPatient.cs",
+              "RelativeDocumentMoniker": "HMSAPI\\Service\\TblPatient\\ITblPatient.cs",
+              "ToolTip": "C:\\Users\\Nirmal Patel\\entityframework\\HMSAPI\\HMSAPI\\Service\\TblPatient\\ITblPatient.cs",
+              "RelativeToolTip": "HMSAPI\\Service\\TblPatient\\ITblPatient.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T08:51:45.202Z",
               "EditorCaption": ""
             }
           ]

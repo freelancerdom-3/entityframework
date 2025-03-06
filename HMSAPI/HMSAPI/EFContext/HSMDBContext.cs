@@ -18,6 +18,7 @@ using HMSAPI.Service.TblRoomType;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblEmployeeshiftMapping;
+using HMSAPI.Model.TblPatient;
 
 namespace HMSAPI.EFContext
 {
@@ -68,6 +69,9 @@ namespace HMSAPI.EFContext
 
             modelBuilder.Entity<TblShiftModel>().ToTable("TblShift");
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TblPatientModel>().ToTable("TblPatient");
+
+
             modelBuilder.Entity<TblEmployeeshiftMappingModel>().ToTable("TblEmployeeshiftMapping");
         }
 
@@ -94,6 +98,8 @@ namespace HMSAPI.EFContext
         public DbSet<TblRoomModel> TblRoom { get; set; }
         public DbSet<TblRoomTypeModel> tblRoomTypes { get; set; }
         public DbSet<TblEmployeeshiftMappingModel> TblEmployeeshifts { get; set; }
+
+        public DbSet<TblPatientModel> TblPatients { get; set; }
     }
 }
 

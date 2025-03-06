@@ -1,5 +1,1699 @@
 [
   {
+    "ContainingType": "HMSAPI.Controllers.TblDiseaseType.DiseaseController",
+    "Method": "Add",
+    "RelativePath": "api/Disease/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DiseasetypeModel",
+        "Type": "HMSAPI.Model.TblDiseaseType.TblDiseaseTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblDiseaseType.DiseaseController",
+    "Method": "delete",
+    "RelativePath": "api/Disease/delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DiseasetypeModel",
+        "Type": "HMSAPI.Model.TblDiseaseType.TblDiseaseTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblDiseaseType.DiseaseController",
+    "Method": "deleteByID",
+    "RelativePath": "api/Disease/deleteByID",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblDiseaseType.DiseaseController",
+    "Method": "GetAll",
+    "RelativePath": "api/Disease/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblDiseaseType.DiseaseController",
+    "Method": "GetTbl",
+    "RelativePath": "api/Disease/GetTbl",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblDiseaseType.DiseaseController",
+    "Method": "Update",
+    "RelativePath": "api/Disease/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.RoomTypeController",
+    "Method": "AddRoomTyp",
+    "RelativePath": "api/RoomType/AddRoomTyp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roomTYpeModel",
+        "Type": "HMSAPI.Model.RoomTypeModel.RoomTYpeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.RoomTypeController",
+    "Method": "DeleteRoomTyp",
+    "RelativePath": "api/RoomType/DeleteRoomTyp",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.RoomTypeController",
+    "Method": "GetAll",
+    "RelativePath": "api/RoomType/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.RoomTypeController",
+    "Method": "GetById",
+    "RelativePath": "api/RoomType/GetById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.RoomTypeController",
+    "Method": "UpdateRoomTyp",
+    "RelativePath": "api/RoomType/UpdateRoomTyp",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingController",
+    "Method": "Add",
+    "RelativePath": "api/TblEmployeeDepartmentMapping/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DeptModel",
+        "Type": "HMSAPI.Model.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingController",
+    "Method": "Delete",
+    "RelativePath": "api/TblEmployeeDepartmentMapping/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblEmployeeDepartmentMapping/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingController",
+    "Method": "GetByID",
+    "RelativePath": "api/TblEmployeeDepartmentMapping/GetByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingController",
+    "Method": "Update",
+    "RelativePath": "api/TblEmployeeDepartmentMapping/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DeptModel",
+        "Type": "HMSAPI.Model.TblEmployeeDepartmentMapping.TblEmployeeDepartmentMappingModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeshiftMapping.TblEmployeeshiftMappingController",
+    "Method": "Add",
+    "RelativePath": "api/TblEmployeeshiftMapping/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objModel",
+        "Type": "HMSAPI.Model.TblEmployeeshiftMapping.TblEmployeeshiftMappingModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeshiftMapping.TblEmployeeshiftMappingController",
+    "Method": "delete",
+    "RelativePath": "api/TblEmployeeshiftMapping/delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeshiftMapping.TblEmployeeshiftMappingController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblEmployeeshiftMapping/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeshiftMapping.TblEmployeeshiftMappingController",
+    "Method": "GetById",
+    "RelativePath": "api/TblEmployeeshiftMapping/GetById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblEmployeeshiftMapping.TblEmployeeshiftMappingController",
+    "Method": "Update",
+    "RelativePath": "api/TblEmployeeshiftMapping/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeshiftmapping",
+        "Type": "HMSAPI.Model.TblEmployeeshiftMapping.TblEmployeeshiftMappingModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalDept.TblHospitalDeptController",
+    "Method": "Add",
+    "RelativePath": "api/TblHospitalDept/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "DeptModel",
+        "Type": "HMSAPI.Model.TblHospitalDepartment.TblHospitalDepartmentModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalDept.TblHospitalDeptController",
+    "Method": "Delete",
+    "RelativePath": "api/TblHospitalDept/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalDept.TblHospitalDeptController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblHospitalDept/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalDept.TblHospitalDeptController",
+    "Method": "GetByID",
+    "RelativePath": "api/TblHospitalDept/GetByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalDept.TblHospitalDeptController",
+    "Method": "Update",
+    "RelativePath": "api/TblHospitalDept/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "departmentModel",
+        "Type": "HMSAPI.Model.TblHospitalDepartment.TblHospitalDepartmentModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalType.TblHospitalTypeController",
+    "Method": "Add",
+    "RelativePath": "api/TblHospitalType/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "hospitalTypModel",
+        "Type": "HMSAPI.Model.TblHospitalType.TblHospitalTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalType.TblHospitalTypeController",
+    "Method": "Delete",
+    "RelativePath": "api/TblHospitalType/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalType.TblHospitalTypeController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblHospitalType/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalType.TblHospitalTypeController",
+    "Method": "GetById",
+    "RelativePath": "api/TblHospitalType/GetById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblHospitalType.TblHospitalTypeController",
+    "Method": "Update",
+    "RelativePath": "api/TblHospitalType/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "HospitalType",
+        "Type": "HMSAPI.Model.TblHospitalType.TblHospitalTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingController",
+    "Method": "Add",
+    "RelativePath": "api/TblMedicineDiseaseMapping/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "HMSAPI.Model.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingController",
+    "Method": "DeleteByID",
+    "RelativePath": "api/TblMedicineDiseaseMapping/DeleteByID",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblMedicineDiseaseMapping/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchby",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingController",
+    "Method": "GetByID",
+    "RelativePath": "api/TblMedicineDiseaseMapping/GetByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ID",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingController",
+    "Method": "Update",
+    "RelativePath": "api/TblMedicineDiseaseMapping/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "MedicineDiseaseMapping",
+        "Type": "HMSAPI.Model.TblMedicineDiseaseMapping.TblMedicineDiseaseMappingModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineType.TblMedicineTypeController",
+    "Method": "Add",
+    "RelativePath": "api/TblMedicineType/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "medicineModel",
+        "Type": "HMSAPI.Model.TblMedicineType.TblMedicineTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineType.TblMedicineTypeController",
+    "Method": "Delete",
+    "RelativePath": "api/TblMedicineType/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineType.TblMedicineTypeController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblMedicineType/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineType.TblMedicineTypeController",
+    "Method": "GetByID",
+    "RelativePath": "api/TblMedicineType/GetByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblMedicineType.TblMedicineTypeController",
+    "Method": "Update",
+    "RelativePath": "api/TblMedicineType/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "HMSAPI.Model.TblMedicineType.TblMedicineTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblPatient.TblPatientController",
+    "Method": "Delete",
+    "RelativePath": "api/TblPatient/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRole.TblRoleController",
+    "Method": "Add",
+    "RelativePath": "api/TblRole/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleModel",
+        "Type": "HMSAPI.Model.TblRole.TblRoleModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRole.TblRoleController",
+    "Method": "delete",
+    "RelativePath": "api/TblRole/delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRole.TblRoleController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblRole/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRole.TblRoleController",
+    "Method": "GetById",
+    "RelativePath": "api/TblRole/GetById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRole.TblRoleController",
+    "Method": "Update",
+    "RelativePath": "api/TblRole/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoom.TblRoomController",
+    "Method": "Add",
+    "RelativePath": "api/TblRoom/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tblRoom",
+        "Type": "HMSAPI.Model.TblRoom.TblRoomModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoom.TblRoomController",
+    "Method": "Delete",
+    "RelativePath": "api/TblRoom/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoom.TblRoomController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblRoom/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoom.TblRoomController",
+    "Method": "GetByID",
+    "RelativePath": "api/TblRoom/GetByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoom.TblRoomController",
+    "Method": "Update",
+    "RelativePath": "api/TblRoom/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoomLocation.TblRoomLocationController",
+    "Method": "Add",
+    "RelativePath": "api/TblRoomLocation/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tblRoomLocation",
+        "Type": "HMSAPI.Model.TblRoomLocation.TblRoomLocationModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoomLocation.TblRoomLocationController",
+    "Method": "Delete",
+    "RelativePath": "api/TblRoomLocation/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoomLocation.TblRoomLocationController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblRoomLocation/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoomLocation.TblRoomLocationController",
+    "Method": "GetByID",
+    "RelativePath": "api/TblRoomLocation/GetByID",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblRoomLocation.TblRoomLocationController",
+    "Method": "Update",
+    "RelativePath": "api/TblRoomLocation/Update",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.TblRoomTypeController",
+    "Method": "AddRoomTyp",
+    "RelativePath": "api/TblRoomType/AddRoomTyp",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roomTypeModel",
+        "Type": "HMSAPI.Model.RoomTypeModel.TblRoomTypeModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.TblRoomTypeController",
+    "Method": "deleteRoomTypeByID",
+    "RelativePath": "api/TblRoomType/deleteRoomTypeByID",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.TblRoomTypeController",
+    "Method": "GetAllRoomType",
+    "RelativePath": "api/TblRoomType/GetAllRoomType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.TblRoomTypeController",
+    "Method": "GetById",
+    "RelativePath": "api/TblRoomType/GetById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.RoomType.TblRoomTypeController",
+    "Method": "UpdateRoomType",
+    "RelativePath": "api/TblRoomType/UpdateRoomType",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblShift.TblShiftController",
+    "Method": "Add",
+    "RelativePath": "api/TblShift/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "TblShiftModel",
+        "Type": "HMSAPI.Model.TblShift.TblShiftModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblShift.TblShiftController",
+    "Method": "Delete",
+    "RelativePath": "api/TblShift/Delete",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblShift.TblShiftController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblShift/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblShift.TblShiftController",
+    "Method": "GetById",
+    "RelativePath": "api/TblShift/GetById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblShift.TblShiftController",
+    "Method": "Update",
+    "RelativePath": "api/TblShift/Update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
+    "Method": "Add",
+    "RelativePath": "api/TblUser/Add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patient",
+        "Type": "HMSAPI.Model.TblPatient.ViewModel.GetTblPatientViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
     "Method": "ValidateCredential",
     "RelativePath": "api/TblUser/AuthenticateUser",
@@ -22,18 +1716,34 @@
   },
   {
     "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
-    "Method": "GetAll",
-    "RelativePath": "api/TblUser/GetAll",
-    "HttpMethod": "GET",
+    "Method": "Delete",
+    "RelativePath": "api/TblUser/Delete",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
-    "Method": "ValidateCredential",
-    "RelativePath": "api/TblUser/ValidateCredential",
+    "Method": "ForgetPassword",
+    "RelativePath": "api/TblUser/ForgetPassword",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -42,19 +1752,102 @@
         "Name": "email",
         "Type": "System.String",
         "IsRequired": false
-      },
+      }
+    ],
+    "ReturnTypes": [
       {
-        "Name": "password",
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
+    "Method": "GetAll",
+    "RelativePath": "api/TblUser/GetAll",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchBy",
         "Type": "System.String",
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
-    "Method": "validateCredentialWithData",
-    "RelativePath": "api/TblUser/validateCredentialWithData",
+    "Method": "SignupUser",
+    "RelativePath": "api/TblUser/SignupUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userModel",
+        "Type": "HMSAPI.Model.TblUser.TblUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
+    "Method": "Update",
+    "RelativePath": "api/TblUser/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "HMSAPI.Model.TblUser.TblUserModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "HMSAPI.Model.GenericModel.APIResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "HMSAPI.Controllers.TblUser.TblUserController",
+    "Method": "ValidateCredential",
+    "RelativePath": "api/TblUser/ValidateCredential",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -92,26 +1885,5 @@
       }
     ],
     "EndpointName": "GetWeatherForecast"
-  },
-  {
-    "ContainingType": "HMSAPI.Controllers.WeatherForecastController",
-    "Method": "validateCredential",
-    "RelativePath": "WeatherForecast/validateCredential",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "password",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
   }
 ]

@@ -1,6 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
+using HMSAPI.Model.TblPatient;
+using HMSAPI.Model.TblPatient.ViewModel;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -70,7 +72,7 @@ namespace HMSAPI.Service.TblUser
 
                     lstUsers = connection.GetTblUserViewModel.FromSqlRaw($@"SELECT tuser.*,trole.rolename 
                     FROM [HSMDB].[dbo].[TblUser] tuser
-                    inner join tblrole trole on trole.roleid=tuser.roleid where fullname like '%{searchBy}%'").ToList();
+                    inner join tblrole trole on trole.roleid=tuser.roleid where RoleName like '%{searchBy}%'").ToList();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
@@ -161,24 +163,7 @@ namespace HMSAPI.Service.TblUser
         }
 
 
-        //public TblUserModel? validateCredentialWithData(string email, string password)
-        //{
-        //    if (email == "test@gmail.com" && password == "Abc@123")
-        //    {
-        //        return new TblUserModel()
-        //        {
-        //            UserId = 1,
-        //            Email = "test@gmail.com",
-        //            FullName = "Naitik Gondaliya"
-        //        };
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        public async Task<APIResponseModel> Add(TblUserModel model)
+        public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
         {
             APIResponseModel responseModel = new();
             try
@@ -186,12 +171,41 @@ namespace HMSAPI.Service.TblUser
                 using (var connection = _hsmDbContext)
                 {
                     bool duplicateEmail = connection.TblUsers
-                        .Any(x => x.Email.ToLower() == model.Email.ToLower());
+                        .Any(x => x.Email.ToLower() == patient.Email.ToLower());
 
                     if (!duplicateEmail)
                     {
-                        _ = await connection.TblUsers.AddAsync(model);
-                        connection.SaveChanges();
+                    
+                        _ = await connection.TblUsers.AddAsync(new TblUserModel()
+                        {
+                             Email=patient.Email,
+                             Password=patient.Password,
+                             FullName=patient.FullName,
+                             MobileNumber =patient.MobilNumber,
+                             RoleId=patient.RoleId,
+
+                        });
+                        await connection.SaveChangesAsync(); 
+
+                        
+                        if (patient.RoleId == 9)
+                        {
+                            await connection.TblPatients.AddAsync(new TblPatientModel() 
+                            { 
+                                DOB=patient.DOB,
+                                Gender=patient.Gender,
+                                Address=patient.Address,
+                                Blood_Group=patient.Blood_Group,
+                                Emergency_Contact=patient.Emergency_Contact,
+                                Medical_History=patient.Medical_History,
+                                UserId=patient.UserId,
+
+
+                            });
+                           
+                            await connection.SaveChangesAsync();
+
+                        }
 
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -209,10 +223,12 @@ namespace HMSAPI.Service.TblUser
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
                 responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+                responseModel.Data = false;
             }
+
             return responseModel;
         }
+
 
 
 
@@ -271,6 +287,7 @@ namespace HMSAPI.Service.TblUser
                     TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        connection.TblUsers.Remove(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -292,6 +309,7 @@ namespace HMSAPI.Service.TblUser
             }
             return responseModel;
         }
-        
+
+
     }
 }
