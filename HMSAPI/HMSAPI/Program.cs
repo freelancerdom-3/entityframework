@@ -56,6 +56,10 @@ builder.Services.AddScoped<ITblTreatmentDetails, TblTreatmentDetails>();
 builder.Services.AddScoped<ITblMedicineDetails, TblMedicineDetails>();
 builder.Services.AddScoped<ITblPatientAdmitionDetails, TblPatientAdmitionDetails>();
 
+
+
+builder.Services.AddScoped<ITblPatientAdmitionDetails, TblPatientAdmitionDetails>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

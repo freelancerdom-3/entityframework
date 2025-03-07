@@ -1,7 +1,6 @@
 ﻿using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblUser;
-using Microsoft.EntityFrameworkCore;
 using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblShift;
 using HMSAPI.Model.TblUser.ViewModel;
@@ -25,10 +24,13 @@ using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
 
+using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace HMSAPI.EFContext
 {
-    public class HSMDBContext : Microsoft.EntityFrameworkCore.DbContext
+    public class HSMDBContext : DbContext
     {
 
         public HSMDBContext(DbContextOptions<HSMDBContext> option) : base(option)
@@ -82,7 +84,11 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblTreatmentDetailsModel>().ToTable("TblTreatmentDetails");
             modelBuilder.Entity<TblPateintDoctormappingModel>().ToTable("TblPateintDoctormapping");
             modelBuilder.Entity<TblMedicineDetailsModel>().ToTable("TblMedicineDetails");
-            modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");
+
+
+
+
+            modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");  //patientAdmitionDaetails
         }
 
 
@@ -114,11 +120,26 @@ namespace HMSAPI.EFContext
         public DbSet<TblPateintDoctormappingModel> TblPateintDoctormappingModels { get; set; }
 
         public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
-        public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
+      
         public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
-        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; }
+
+
+
+        public DbSet<GetTblEmployeeshiftMappingViewModel> GetTblEmployeeshiftMappingViewModels {  get; set; }
+
+
+
+        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; } //PatientAdmitionDetails
+
+
+        public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModels { get; set; }
+
+
+        public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
+        
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
         public DbSet<GetMedicineDetailsViewModel> GetMedicineDetailsViewModel { get; set; }
+
     }
 }
 

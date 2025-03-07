@@ -170,6 +170,11 @@ namespace HMSAPI.Service.TblMedicineDetails
                 responseModel.Data = null;
             }
             return responseModel;
+
+
+
+
+
         }
     }
 }

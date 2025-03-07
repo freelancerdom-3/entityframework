@@ -13,5 +13,6 @@ namespace HMSAPI.Model.TblMedicineDetails.ViewModel
         public string? Duration { get; set; }
         public string? Instruction { get; set; }
         public DateTime IssueDateTime { get; set; }
+
     }
 }
