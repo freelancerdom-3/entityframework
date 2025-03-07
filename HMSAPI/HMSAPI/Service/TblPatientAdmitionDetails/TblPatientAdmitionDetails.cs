@@ -105,13 +105,13 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                 using (var connection = _hsmDbContext)
                 {
 
-                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModel.FromSql($@"select TblPatientAdmitionDetails.PatientAdmitionDetailsId,TblRoom.RoomNumber,TblUser.fullname  from TblPatientAdmitionDetails
+                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModels.FromSqlRaw($@"select TblPatientAdmitionDetails.*,TblRoom.RoomNumber,TblUser.fullname  from TblPatientAdmitionDetails
                              inner join TblUser on TblUser.UserId = TblPatientAdmitionDetails.UserID 
                     inner join TblRoom on TblRoom.RoomId = TblPatientAdmitionDetails.RoomId where fullname like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstPatientAdmitionDetails;
                     responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = "Your Data";
+                  
                 }
 
 
@@ -120,7 +120,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+              responseModel.Data = null;
             }
             return responseModel;
         }
@@ -134,17 +134,29 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                 {
                     TblPatientAdmitionDetailsModel? data = connection.tblPatientAdmitionDetails.
                      Where(x => x.PatientAdmitionDetailsId == objGetById).FirstOrDefault();
-                    responseModel.Data = new
+
+
+                    if (data != null)
                     {
-                        data.PatientAdmitionDetailsId,
-                        data.UserId,
-                        data.AdmisionDate,
-                        data.RoomID,
-                        data.TreatmentDetailsId,
-                        data.DischargeDate,
-                    };
-                    responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = "Your Information";
+                        responseModel.Data = new
+                        {
+                            data.PatientAdmitionDetailsId,
+                            data.UserId,
+                            data.AdmisionDate,
+                            data.RoomID,
+                            data.TreatmentDetailsId,
+                            data.DischargeDate,
+                        };
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                    
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Id Not Found";
+                       // responseModel.Data = false;
+
+                    }
 
                 }
             }

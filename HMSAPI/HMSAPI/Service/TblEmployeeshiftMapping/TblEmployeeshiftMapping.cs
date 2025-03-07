@@ -1,6 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeshiftMapping;
+using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
+using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblRole;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -125,38 +127,27 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new APIResponseModel();
-
-            List<TblEmployeeshiftMappingModel> lstEmployeeshiftMapping = new();
-
-
-
             try
             {
+                List<GetTblEmployeeshiftMappingViewModel> lstEmployeeshiftMapping = new();
+
                 using (var connection = _hsmDbContext)
                 {
 
-                    if (!string.IsNullOrEmpty(searchBy) && DateTime.TryParse(searchBy, out DateTime endDate))
-                    {
-                        lstEmployeeshiftMapping = await connection.TblEmployeeshifts
-                            .Where(x => x.EmployeeshiftMappingEndingData == endDate)
-                            .ToListAsync();
-                    }
-                    else
-                    {
-
-                        lstEmployeeshiftMapping = await connection.TblEmployeeshifts.ToListAsync();
-                    }
+                    lstEmployeeshiftMapping=await connection.GetTblEmployeeshiftMappingViewModels.FromSqlRaw($@"
+                   select TblEmployeeshiftMapping.*,TblUser.FullName,TblShift.Shiftname  from TblEmployeeshiftMapping 
+                    inner join TblUser on TblUser.UserId=TblEmployeeshiftMapping.UserId 
+                    inner join TblShift on TblShift.ShiftId=TblEmployeeshiftMapping.ShiftId where fullname like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstEmployeeshiftMapping;
                     responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = "Data retrieved successfully.";
+              
                 }
             }
             catch (Exception ex)
             {
-
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }
 
@@ -191,7 +182,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                             };
                         responseModel.StatusCode = HttpStatusCode.OK;
 
-                        responseModel.Message = "Your information";
+                        
                     }
                     else
                     {
