@@ -15,6 +15,7 @@ using HMSAPI.Service.TblMedicineDiseaseMapping;
 using HMSAPI.Service.TblEmployeeshiftMapping;
 using HMSAPI.Service.TblPateintDoctormapping;
 using HMSAPI.Service.TblTreatmentDetails;
+using HMSAPI.Service.TblMedicineDetails;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,7 @@ builder.Services.AddScoped<ITblMedicineDiseaseMapping, TblMedicineDiseaseMapping
 builder.Services.AddScoped<ITblEmployeeshiftMapping, TblEmployeeshiftMapping>();
 builder.Services.AddScoped<ITblPateintDoctormapping, TblPateintDoctormapping>();
 builder.Services.AddScoped<ITblTreatmentDetails, TblTreatmentDetails>();
+builder.Services.AddScoped<ITblMedicineDetails, TblMedicineDetails>();
 
 var app = builder.Build();
 
