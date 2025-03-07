@@ -1,6 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDetails;
+using HMSAPI.Model.TblMedicineDetails.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -142,6 +143,33 @@ namespace HMSAPI.Service.TblMedicineDetails
             }
             return responseModel;
         }
-        
+
+        public async Task<APIResponseModel> GetAll(string? searchby = null)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            List<GetMedicineDetailsViewModel> lstMedicineDetails = new List<GetMedicineDetailsViewModel>();
+            try
+            {
+                using(var connection = _hsmDbContext)
+                {
+                    lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
+                                         TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime from TblMedicineDetails TblMe
+                                         inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
+                                         inner join TblTreatmentDetails on TblTreatmentDetails.TreatmentDetailsId = TblMe.TreatmentDetailsId
+                                         inner join TblDiseaseType TDies on TDies.DieseaseTypeID = TblTreatmentDetails.DieseaseTypeID where TypeName like '%{searchby}%'")
+                                         .ToListAsync();
+                    responseModel.Data = lstMedicineDetails;
+                    responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                    responseModel.Message = "GetAll Record Successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
     }
 }

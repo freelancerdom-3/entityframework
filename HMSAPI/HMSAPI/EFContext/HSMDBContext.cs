@@ -10,22 +10,20 @@ using HMSAPI.Model.TblEmployeeDepartmentMapping;
 using HMSAPI.Model.TblEmpyloeeDepartmentMapping.ViewModel;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel;
-using HMSAPI.Service.TblHospitalTyp;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblRoomLocation;
-using HMSAPI.Service.TblRoomLocations;
-using HMSAPI.Service.TblRoomType;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblEmployeeshiftMapping;
 using HMSAPI.Model.TblPatient;
-using HMSAPI.Service.TblTreatmentDetails;
-using HMSAPI.Service.TblPateintDoctormapping;
 using HMSAPI.Model.TblTreatmentDetails.ViewModel;
 using HMSAPI.Model.TblPateintDoctormapping.ViewModel;
 using HMSAPI.Model.TblTreatmentDetails;
 using HMSAPI.Model.TblPateintDoctormapping;
 using HMSAPI.Model.TblMedicineDetails;
+using HMSAPI.Model.TblPatientAdmitionDetails;
+using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
+using HMSAPI.Model.TblMedicineDetails.ViewModel;
 
 
 namespace HMSAPI.EFContext
@@ -84,6 +82,7 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblTreatmentDetailsModel>().ToTable("TblTreatmentDetails");
             modelBuilder.Entity<TblPateintDoctormappingModel>().ToTable("TblPateintDoctormapping");
             modelBuilder.Entity<TblMedicineDetailsModel>().ToTable("TblMedicineDetails");
+            modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");
         }
 
 
@@ -117,6 +116,9 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
         public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
         public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
+        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; }
+        public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
+        public DbSet<GetMedicineDetailsViewModel> GetMedicineDetailsViewModel { get; set; }
     }
 }
 

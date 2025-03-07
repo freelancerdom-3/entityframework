@@ -97,10 +97,11 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
+            List<GetTblPatientAdmitionDetailsViewModel> lstPatientAdmitionDetails = new();
             try
             {
 
-                List<GetTblPatientAdmitionDetailsViewModel> lstPatientAdmitionDetails = new ();
+                
 
                 using (var connection = _hsmDbContext)
                 {

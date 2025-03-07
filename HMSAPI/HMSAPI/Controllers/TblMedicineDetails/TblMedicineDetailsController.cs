@@ -21,7 +21,7 @@ namespace HMSAPI.Controllers.TblMedicineDetails
         public async Task<APIResponseModel> Add(TblMedicineDetailsModel model)
         {
             return await _serviceTblMedicineDetails.Add(model);
-        }
+            }
 
         [HttpPatch("[action]")]
         public async Task<APIResponseModel> Update(TblMedicineDetailsModel TblMedicineDetails)
@@ -40,6 +40,10 @@ namespace HMSAPI.Controllers.TblMedicineDetails
         {
             return await _serviceTblMedicineDetails.GetByID(ID);
         }
-
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetAll(string? searchby = null)
+        {
+            return await _serviceTblMedicineDetails.GetAll(searchby);
+        }
     }
 }
