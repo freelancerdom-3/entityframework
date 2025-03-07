@@ -1,0 +1,147 @@
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblMedicineDetails;
+using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace HMSAPI.Service.TblMedicineDetails
+{
+    public class TblMedicineDetails : ITblMedicineDetails
+    {
+        private readonly HSMDBContext _hsmDbContext;
+        public TblMedicineDetails(HSMDBContext hsmDbContext)
+        {
+            _hsmDbContext = hsmDbContext;
+        }
+
+        public async Task<APIResponseModel> Add(TblMedicineDetailsModel model)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(X => X.TreatmentDetailsId == model.TreatmentDetailsId);
+                    bool DuplicateMedicineTypID = connection.TblMedicineDetails.Any(x => x.MedicineTypeID == model.MedicineTypeID);
+                    bool DuplicateIssueDate = connection.TblMedicineDetails.Any(x => x.IssueDateTime == model.IssueDateTime);
+
+                    if (!DuplicateTreatmentID && !DuplicateMedicineTypID && !DuplicateIssueDate)
+                    {
+                        _ = await connection.TblMedicineDetails.AddAsync(model);
+                        connection.SaveChanges();
+                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.Data = true;
+                        responseModel.Message = "Record Inserted Sucessfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.Message = "You Enter data is Duplicate";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
+        public async Task<APIResponseModel> Update(TblMedicineDetailsModel TblMedicineDetails)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    TblMedicineDetailsModel? data = await connection.TblMedicineDetails
+                        .Where(x => x.MedicineDetailsID == TblMedicineDetails.MedicineDetailsID).FirstOrDefaultAsync();
+                    if (data != null)
+                    {
+                        data.MedicineTypeID = TblMedicineDetails.MedicineTypeID;
+                        data.Dosage = TblMedicineDetails.Dosage;
+                        data.Frequency = TblMedicineDetails.Frequency;
+                        data.Duration = TblMedicineDetails.Duration;
+                        data.Instruction = TblMedicineDetails.Instruction;
+                        connection.Update(data);
+                        connection.SaveChanges();
+                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.Data = true;
+                        responseModel.Message = "Record Updated Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.Data = false;
+                        responseModel.Message = "Not Updated";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+        public async Task<APIResponseModel> Delete(int ID)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                using(var connection = _hsmDbContext)
+                {
+                    TblMedicineDetailsModel? data = await connection.TblMedicineDetails
+                        .Where(x => x.MedicineDetailsID == ID).FirstOrDefaultAsync();
+                    if (data != null)
+                    {
+                        connection.TblMedicineDetails.Remove(data);
+                        connection.SaveChanges();
+                        responseModel.Data = true;
+                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.Message = "Deleted Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.Message = "Delete Not successfully";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+        public async Task<APIResponseModel> GetByID(int ID)
+        {
+            APIResponseModel responseModel = new();
+            TblMedicineDetailsModel? data = new TblMedicineDetailsModel();
+            try
+            {
+                using(var connection = _hsmDbContext)
+                {
+                    data = await connection.TblMedicineDetails.Where(x => x.MedicineDetailsID == ID).FirstOrDefaultAsync();
+                    responseModel.Data = data;
+                    responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+        
+    }
+}

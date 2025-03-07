@@ -25,6 +25,7 @@ using HMSAPI.Model.TblTreatmentDetails.ViewModel;
 using HMSAPI.Model.TblPateintDoctormapping.ViewModel;
 using HMSAPI.Model.TblTreatmentDetails;
 using HMSAPI.Model.TblPateintDoctormapping;
+using HMSAPI.Model.TblMedicineDetails;
 
 
 namespace HMSAPI.EFContext
@@ -82,6 +83,7 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblEmployeeshiftMappingModel>().ToTable("TblEmployeeshiftMapping");
             modelBuilder.Entity<TblTreatmentDetailsModel>().ToTable("TblTreatmentDetails");
             modelBuilder.Entity<TblPateintDoctormappingModel>().ToTable("TblPateintDoctormapping");
+            modelBuilder.Entity<TblMedicineDetailsModel>().ToTable("TblMedicineDetails");
         }
 
 
@@ -109,11 +111,12 @@ namespace HMSAPI.EFContext
         public DbSet<TblEmployeeshiftMappingModel> TblEmployeeshifts { get; set; }
 
         public DbSet<TblPatientModel> TblPatients { get; set; }
-        public DbSet<Model.TblTreatmentDetails.TblTreatmentDetailsModel> TblTreatmentDetails { get; set; } 
-        public DbSet<Model.TblPateintDoctormapping.TblPateintDoctormappingModel> TblPateintDoctormappingModels { get; set; }
+        public DbSet<TblTreatmentDetailsModel> TblTreatmentDetails { get; set; } 
+        public DbSet<TblPateintDoctormappingModel> TblPateintDoctormappingModels { get; set; }
 
-        public DbSet <GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
-        public DbSet <GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
+        public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
+        public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
+        public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
     }
 }
 
