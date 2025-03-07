@@ -144,10 +144,11 @@ namespace HMSAPI.Service.TblPateintDoctormapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.GetTblTreatmentDetailsViewModels.FromSqlRaw($@"SELECT tp.PateintDoctormappingId,tu.FullName FROM TblPateintDoctormapping tp
-                        inner join TblPatient Td on td.PatientId =tp.PatientId
-                      inner join TblUser Tu on tu.UserId= tp.UserId
-                      where FullName like '%{searchBy}%'").ToListAsync();
+                    lstUsers = await connection.GetPateintDoctorMappingViewModels.FromSqlRaw($@"SELECT tp.PateintDoctormappingId,tu.FullName as DocterName,pu.FullName as PatientName FROM TblPateintDoctormapping tp
+                 inner join TblPatient Td on td.PatientId =tp.PatientId
+                  inner join TblUser Tu on tu.UserId= tp.UserId
+                  inner join TblUser pu  on pu.UserId=td.UserId
+                      where  pu.FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;

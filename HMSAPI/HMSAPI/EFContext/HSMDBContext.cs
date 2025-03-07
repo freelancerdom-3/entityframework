@@ -24,7 +24,7 @@ using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
 
-using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
+//using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -125,7 +125,7 @@ namespace HMSAPI.EFContext
 
 
 
-        public DbSet<GetTblEmployeeshiftMappingViewModel> GetTblEmployeeshiftMappingViewModels {  get; set; }
+        //public DbSet<GetTblEmployeeshiftMappingViewModel> GetTblEmployeeshiftMappingViewModels {  get; set; }
 
 
 
@@ -139,6 +139,8 @@ namespace HMSAPI.EFContext
         
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
         public DbSet<GetMedicineDetailsViewModel> GetMedicineDetailsViewModel { get; set; }
+
+        public DbSet <GetPateintDoctorMappingViewModel>GetPateintDoctorMappingViewModels { get; set; }
 
     }
 }

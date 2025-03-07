@@ -7,6 +7,9 @@ namespace HMSAPI.Model.TblPateintDoctormapping.ViewModel
         [Key]
         public int PateintDoctormappingId { get; set; }
 
-        public string FullName { get; set; }
+        public string DocterName { get; set; }
+
+        public string PatientName { get; set; } 
+
     }
 }
