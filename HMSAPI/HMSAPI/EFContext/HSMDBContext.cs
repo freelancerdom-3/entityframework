@@ -23,6 +23,8 @@ using HMSAPI.Model.TblMedicineDetails;
 using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
+using HMSAPI.Model.TblPatient.ViewModel;
+using HMSAPI.Model.TblFeedback;
 
 //using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -78,6 +80,8 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblShiftModel>().ToTable("TblShift");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblPatientModel>().ToTable("TblPatient");
+            modelBuilder.Entity<TblFeedbackModel>().ToTable("Tblfeedback");
+            
 
 
             modelBuilder.Entity<TblEmployeeshiftMappingModel>().ToTable("TblEmployeeshiftMapping");
@@ -142,6 +146,11 @@ namespace HMSAPI.EFContext
 
         public DbSet <GetPateintDoctorMappingViewModel>GetPateintDoctorMappingViewModels { get; set; }
 
+        public DbSet<GetTblPatientViewModel> GetTblPatientViewModel { get; set; }
+
+        public DbSet<GetTblPatientViewModel2> getTblPatientViewModel2 {get; set; }
+
+        public DbSet<TblFeedbackModel> TblFeedbacks { get; set; }
     }
 }
 

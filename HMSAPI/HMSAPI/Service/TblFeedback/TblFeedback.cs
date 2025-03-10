@@ -1,41 +1,36 @@
-﻿using HMSAPI.EFContext;
+﻿using System.Net;
+using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblFeedback;
 using HMSAPI.Model.TblHospitalType;
-using HMSAPI.Service.TblHospitalType;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HMSAPI.Service.TblHospitalTyp
+namespace HMSAPI.Service.TblFeedback
 {
-    public class TblHospitalType : ITblHospitalType
+    public class TblFeedback : ITblFeedback
     {
         private readonly HSMDBContext _hsmDbContext;
 
 
-        public TblHospitalType(HSMDBContext hSMDBContext)
+        public TblFeedback(HSMDBContext hSMDBContext)
         {
             _hsmDbContext = hSMDBContext;
         }
 
-        public async Task<APIResponseModel> Add(TblHospitalTypeModel hospitalTypModel)
+        public async Task<APIResponseModel> Add(TblFeedbackModel Feedbackmodel)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    bool duplicateName = connection.TblHospitalTypes
-                    .Any(x => x.HospitalType.ToLower() == hospitalTypModel.HospitalType.ToLower());
+                    bool duplicateId = connection.TblFeedbacks.Any(x => x.FeedbackId == Feedbackmodel.FeedbackId);
 
-                    if (!duplicateName)
+                    if(!duplicateId)
                     {
-                        //_hsmDbContext.TblHospitalTypes.Add(hospitalTypModel);
-
-                        //_hsmDbContext.SaveChanges();
-                        _ = await connection.TblHospitalTypes.AddAsync(hospitalTypModel);
+                        _ = await connection.TblFeedbacks.AddAsync(Feedbackmodel);
                         connection.SaveChanges();
-
+                        
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Inserted Successfully";
@@ -47,7 +42,6 @@ namespace HMSAPI.Service.TblHospitalTyp
                         responseModel.Data = false;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -58,24 +52,21 @@ namespace HMSAPI.Service.TblHospitalTyp
             return responseModel;
         }
 
-
-        public async Task<APIResponseModel> Update(TblHospitalTypeModel HospitalType)
+        public async Task<APIResponseModel> Update(TblFeedbackModel Feedbackmodel)
         {
             APIResponseModel responseModel = new();
             try
             {
-                using (var connection = _hsmDbContext)
+                using(var connection = _hsmDbContext)
                 {
-                    TblHospitalTypeModel? data =  await  connection.TblHospitalTypes.Where(x => x.HospitalTypeID == HospitalType.HospitalTypeID).FirstOrDefaultAsync();
-                    if (data != null)
+                    TblFeedbackModel? Data = await connection.TblFeedbacks.Where(x => x.PatientId == Feedbackmodel.PatientId).FirstOrDefaultAsync();
+                    if(Data != null)
                     {
-                        data.HospitalType = HospitalType.HospitalType;
-                        connection.TblHospitalTypes.Update(data);
-                        connection.SaveChanges();
+                        connection.TblFeedbacks.Update(Data);
+                        connection.SaveChangesAsync();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Update Successfully";
-
                     }
                     else
                     {
@@ -93,8 +84,53 @@ namespace HMSAPI.Service.TblHospitalTyp
             }
             return responseModel;
         }
-    
 
+        public async Task<APIResponseModel> GetById(int id)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    TblFeedbackModel data = await connection.TblFeedbacks.Where(x => x.PatientId == id).FirstOrDefaultAsync();
+                    if(data != null)
+                    {
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = data.Comments;
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Id Not Found";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode= HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            } 
+            return responseModel;
+        }
+
+
+        //public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        //{
+        //    APIResponseModel aPIResponseModel = new();
+        //    try
+        //    {
+        //        List<TblFeedbackModel> lstFeedback = new();
+        //        using (var connection = _hsmDbContext)
+        //        {
+        //            lstFeedback = string.IsNullOrEmpty(searchBy) ? connection.TblFeedbacks.ToList() :
+        //                connection.TblFeedbacks.Where(x => x.PatientId == searchBy).ToList();
+
+        //        }
+        //    }
+        //}
 
         public async Task<APIResponseModel> Delete(int id)
         {
@@ -103,10 +139,10 @@ namespace HMSAPI.Service.TblHospitalTyp
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblHospitalTypeModel? data = await connection.TblHospitalTypes.Where(x => x.HospitalTypeID == id).FirstOrDefaultAsync();
+                    TblFeedbackModel? data = await connection.TblFeedbacks.Where(x => x.FeedbackId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblHospitalTypes.Remove(data);
+                        connection.TblFeedbacks.Remove(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -127,65 +163,44 @@ namespace HMSAPI.Service.TblHospitalTyp
                 responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }
-             return responseModel;
-        }
-
-
-        public async Task<APIResponseModel> GetById(int id)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                using (var connection = _hsmDbContext)
-                {
-                    TblHospitalTypeModel data =  await connection.TblHospitalTypes.Where(x => x.HospitalTypeID == id).FirstOrDefaultAsync();
-                    if (data != null)
-                    {
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = data.HospitalType;
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "ID Not Found";
-                        responseModel.Data = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
             return responseModel;
         }
 
+        //public async Task<APIResponseModel> Delete(int id)
+        //{
+        //    APIResponseModel responseModel = new APIResponseModel();
+        //    try
+        //    {
+        //        TblFeedbackModel? data = await _hsmDbContext.TblFeedbacks
+        //            .Where(x => x.FeedbackId == id)
+        //            .FirstOrDefaultAsync();
+
+        //        if (data != null)
+        //        {
+        //            _hsmDbContext.TblFeedbacks.Remove(data); // ✅ Correct table deletion
+        //            await _hsmDbContext.SaveChangesAsync(); // ✅ Ensure async save
+
+        //            responseModel.Data = true;
+        //            responseModel.StatusCode = HttpStatusCode.OK;
+        //            responseModel.Message = "Deleted Successfully";
+        //        }
+        //        else
+        //        {
+        //            responseModel.StatusCode = HttpStatusCode.BadRequest;
+        //            responseModel.Message = "ID Not Found";
+        //            responseModel.Data = false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //        responseModel.Message = ex.InnerException?.Message ?? ex.Message; // ✅ Avoid null reference exception
+        //        responseModel.Data = null;
+        //    }
+
+        //    return responseModel;
+        //}
 
 
-        public async Task<APIResponseModel>  GetAll(string? searchBy = null)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                List<TblHospitalTypeModel> lstHospitalType = new();
-                using (var connection = _hsmDbContext)
-                {
-                    lstHospitalType = string.IsNullOrEmpty(searchBy) ? connection.TblHospitalTypes.ToList() :
-                    connection.TblHospitalTypes.Where(x => x.HospitalType.ToLower() == searchBy.ToLower()).ToList();
-                    responseModel.Data = lstHospitalType;
-                    responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-        }
     }
 }

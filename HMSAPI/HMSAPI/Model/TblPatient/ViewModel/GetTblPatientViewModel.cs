@@ -1,12 +1,16 @@
-﻿namespace HMSAPI.Model.TblPatient.ViewModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HMSAPI.Model.TblPatient.ViewModel
 {
     public class GetTblPatientViewModel
     {
+        [Key]
+        public int PatientId { get; set; }
         public string? FullName { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? RoleName { get; set; }
-        public string? MobilNumber { get; set; }    
+        public string? MobilNumber { get; set; }
         public int RoleId { get; set; }
         public DateOnly? DOB { get; set; }
         public string? Gender { get; set; }

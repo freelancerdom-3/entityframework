@@ -4,6 +4,7 @@ using HMSAPI.Service.TblPatient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HMSAPI.Model.TblPatient;
+using HMSAPI.Model.TblPatient.ViewModel;
 
 namespace HMSAPI.Controllers.TblPatient
 {
@@ -20,10 +21,39 @@ namespace HMSAPI.Controllers.TblPatient
         }
 
 
-        [HttpDelete("[action]")]
-        public async Task<APIResponseModel> Delete(int id)
+
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
         {
-           return await _serviceTblPatient.Delete(id);
+            return await _serviceTblPatient.Add(patient);
+        }
+
+
+        [HttpPost("[action]")] 
+        public async Task<APIResponseModel> Update(GetTblPatientViewModel update )
+        {
+            return await _serviceTblPatient.Update(update);
+        }
+
+
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        {
+            return await _serviceTblPatient.GetAll(searchBy);
+        }
+
+        //[HttpGet("[action]")]
+        //public async Task<APIResponseModel> GetByID(int id)
+        //{
+        //    return await _serviceTblPatient.GetByID(id);
+        //}
+
+        [HttpDelete("[action]")]
+        public async Task<APIResponseModel> Delete(int UserId)
+        {
+            //return await _serviceTblPatient.Delete(model);
+            //return await _serviceTblPatient.Delete(model);
+            return await _serviceTblPatient.Delete(UserId);
         }
     }
 

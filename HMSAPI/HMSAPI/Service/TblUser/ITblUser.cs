@@ -19,7 +19,7 @@ namespace HMSAPI.Service.TblUser
         Task<APIResponseModel> ForgetPassword(string email);
 
         //Task<APIResponseModel> AddRoleId(string roleId);
-        Task<APIResponseModel> Add(GetTblPatientViewModel model);
+        Task<APIResponseModel> Add(TblUserModel model );
 
         Task<APIResponseModel> Update(TblUserModel model);
 

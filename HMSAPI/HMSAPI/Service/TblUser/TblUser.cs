@@ -163,7 +163,73 @@ namespace HMSAPI.Service.TblUser
         }
 
 
-        public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
+        //public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
+        //{
+        //    APIResponseModel responseModel = new();
+        //    try
+        //    {
+        //        using (var connection = _hsmDbContext)
+        //        {
+        //            bool duplicateEmail = connection.TblUsers
+        //                .Any(x => x.Email.ToLower() == patient.Email.ToLower());
+
+        //            if (!duplicateEmail)
+        //            {
+
+        //                _ = await connection.TblUsers.AddAsync(new TblUserModel()
+        //                {
+        //                     Email=patient.Email,
+        //                     Password=patient.Password,
+        //                     FullName=patient.FullName,
+        //                     //MobileNumber =patient.MobilNumber,
+        //                     RoleId=patient.RoleId,
+
+        //                });
+        //                await connection.SaveChangesAsync(); 
+
+
+        //                if (patient.RoleId == 9)
+        //                {
+        //                    await connection.TblPatients.AddAsync(new TblPatientModel() 
+        //                    { 
+        //                        DOB=patient.DOB,
+        //                        Gender=patient.Gender,
+        //                        Address=patient.Address,
+        //                        Blood_Group=patient.Blood_Group,
+        //                        Emergency_Contact=patient.Emergency_Contact,
+        //                        Medical_History=patient.Medical_History,
+        //                     //   UserId=patient.UserId,
+
+
+        //                    });
+
+        //                    await connection.SaveChangesAsync();
+
+        //                }
+
+        //                responseModel.Data = true;
+        //                responseModel.StatusCode = HttpStatusCode.OK;
+        //                responseModel.Message = "Inserted Successfully";
+        //            }
+        //            else
+        //            {
+        //                responseModel.StatusCode = HttpStatusCode.BadRequest;
+        //                responseModel.Message = "Duplicate User Found";
+        //                responseModel.Data = false;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //        responseModel.Message = ex.InnerException.Message;
+        //        responseModel.Data = false;
+        //    }
+
+        //    return responseModel;
+        //}
+
+        public async Task<APIResponseModel> Add(TblUserModel model)
         {
             APIResponseModel responseModel = new();
             try
@@ -171,41 +237,12 @@ namespace HMSAPI.Service.TblUser
                 using (var connection = _hsmDbContext)
                 {
                     bool duplicateEmail = connection.TblUsers
-                        .Any(x => x.Email.ToLower() == patient.Email.ToLower());
+                        .Any(x => x.Email.ToLower() == model.Email.ToLower());
 
                     if (!duplicateEmail)
                     {
-                    
-                        _ = await connection.TblUsers.AddAsync(new TblUserModel()
-                        {
-                             Email=patient.Email,
-                             Password=patient.Password,
-                             FullName=patient.FullName,
-                             MobileNumber =patient.MobilNumber,
-                             RoleId=patient.RoleId,
-
-                        });
-                        await connection.SaveChangesAsync(); 
-
-                        
-                        if (patient.RoleId == 9)
-                        {
-                            await connection.TblPatients.AddAsync(new TblPatientModel() 
-                            { 
-                                DOB=patient.DOB,
-                                Gender=patient.Gender,
-                                Address=patient.Address,
-                                Blood_Group=patient.Blood_Group,
-                                Emergency_Contact=patient.Emergency_Contact,
-                                Medical_History=patient.Medical_History,
-                                UserId=patient.UserId,
-
-
-                            });
-                           
-                            await connection.SaveChangesAsync();
-
-                        }
+                        _ = await connection.TblUsers.AddAsync(model);
+                        connection.SaveChanges();
 
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -223,11 +260,11 @@ namespace HMSAPI.Service.TblUser
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
                 responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = false;
+                responseModel.Data = null;
             }
-
             return responseModel;
         }
+
 
 
 
@@ -310,6 +347,6 @@ namespace HMSAPI.Service.TblUser
             return responseModel;
         }
 
-
+        
     }
 }

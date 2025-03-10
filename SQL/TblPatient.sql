@@ -1,6 +1,6 @@
 USE [HSMDB]
 GO
-/****** Object:  Table [dbo].[TblPatient]    Script Date: 06-03-2025 21:16:42 ******/
+/****** Object:  Table [dbo].[TblPatient]    Script Date: 10-03-2025 09:44:26 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -22,7 +22,9 @@ PRIMARY KEY CLUSTERED
 GO
 SET IDENTITY_INSERT [dbo].[TblPatient] ON 
 GO
-INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId]) VALUES (3, CAST(N'2025-03-06' AS Date), N'M', N'stringfrf', N'A', N'4567891235', N'string', 20)
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId]) VALUES (18, CAST(N'2025-03-07' AS Date), N'string', N'string', N'kl', N'string', N'string', 31)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId]) VALUES (21, CAST(N'2025-03-07' AS Date), N'hjfrhyyyh', N'string', N'g', N'2532123232', N'string', 34)
 GO
 SET IDENTITY_INSERT [dbo].[TblPatient] OFF
 GO

@@ -48,9 +48,9 @@ namespace HMSAPI.Controllers.TblUser
         }
 
         [HttpPost("[action]")]
-        public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
+        public async Task<APIResponseModel> Add(TblUserModel model)
         {
-            return await _serviceTblUser.Add(patient);
+            return await _serviceTblUser.Add(model);
         }
 
         [HttpPost("[action]")]
