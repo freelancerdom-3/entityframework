@@ -24,13 +24,10 @@ namespace HMSAPI.Controllers.TblRoom
         }
 
         [HttpGet("[action]")]
-        public async Task<APIResponseModel> GetAll()
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await _serviceRoom.GetAll();
+            return await _serviceRoom.GetAll(searchBy);
         }
-
-
-
 
 
         [HttpPatch("[action]")]

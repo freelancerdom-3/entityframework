@@ -9,7 +9,7 @@ namespace HMSAPI.Service.TblRoom
         Task<APIResponseModel> Add(TblRoomModel tblRoom);
         Task<APIResponseModel> Update(int id);
         Task<APIResponseModel> Delete(int id);
-        Task<APIResponseModel> GetAll();
+        Task<APIResponseModel> GetAll(string? searchBy = null);
          Task<APIResponseModel> GetByID(int id);
        
     }

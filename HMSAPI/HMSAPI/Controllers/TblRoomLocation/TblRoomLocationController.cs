@@ -26,9 +26,9 @@ namespace HMSAPI.Controllers.TblRoomLocation
         }
 
         [HttpGet("[action]")]
-        public async Task<APIResponseModel> GetAll()
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await _serviceRoomLocation.GetAll();
+            return await _serviceRoomLocation.GetAll(searchBy);
         }
 
 

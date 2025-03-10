@@ -32,6 +32,11 @@ using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblBill.ViewModel;
 using HMSAPI.Model.TblFacilityTypes;
 using HMSAPI.Model.TblFacility;
+using HMSAPI.Model.TblRoomTypeFacilityMapping.View_Model;
+using HMSAPI.Model.TblRoomTypeFacilityMapping;
+using HMSAPI.Model.TblRoom.View_Model;
+using HMSAPI.Model.TblRoomLocation.View_Model;
+using HMSAPI.Model.TblFeedback.ViewModel;
 
 
 
@@ -99,7 +104,7 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblMedicineDetailsModel>().ToTable("TblMedicineDetails");
             modelBuilder.Entity<TblFacilityModel>().ToTable("TblFacility");
             modelBuilder.Entity<TblFacilityTypeModels>().ToTable("TblfacilityType");
-           // modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
+            modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
 
 
 
@@ -172,10 +177,12 @@ namespace HMSAPI.EFContext
 
         public DbSet<TblFacilityTypeModels> TblFacilityTypes { get; set; }
         public DbSet<TblFacilityModel> TblFacility { get; set; }
-        //public DbSet<TblRoomTypeFacilityMappingModel> TblRoomTypeFacilityMapping { get; set; }
-      
+        public DbSet<TblRoomTypeFacilityMappingModel> TblRoomTypeFacilityMapping { get; set; }
+        public DbSet<GetTblRoomTypeFacilityMappingModel> GetTblRoomTypeFacilityMappingModel { get; set; }   
+        public DbSet<GetTblRoomModel> GetTblRoomModel { get; set; }   
+        public DbSet<GetTblRoomLocationModel> GetTblRoomLocationModel { get; set; }   
 
-        //public DbSet<GetTblFeedbackViewModel> GetTblFeedbackViewModels { get; set; }
+        public DbSet<GetTblFeedbackViewModel> GetTblFeedbackViewModel { get; set; }
     }
 }
 

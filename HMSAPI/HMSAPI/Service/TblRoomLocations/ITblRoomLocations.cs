@@ -9,7 +9,7 @@ namespace HMSAPI.Service.TblRoomLocations
         Task<APIResponseModel> Add(TblRoomLocationModel tblRoomLocation);
         Task<APIResponseModel> Update(int id);
         Task<APIResponseModel> Delete(int id);
-        Task<APIResponseModel> GetAll();
+        Task<APIResponseModel> GetAll(string? searchBy = null);
         Task<APIResponseModel> GetByID(int id);
 
     }
