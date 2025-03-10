@@ -19,6 +19,11 @@ using HMSAPI.Service.TblMedicineDetails;
 using HMSAPI.Service.TblPatientAdmitionDetails;
 using HMSAPI.Service.TblFeedback;
 using HMSAPI.Service.TblBill;
+using HMSAPI.Service.TblFacilityTypes;
+using HMSAPI.Service.TblFacility;
+using HMSAPI.Service.TblRoomTypeFacilityMapping;
+using HMSAPI.Service.TblFacility;
+using HMSAPI.Service.TblFacilityTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,12 +62,18 @@ builder.Services.AddScoped<ITblPateintDoctormapping, TblPateintDoctormapping>();
 builder.Services.AddScoped<ITblTreatmentDetails, TblTreatmentDetails>();
 builder.Services.AddScoped<ITblMedicineDetails, TblMedicineDetails>();
 builder.Services.AddScoped<ITblPatientAdmitionDetails, TblPatientAdmitionDetails>();
+builder.Services.AddScoped<ITblRoomTypeFacilityMapping, TblRoomTypeFacilityMapping>();
+builder.Services.AddScoped<ITblFacility, TblFacility>();
+builder.Services.AddScoped<ITblFacilityTypes, TblFacilityTypes>();
 builder.Services.AddScoped<ITblBill, TblBill>();
+
 
 
 
 builder.Services.AddScoped<ITblPatientAdmitionDetails, TblPatientAdmitionDetails>();
 builder.Services.AddScoped<ITblFeedback, TblFeedback>();
+builder.Services.AddScoped<ITblFacilityTypes, TblFacilityTypes>();
+builder.Services.AddScoped<ITblFacility, TblFacility>();
 
 var app = builder.Build();
 

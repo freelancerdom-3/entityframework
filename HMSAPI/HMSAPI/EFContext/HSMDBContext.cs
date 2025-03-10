@@ -30,6 +30,9 @@ using HMSAPI.Model.TblFeedback;
 using Microsoft.EntityFrameworkCore;
 using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblBill.ViewModel;
+using HMSAPI.Model.TblFacilityTypes;
+using HMSAPI.Model.TblFacility;
+using HMSAPI.Model.TblRoomTypeFacilityMapping;
 
 
 namespace HMSAPI.EFContext
@@ -78,19 +81,25 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblRoomModel>().ToTable("TblRoom");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblRoomLocationModel>().ToTable("TblRoomLocations");
-
             modelBuilder.Entity<TblShiftModel>().ToTable("TblShift");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblPatientModel>().ToTable("TblPatient");
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblFeedbackModel>().ToTable("Tblfeedback");
             modelBuilder.Entity<TblBillModel>().ToTable("TblBill");
             
 
 
             modelBuilder.Entity<TblEmployeeshiftMappingModel>().ToTable("TblEmployeeshiftMapping");
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblTreatmentDetailsModel>().ToTable("TblTreatmentDetails");
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblPateintDoctormappingModel>().ToTable("TblPateintDoctormapping");
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblMedicineDetailsModel>().ToTable("TblMedicineDetails");
+            modelBuilder.Entity<TblFacilityModel>().ToTable("TblFacility");
+            modelBuilder.Entity<TblFacilityTypeModels>().ToTable("TblfacilityType");
+            modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
 
 
 
@@ -103,7 +112,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<TblUserModel> TblUsers { get; set; }
         public DbSet<GetTblUserViewModel> GetTblUserViewModel { get; set; }
-        public DbSet<TblDiseaseTypeModel> tblDiseaseTypes { get; set; }
+        public DbSet<TblDiseaseTypeModel> TblDiseaseType { get; set; }
         public DbSet<TblRoleModel> TblRoles { get; set; }
 
         public DbSet<TblHospitalTypeModel> TblHospitalTypes { get; set; }
@@ -129,6 +138,7 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
       
         public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
+        
 
 
 
@@ -158,6 +168,12 @@ namespace HMSAPI.EFContext
         public DbSet<TblBillModel> TblBills { get; set; }
 
         public DbSet<BillPatientViewModel> billPatientViewModels { get; set; }
-    } 
+    
+
+        public DbSet<TblFacilityTypeModels> TblFacilityTypes { get; set; }
+        public DbSet<TblFacilityModel> TblFacility { get; set; }
+        public DbSet<TblRoomTypeFacilityMappingModel> TblRoomTypeFacilityMapping { get; set; }
+      
+    }
 }
 

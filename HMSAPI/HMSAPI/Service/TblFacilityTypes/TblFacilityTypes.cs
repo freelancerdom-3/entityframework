@@ -1,53 +1,45 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblDiseaseType;
-using HMSAPI.Model.TblUser;
+using HMSAPI.Model.TblFacilityTypes;
+using HMSAPI.Service.TblDiseaseType;
+using HMSAPI.Service.TblFacilityTypes;
 using Microsoft.EntityFrameworkCore;
-
-
-using HMSAPI.Service.TblUser;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace HMSAPI.Service.TblDiseaseType
+namespace HMSAPI.Service.TblFacilityTypes
 {
-    public class TblDiseaseType : ITblDiseaseType
+    public class TblFacilityTypes : ITblFacilityTypes
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblDiseaseType(HSMDBContext hSMDBContext)
+        public TblFacilityTypes(HSMDBContext hSMDBContext)
         {
             _hsmDbContext = hSMDBContext;
         }
 
-        // ADD DIEASES 
-
-        public async Task<APIResponseModel> Add(TblDiseaseTypeModel tblDiseaseType)
+        public async Task<APIResponseModel> Add(TblFacilityTypeModels tblFacilityType)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    bool DuplicateDieases = connection.TblDiseaseType
-                        .Any(x => x.DieseaseName.ToLower() == tblDiseaseType.DieseaseName.ToLower());
-                    if (!DuplicateDieases)
+                    bool duplicatefacility = connection.TblFacilityTypes
+                        .Any(x => x.FacilityName.ToLower() == tblFacilityType.FacilityName.ToLower());
+                    if (!duplicatefacility)
                     {
-                        _ = await connection.TblDiseaseType.AddAsync(tblDiseaseType);
+                        _ = await connection.TblFacilityTypes.AddAsync(tblFacilityType);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Inserted Successfully";
-
                     }
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Duplicate Name Found:";
                         responseModel.Data = false;
-
+                        responseModel.Message = "Duplicate Name Not Found";
                     }
 
                 }
@@ -59,27 +51,31 @@ namespace HMSAPI.Service.TblDiseaseType
                 responseModel.Data = null;
             }
             return responseModel;
+
         }
 
-        public async Task<APIResponseModel> Update(int id)
+
+
+
+        public async Task<APIResponseModel> Update(TblFacilityTypeModels tblFacilityType)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id).FirstOrDefaultAsync();
+                    TblFacilityTypeModels? data = await connection.TblFacilityTypes.Where(x => x.FacilityTypeID == tblFacilityType.FacilityTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblDiseaseType.Update(data);
+                        connection.TblFacilityTypes.Update(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Update Dieases Successfully:";
+                        responseModel.Message = "Update Facility Successfully:";
                     }
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Dieases AllReady Add";
+                        responseModel.Message = "Facility AllReady Add";
                         responseModel.Data = false;
                     }
                 }
@@ -91,23 +87,21 @@ namespace HMSAPI.Service.TblDiseaseType
                 responseModel.Data = false;
             }
             return responseModel;
-
         }
 
-        //Delete
-        public async Task<APIResponseModel> delete(TblDiseaseTypeModel tblDiseaseType)
+        public async Task<APIResponseModel> Delete(int id)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.TblDiseaseType
-                   .Where(x => x.DieseaseName.ToLower() == tblDiseaseType.DieseaseName.ToLower())
+                    TblFacilityTypeModels? data = await connection.TblFacilityTypes
+                   .Where(x => x.FacilityTypeID == id)
                    .FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblDiseaseType.Remove(data);
+                        connection.TblFacilityTypes.Remove(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete SuccessFully:";
@@ -115,7 +109,7 @@ namespace HMSAPI.Service.TblDiseaseType
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "DieasesName Is Not Found";
+                        responseModel.Message = "FacilityType Not Found";
                         responseModel.Data = false;
                     }
                 }
@@ -129,55 +123,17 @@ namespace HMSAPI.Service.TblDiseaseType
             return responseModel;
         }
 
-        //DELETEBYID
-        public async Task<APIResponseModel> deleteByID(int id)
 
+
+        public async Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
+            TblFacilityTypeModels data = new TblFacilityTypeModels();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.TblDiseaseType
-                   .Where(x => x.DieseaseTypeID == id)
-                   .FirstOrDefaultAsync();
-                    if (data != null)
-                    {
-                        connection.TblDiseaseType.Remove(data);
-                        connection.SaveChanges();
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Delete SuccessFully:";
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "DieasesName Is Not Found";
-                        responseModel.Data = false;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-
-        }
-        
-
-        //GETTBL
-        public async Task<APIResponseModel> GetTbl(int id)
-        {
-            APIResponseModel responseModel = new();
-            TblDiseaseTypeModel data = new TblDiseaseTypeModel();
-            try
-            {
-                using (var connection = _hsmDbContext)
-                {
-                    data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id).FirstAsync();
+                    data = await connection.TblFacilityTypes.Where(x => x.FacilityTypeID == id).FirstAsync();
 
                     if (data != null)
                     {
@@ -202,25 +158,23 @@ namespace HMSAPI.Service.TblDiseaseType
             return responseModel;
         }
 
-        //GETALL
         public async Task<APIResponseModel> GetAll(string? searchby = null)
         {
             APIResponseModel responseModel = new();
-            List<TblDiseaseTypeModel> lstDisease = new();
+            List<TblFacilityTypeModels> lstFacility = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    // await connection.TblDiseaseType.ToListAsync();
-                    lstDisease = string.IsNullOrEmpty(searchby) ? await connection.TblDiseaseType.ToListAsync() :
-                        await connection.TblDiseaseType.Where(x => x.DieseaseName.ToLower() == searchby.ToLower()).ToListAsync();
+                    lstFacility = string.IsNullOrEmpty(searchby) ? await connection.TblFacilityTypes.ToListAsync() :
+                        await connection.TblFacilityTypes.Where(x => x.FacilityName.ToLower() == searchby.ToLower()).ToListAsync();
 
                 }
-                if (lstDisease != null)
+                if (lstFacility != null)
                 {
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get All Recode Successfull";
-                    responseModel.Data = lstDisease;
+                    responseModel.Data = lstFacility;
 
                 }
                 else
@@ -234,7 +188,7 @@ namespace HMSAPI.Service.TblDiseaseType
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex?.InnerException?.Message;
+                responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }
             return responseModel;
