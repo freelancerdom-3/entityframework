@@ -33,6 +33,7 @@ using HMSAPI.Model.TblBill.ViewModel;
 using HMSAPI.Model.TblFacilityTypes;
 using HMSAPI.Model.TblFacility;
 using HMSAPI.Model.TblRoomTypeFacilityMapping;
+using HMSAPI.Model.TblFeedback.ViewModel;
 
 
 namespace HMSAPI.EFContext
@@ -161,7 +162,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblPatientViewModel> GetTblPatientViewModel { get; set; }
 
-        public DbSet<GetTblPatientViewModel2> getTblPatientViewModel2 {get; set; }
+        public DbSet<GetTblPatientViewModel2> GetTblPatientViewModel2 {get; set; }
 
         public DbSet<TblFeedbackModel> TblFeedbacks { get; set; }
          
@@ -174,6 +175,8 @@ namespace HMSAPI.EFContext
         public DbSet<TblFacilityModel> TblFacility { get; set; }
         public DbSet<TblRoomTypeFacilityMappingModel> TblRoomTypeFacilityMapping { get; set; }
       
+
+        public DbSet<GetTblFeedbackViewModel> GetTblFeedbackViewModels { get; set; }
     }
 }
 

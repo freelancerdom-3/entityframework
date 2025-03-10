@@ -14,6 +14,6 @@ namespace HMSAPI.Service.TblPatient
         Task<APIResponseModel> Update(GetTblPatientViewModel update);
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
-        //Task<APIResponseModel> GetByID(int id);
+        Task<APIResponseModel> GetById(int id);
     }
 }

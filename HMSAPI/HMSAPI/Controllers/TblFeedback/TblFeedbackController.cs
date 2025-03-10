@@ -24,29 +24,17 @@ namespace HMSAPI.Controllers.TblFeedback
             return await _serviceTblFeedback.Add(Feedbackmodel);
         }
 
-        [HttpPost("[action]")]
-        public async Task<APIResponseModel> Update(TblFeedbackModel FeedbackModel)
-        {
-            return await _serviceTblFeedback.Update(FeedbackModel);
-        }
-
-        [HttpGet("[action]")]
-        public async Task<APIResponseModel> GeyById(int id)
-        {
-            return await _serviceTblFeedback.GetById(id);
-        }
-
         [HttpDelete("[action]")]
         public async Task<APIResponseModel> Delete(int id)
         {
             return await _serviceTblFeedback.Delete(id);
         }
 
-        //[HttpGet("[action]")]
-        //public async Task<APIResponseModel>GetAll(string? searchBy = null)
-        //{
-        //    return await _serviceTblFeedback.GetAll(searchBy);
-        //}
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        {
+            return await _serviceTblFeedback.GetAll(searchBy);
+        }
 
     }
 }

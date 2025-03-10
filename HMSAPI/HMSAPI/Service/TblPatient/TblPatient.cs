@@ -5,6 +5,7 @@ using HMSAPI.Model.TblFeedback;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblPatient;
 using HMSAPI.Model.TblPatient.ViewModel;
+using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
@@ -23,40 +24,6 @@ namespace HMSAPI.Service.TblPatient
         }
 
 
-
-        //public async Task<APIResponseModel> Delete(int id)
-        //{
-        //    APIResponseModel responseModel = new();
-        //    try
-        //    {
-        //        using (var connection = _hSMDBContext)
-        //        {
-        //            TblPatientModel? data = await connection.TblPatients.Where(x => x.PatientId == id).FirstOrDefaultAsync();
-        //            if(data != null)
-        //            {
-        //                connection.TblPatients.Remove(data);
-        //                connection.SaveChanges();
-        //                responseModel.Data = true;
-        //                responseModel.StatusCode = HttpStatusCode.OK;
-        //                responseModel.Message = "Delete Successfully";
-        //            }
-
-        //            else
-        //            {
-        //                responseModel.StatusCode = HttpStatusCode.BadRequest;
-        //                responseModel.Message = "ID Not Found";
-        //                responseModel.Data = false;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
-        //        responseModel.Message = ex.InnerException.Message;
-        //        responseModel.Data = null;
-        //    }
-        //    return responseModel;
-        //}
 
 
         public async Task<APIResponseModel> Delete(int userId)
@@ -98,111 +65,7 @@ namespace HMSAPI.Service.TblPatient
             return responseModel;
         }
 
-        public async Task<APIResponseModel> Update(GetTblPatientViewModel update)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                using (var connection = _hSMDBContext)
-                {
-                    connection.Database.BeginTransaction();
-                    bool DuplicateMobile = connection.TblUsers
-                        .Any(x => x.UserId == update.UserId);
 
-                    try
-                    {
-
-                        if (!DuplicateMobile)
-                        {
-
-                            TblUserModel user = new TblUserModel()
-                            {
-                                Email = update.Email,
-                                Password = update.Password,
-                                FullName = update.Email,
-                                RoleId = update.RoleId,
-                            };
-
-                            //connection.TblUsers.Update(user);
-                            await connection.SaveChangesAsync();
-
-                            if (update.RoleId == 9)
-                            {
-                                connection.TblPatients.Update(new TblPatientModel()
-                                {
-                                    DOB = update.DOB,
-                                    Gender = update.Gender,
-                                    Address = update.Address,
-                                    Blood_Group = update.Blood_Group,
-                                    Emergency_Contact = update.Emergency_Contact,
-                                    Medical_History = update.Medical_History,
-                                    UserId = user.UserId,
-
-                                });
-
-                                await connection.SaveChangesAsync();
-                                connection.Database.CommitTransaction();
-                            }
-
-                            responseModel.Data = true;
-                            responseModel.StatusCode = HttpStatusCode.OK;
-                            responseModel.Message = "Update Successfully";
-                        }
-                        else
-                        {
-                            responseModel.StatusCode = HttpStatusCode.BadRequest;
-                            responseModel.Message = "Duplicate Mobile Number Found";
-                            responseModel.Data = false;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        connection.Database.RollbackTransaction();
-                        throw;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = false;
-            }
-
-            return responseModel;
-        }
-
-
-        //public async Task<APIResponseModel> Update(GetTblPatientViewModel objuser)
-        //{
-        //    APIResponseModel response = new APIResponseModel();
-        //    try
-        //    {
-        //        using (var connection = _hSMDBContext)
-        //        { 
-        //            GetTblPatientViewModel? update  = ;
-        //        if (update != null)
-        //        {
-        //            update.FullName = objuser.FullName;
-        //            update.Address = objuser.Address;
-        //            update.Email = objuser.Email;
-        //            update.Password = objuser.Password;
-
-        //            await connection.SaveChangesAsync();    
-        //            response.Data = (int)objuser.UserID;
-        //            response.Message = "record updated successfully";
-        //            response.IsSuccess = true;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        response.Data = null;
-        //        response.Message = "Something went wrong";
-        //        response.IsSuccess = false;
-        //    }
-        //    return response;
-        //}
 
         public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)
         {
@@ -288,9 +151,8 @@ namespace HMSAPI.Service.TblPatient
                 List<GetTblPatientViewModel2> lstUsers = new();
                 using (var connection = _hSMDBContext)
                 {
-                    lstUsers = await connection.getTblPatientViewModel2.FromSqlRaw($@"select TblPatient.PatientId,TblUser.FullName,TblUser.MobileNumber,
-                    TblUser.Email,TblPatient.Blood_Group ,TblPatient.[Address],
-                    TblPatient.Emergency_Contact from TblUser inner join TblPatient
+                    lstUsers = await connection.GetTblPatientViewModel2.FromSqlRaw($@"select TblPatient.*,TblUser.FullName,TblUser.MobileNumber,
+                    TblUser.Email from TblUser inner join TblPatient
                     on TblPatient.UserId=TblUser.UserId where FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
@@ -306,37 +168,112 @@ namespace HMSAPI.Service.TblPatient
             return responseModel;
         }
 
-        //    public async Task<APIResponseModel> GetbyId(int id)
-        //    {
-        //        APIResponseModel responseModel = new ();
-        //        try
-        //        {
-        //            using(var connection = _hSMDBContext)
-        //            {
-        //                TblFeedbackModel data = await connection.TblFeedbacks.Where(x => x.PatientId == id).FirstOrDefaultAsync();
-        //                if(data == null)
-        //                {
-        //                    responseModel.Data = true;
-        //                    responseModel.StatusCode = HttpStatusCode.OK;
-        //                    //responseModel.Message = data.PatientId;
-        //                    responseModel.Message = data.PatientId;
-        //                }
-        //                else
-        //                {
-        //                    responseModel.StatusCode = HttpStatusCode.BadRequest;
-        //                    responseModel.Message = "ID Not Found";
-        //                    responseModel.Data = false;
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            responseModel.StatusCode = HttpStatusCode.InternalServerError;
-        //            responseModel.Message = ex.InnerException.Message;
-        //            responseModel.Data = null;
-        //        }
-        //        return responseModel;
-        //    }
+        public async  Task<APIResponseModel> GetById(int id)
+        {
+            APIResponseModel responseModel = new ();
+            try
+            {
+
+                using (var connection = _hSMDBContext)
+                {
+                    TblPatientModel? data = connection.TblPatients.Where(x => x.PatientId == id).FirstOrDefault();
+                    
+                    responseModel.Data = new
+                    {
+                        data.PatientId,
+                        data.DOB,
+                        data.Gender,
+                        data.Address,
+                        data.Blood_Group,
+                        data.Emergency_Contact,
+                        data.Medical_History,
+                    };
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Inserted Successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
+
+        public async Task<APIResponseModel> Update(GetTblPatientViewModel update)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+
+                using (var connection = _hSMDBContext)
+                {
+                    await using var transaction = await connection.Database.BeginTransactionAsync();
+                    try
+                    {
+
+                        TblUserModel? existingUser = await connection.TblUsers
+                            .FirstOrDefaultAsync(x => x.UserId == update.UserId);
+
+                        if (existingUser != null)
+                        {
+                            existingUser.Email = update.Email;
+                            existingUser.Password = update.Password;
+                            existingUser.FullName = update.FullName;
+                            existingUser.RoleId = update.RoleId;
+                        }
+                        connection.TblUsers.Update(existingUser);
+                        await connection.SaveChangesAsync();
+
+                        if (update.RoleId == 9)
+                        {
+
+                            TblPatientModel? existingPatient = await connection.TblPatients
+                                .FirstOrDefaultAsync(p => p.PatientId == update.PatientId);
+
+                            if (existingPatient != null)
+                            {
+                                existingPatient.DOB = update.DOB;
+                                existingPatient.Gender = update.Gender;
+                                existingPatient.Address = update.Address;
+                                existingPatient.Blood_Group = update.Blood_Group;
+                                existingPatient.Emergency_Contact = update.Emergency_Contact;
+                                existingPatient.Medical_History = update.Medical_History;
+                                existingPatient.UserId = update.UserId;
+
+                            }
+
+                            connection.TblPatients.Update(existingPatient);
+                            await connection.SaveChangesAsync();
+                        }
+
+                        await transaction.CommitAsync();
+
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Update Successfully";
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                        responseModel.Message = ex.Message;
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Data = false;
+            }
+
+            return responseModel;
+        }
+
     }
 }
 

@@ -42,11 +42,11 @@ namespace HMSAPI.Controllers.TblPatient
             return await _serviceTblPatient.GetAll(searchBy);
         }
 
-        //[HttpGet("[action]")]
-        //public async Task<APIResponseModel> GetByID(int id)
-        //{
-        //    return await _serviceTblPatient.GetByID(id);
-        //}
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetById(int id)
+        {
+            return await _serviceTblPatient.GetById(id);
+        }
 
         [HttpDelete("[action]")]
         public async Task<APIResponseModel> Delete(int UserId)
