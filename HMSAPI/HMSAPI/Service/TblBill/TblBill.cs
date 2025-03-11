@@ -38,7 +38,7 @@ namespace HMSAPI.Service.TblBill
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex?.InnerException?.Message;
                 responseModel.Data = null;
             }
             return responseModel;
@@ -51,7 +51,7 @@ namespace HMSAPI.Service.TblBill
                 List<BillPatientViewModel> lstbills = new();
                 using (var connection = _hsmDbContext)
                 {
-                    lstbills = await connection.billPatientViewModels.FromSqlRaw($@"
+                    lstbills = await connection.billPatientViewModels.FromSql($@"
                      SELECT   b.Billid,   u.FullName, b.TotalAmount,  b.PaymentMethod, b.BillDate
                      FROM TblBill b
                      INNER JOIN TblPatient p ON b.PatientId = p.PatientId
@@ -64,7 +64,7 @@ namespace HMSAPI.Service.TblBill
             catch (Exception ex)
             {
                 responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex?.InnerException?.Message;
                 responseModel.Data = null;
             }
             return responseModel;
@@ -75,20 +75,33 @@ namespace HMSAPI.Service.TblBill
             APIResponseModel responseModel = new();
             try
             {
+                
                 using (var connection = _hsmDbContext)
                 {
+                    bool duplicatetreatment = connection.TblBills
+                       .Any(x => x.TreatmentDetailsId == bill.TreatmentDetailsId);
+
+                    if (!duplicatetreatment)
+                    {
                         _ = await connection.TblBills.AddAsync(bill);
                         connection.SaveChanges();
 
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Inserted Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Duplicate User Found";
+                        responseModel.Data = false;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex?.InnerException?.Message;
                 responseModel.Data = null;
             }
             return responseModel;
@@ -127,7 +140,7 @@ namespace HMSAPI.Service.TblBill
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex?.InnerException?.Message;
                 responseModel.Data = null;
             }
             return responseModel;
@@ -160,7 +173,7 @@ namespace HMSAPI.Service.TblBill
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex?.InnerException? .Message;
                 responseModel.Data = null;
             }
             return responseModel;

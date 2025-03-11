@@ -93,6 +93,7 @@ namespace HMSAPI.Service.TblPatient
                                 CreateBy = patient.CreateBy,
                                 CreatedOn = patient.CreatedOn,
                                 IsActive = patient.IsActive,
+                                VersionNo = 1,
                                 
                             };
 
@@ -115,6 +116,7 @@ namespace HMSAPI.Service.TblPatient
                                     CreateBy = user.CreateBy,
                                     CreatedOn = user.CreatedOn,
                                     IsActive = user.IsActive,
+                                    VersionNo = 1,
 
                                 });
 
@@ -258,7 +260,7 @@ namespace HMSAPI.Service.TblPatient
                                 existingUser.IsActive = update.IsActive;    
 
                             }
-                            existingUser.IncreamentVersion();
+                            update.IncreamentVersion();
                             connection.TblPatients.Update(existingPatient);
                             await connection.SaveChangesAsync();
                         }
