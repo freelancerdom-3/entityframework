@@ -37,6 +37,7 @@ using HMSAPI.Model.TblRoomTypeFacilityMapping;
 using HMSAPI.Model.TblRoom.View_Model;
 using HMSAPI.Model.TblRoomLocation.View_Model;
 using HMSAPI.Model.TblFeedback.ViewModel;
+using HMSAPI.Model.GenericModel;
 
 
 
@@ -174,6 +175,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<BillPatientViewModel> billPatientViewModels { get; set; }
     
+        public DbSet <GetDropDownListModel> GetDropDownListModel { get; set; }
 
         public DbSet<TblFacilityTypeModels> TblFacilityTypes { get; set; }
         public DbSet<TblFacilityModel> TblFacility { get; set; }

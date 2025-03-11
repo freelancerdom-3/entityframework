@@ -63,6 +63,27 @@ namespace HMSAPI.Controllers.GetDropDownList
         {
             return await _getDropDownList.FillFacilityType();
         }
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> FillPatientName()
+        {
+            return await _getDropDownList.FillPatientName();
+        }
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> FillRoomNo()
+        {
+            return await _getDropDownList.FillRoomNo();
+        }
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> FillDocterName()
+        {
+            return await _getDropDownList.FillDocterName();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> FillPaymentMethod()
+        {
+            return await _getDropDownList.FillPaymentMethod();
+        }
 
 
     }

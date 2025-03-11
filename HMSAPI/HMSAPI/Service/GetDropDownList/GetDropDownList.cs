@@ -1,15 +1,18 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.RoomTypeModel;
+using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblFacility;
 using HMSAPI.Model.TblFacilityTypes;
 using HMSAPI.Model.TblHospitalDepartment;
 using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblRole;
+using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblShift;
 using HMSAPI.Model.TblUser;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace HMSAPI.Service.GetDropDownList
@@ -301,6 +304,134 @@ namespace HMSAPI.Service.GetDropDownList
             return responseModel;
 
         }
+        public async Task<APIResponseModel> FillPatientName ()
+        {
+            APIResponseModel responseModel = new ();
 
+         
+        List<GetDropDownListModel> lstRolles1 = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                      string query = $@" 
+                                       select tp.PatientId as id,tu.FullName as name from TblTreatmentDetails tr 
+                                          inner join TblPatient tp on tp.PatientId = tr.PatientId
+                                                  inner join TblUser tu on tu.UserId = tp.UserId";
+
+                    //responseModel.Data = lstRolles;
+                   lstRolles1  = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
+                    responseModel.Data = lstRolles1;
+
+                     responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Get List Successfully";
+                }
+
+}
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+           responseModel.Message = ex.InnerException.Message;
+            responseModel.Data = null;
+            }
+            return responseModel;
+
+        }
+        public async Task<APIResponseModel> FillRoomNo()
+        {
+            APIResponseModel responseModel = new();
+
+            List<TblRoomModel> lstRolles = new();
+            List<GetDropDownListModel> lstRolles1 = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    lstRolles = connection.TblRoom.ToList();
+
+                    //responseModel.Data = lstRolles;
+                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.RoomID, name = x.RoomNumber.ToString() }).ToList();
+
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Get List Successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+
+        }
+        public async Task<APIResponseModel> FillDocterName()
+        {
+            APIResponseModel responseModel = new();
+
+
+            List<GetDropDownListModel> lstRolles1 = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    string query = $@"select tu.UserId as id,tu.FullName as name from TblPateintDoctormapping tp
+                                      inner join tbluser tu on tu.UserId=tp.UserId 
+                                                                                   ";
+
+                    //responseModel.Data = lstRolles;
+                    lstRolles1 = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
+                    responseModel.Data = lstRolles1;
+
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Get List Successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+
+        }
+        public async Task<APIResponseModel> FillPaymentMethod()
+        {
+            APIResponseModel responseModel = new();
+
+            List<TblBillModel> lstRolles = new();
+            List<GetDropDownListModel> lstRolles1 = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    lstRolles = connection.TblBills.ToList();
+
+                    //responseModel.Data = lstRolles;
+                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.BillId, name = x.PaymentMethod }).ToList();
+
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Get List Successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+
+        }
     }
 }

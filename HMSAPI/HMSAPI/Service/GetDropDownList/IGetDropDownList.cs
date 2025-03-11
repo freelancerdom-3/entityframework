@@ -20,6 +20,12 @@ namespace HMSAPI.Service.GetDropDownList
 
          Task<APIResponseModel> FillFacilityType();
 
+        Task<APIResponseModel> FillPatientName();
 
+        Task<APIResponseModel> FillRoomNo();
+
+        Task<APIResponseModel> FillDocterName();
+
+        Task <APIResponseModel>FillPaymentMethod ();
     }
 }
