@@ -166,9 +166,12 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lsttblRoomTypeFacilityMappings = await connection.GetTblRoomTypeFacilityMappingModel.FromSqlRaw($@"select TblRoomTypeFacilityMapping.RoomTypeFacilityMappingID ,TblRoomTypeFacilityMapping.RoomID , TblFacility.FacilityName , TblFacility.FacilityID from TblRoomTypeFacilityMapping
+                    lsttblRoomTypeFacilityMappings = await connection.GetTblRoomTypeFacilityMappingModel.FromSqlRaw($@"
+select TblRoomTypeFacilityMapping.RoomTypeFacilityMappingID , TblRoom.RoomNumber , TblFacility.FacilityName,TblRoomType.RoomType  from TblRoomTypeFacilityMapping
                     inner join TblRoom  on TblRoom.RoomID = TblRoomTypeFacilityMapping.RoomId
-                    inner join TblFacility on tblfacility.facilityid = TblRoomTypeFacilityMapping.facilityId   where FacilityName
+                    inner join TblFacility on tblfacility.FacilityName = tblfacility.FacilityName
+					inner join TblRoomType on TblRoomType.RoomType = TblRoomType.RoomType
+                    where FacilityName
                     like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lsttblRoomTypeFacilityMappings;
                     responseModel.StatusCode = HttpStatusCode.OK;
