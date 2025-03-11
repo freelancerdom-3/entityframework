@@ -1,9 +1,10 @@
-﻿using Microsoft.Identity.Client;
+﻿using HMSAPI.Model.GenericModel;
+using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 
 namespace HMSAPI.Model.TblFacilityTypes
 {
-    public class TblFacilityTypeModels
+    public class TblFacilityTypeModels : SecurityModel
     {
         [Key]
         public int FacilityTypeID { get; set; }

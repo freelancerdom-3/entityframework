@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 
 namespace HMSAPI.Model.TblFeedback
 {
-    public class TblFeedbackModel
+    public class TblFeedbackModel : SecurityModel
     {
         [Key]
         public int FeedbackId { get; set; }

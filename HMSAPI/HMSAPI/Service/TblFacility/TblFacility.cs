@@ -30,6 +30,7 @@ namespace HMSAPI.Service.TblFacility
                         //_hsmDbContext.TblHospitalTypes.Add(hospitalTypModel);
 
                         //_hsmDbContext.SaveChanges();
+                        tblFacility.VersionNo = 1;
                         _ = await connection.TblFacility.AddAsync(tblFacility);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -154,6 +155,10 @@ namespace HMSAPI.Service.TblFacility
                     if (data != null)
                     {
                         data.FacilityName = tblFacility.FacilityName;
+                        data.UpdateBy = tblFacility.UpdateBy;
+                        data.UpdateOn = tblFacility.UpdateOn;
+                        data.IsActive = tblFacility.IsActive;
+                        data.IncreamentVersion();
                         connection.TblFacility.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

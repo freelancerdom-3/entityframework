@@ -29,6 +29,7 @@ namespace HMSAPI.Service.TblPateintDoctormapping
                     //if (!duplicateUserId)
                     //{
                     //#1
+                    deptModel.VersionNo = 1;
                     _ = await connection.TblPateintDoctormappingModels.AddAsync(deptModel);
                     connection.SaveChanges();
                     //#3
@@ -69,6 +70,10 @@ namespace HMSAPI.Service.TblPateintDoctormapping
 
                         data.UserId = departmentModel.UserId;
                         data.PatientId = departmentModel.PatientId;
+                        data.UpdateBy = departmentModel.UpdateBy;
+                        data.UpdateOn = departmentModel.UpdateOn;
+                        data.IsActive = departmentModel.IsActive;
+                        data.IncreamentVersion();
                         connection.TblPateintDoctormappingModels.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

@@ -30,6 +30,7 @@ namespace HMSAPI.Service.TblFeedback
 
                     if(!duplicateId)
                     {
+                        Feedbackmodel.VersionNo = 1;
                         _ = await connection.TblFeedbacks.AddAsync(Feedbackmodel);
                         connection.SaveChanges();
                         
@@ -63,7 +64,7 @@ namespace HMSAPI.Service.TblFeedback
                 List<GetTblFeedbackViewModel> lstUsers = new();
                 using ( var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.GetTblFeedbackViewModels.FromSqlRaw($@"
+                    lstUsers = await connection.GetTblFeedbackViewModel.FromSqlRaw($@"
                     SELECT 
                     TblFeedback.FeedbackId,
                     TblUser.FullName,

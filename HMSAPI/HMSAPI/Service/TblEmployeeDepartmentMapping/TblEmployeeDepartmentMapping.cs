@@ -28,6 +28,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                     if (!duplicateUserId)
                     {
                         //#1
+                        deptModel.VersionNo = 1;
                         _ = await connection.TblEmployeeDepartmentMappings.AddAsync(deptModel);
                         connection.SaveChanges();
                         //#3
@@ -68,6 +69,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                     {
                         data.HospitalDepartmentId = departmentModel.HospitalDepartmentId;
                         connection.TblEmployeeDepartmentMappings.Update(data);
+                        data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;

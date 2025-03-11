@@ -28,6 +28,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
 
                     if (!DuplicateDisease)
                     {
+                        model.VersionNo = 1;
                         _ = await connection.TblMedicineDiseaseMappings.AddAsync(model);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -148,6 +149,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                     {
                         Data.MedicineTypeID = MedicineDiseaseMapping.MedicineTypeID;
                         connection.Update(Data);
+                        Data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                         responseModel.Data = true;

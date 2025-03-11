@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 
 namespace HMSAPI.Model.TblPatientAdmitionDetails
 {
-    public class TblPatientAdmitionDetailsModel
+    public class TblPatientAdmitionDetailsModel : SecurityModel
     {
         [Key]
         public int PatientAdmitionDetailsId {  get; set; }

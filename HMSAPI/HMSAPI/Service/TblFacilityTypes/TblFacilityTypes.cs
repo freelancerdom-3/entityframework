@@ -29,6 +29,7 @@ namespace HMSAPI.Service.TblFacilityTypes
                         .Any(x => x.FacilityName.ToLower() == tblFacilityType.FacilityName.ToLower());
                     if (!duplicatefacility)
                     {
+                        tblFacilityType.VersionNo = 1;
                         _ = await connection.TblFacilityTypes.AddAsync(tblFacilityType);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -68,6 +69,7 @@ namespace HMSAPI.Service.TblFacilityTypes
                     if (data != null)
                     {
                         connection.TblFacilityTypes.Update(data);
+                        data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Update Facility Successfully:";

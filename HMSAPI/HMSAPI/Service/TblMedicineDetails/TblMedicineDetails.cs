@@ -28,6 +28,7 @@ namespace HMSAPI.Service.TblMedicineDetails
 
                     if (!DuplicateTreatmentID && !DuplicateMedicineTypID && !DuplicateIssueDate)
                     {
+                        model.VersionNo = 1;
                         _ = await connection.TblMedicineDetails.AddAsync(model);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -67,6 +68,10 @@ namespace HMSAPI.Service.TblMedicineDetails
                         data.Frequency = TblMedicineDetails.Frequency;
                         data.Duration = TblMedicineDetails.Duration;
                         data.Instruction = TblMedicineDetails.Instruction;
+                        data.UpdateBy = TblMedicineDetails.UpdateBy;
+                        data.UpdateOn = TblMedicineDetails.UpdateOn;
+                        data.IsActive = TblMedicineDetails.IsActive;
+                        data.IncreamentVersion();
                         connection.Update(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;

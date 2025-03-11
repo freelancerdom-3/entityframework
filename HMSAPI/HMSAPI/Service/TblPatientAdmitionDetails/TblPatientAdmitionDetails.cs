@@ -31,12 +31,14 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     bool duplicateRoleName = connection.tblPatientAdmitionDetails.Any(x => x.UserId == objadd.UserId && x.AdmisionDate.Date == objadd.AdmisionDate.Date);
                     if (duplicateRoleName)
                     {
+                        
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
                         responseModel.Message = "Patient Already Exists";
                         responseModel.Data = false;
                     }
                     else
                     {
+                        objadd.VersionNo = 1;
                         _ = connection.tblPatientAdmitionDetails.Add(objadd);
                         
                         connection.SaveChanges();
@@ -179,6 +181,10 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                         data.RoomID= ObjUpdate.RoomID;
                         data.TreatmentDetailsId= ObjUpdate.TreatmentDetailsId;
                         data.DischargeDate= ObjUpdate.DischargeDate;
+                        data.UpdateBy  = ObjUpdate.UpdateBy;
+                        data.UpdateOn = ObjUpdate.UpdateOn;
+                        data.IsActive = ObjUpdate.IsActive;
+                        data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;

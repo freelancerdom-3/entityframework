@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 
 namespace HMSAPI.Model.TblUser
 {
-    public class TblUserModel
+    public class TblUserModel : SecurityModel
     {
         [Key]
         public int UserId { get; set; }

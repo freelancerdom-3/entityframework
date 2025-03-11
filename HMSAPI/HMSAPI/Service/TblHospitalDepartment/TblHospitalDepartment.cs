@@ -31,7 +31,7 @@ namespace HMSAPI.Service.TblHospitalDept
 
                     if (!duplicateDepartment)
                     {
-                        //#1
+                        deptModel.VersionNo = 1;    
                         _ = await connection.TblHospitalDepts.AddAsync(deptModel);
                         connection.SaveChanges();
                         //#3
@@ -74,6 +74,7 @@ namespace HMSAPI.Service.TblHospitalDept
                     {
                         data.DepartmentName = departmentModel.DepartmentName;
                         connection.TblHospitalDepts.Update(data);
+                        data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;

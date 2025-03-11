@@ -82,7 +82,7 @@ namespace HMSAPI.Service.TblPatient
                     {
                         if (!duplicateEmail)
                         {
-
+                            patient.VersionNo = 1;
                             TblUserModel user = new TblUserModel()
                             {
                                 Email = patient.Email,
@@ -90,6 +90,10 @@ namespace HMSAPI.Service.TblPatient
                                 FullName = patient.FullName,
                                 RoleId = patient.RoleId,
                                 MobileNumber = patient.MobilNumber,
+                                CreateBy = patient.CreateBy,
+                                CreatedOn = patient.CreatedOn,
+                                IsActive = patient.IsActive,
+                                
                             };
 
                             await connection.TblUsers.AddAsync(user);
@@ -98,6 +102,7 @@ namespace HMSAPI.Service.TblPatient
 
                             if (patient.RoleId == 9)
                             {
+                                patient.VersionNo = 1;
                                 await connection.TblPatients.AddAsync(new TblPatientModel()
                                 {
                                     DOB = patient.DOB,
@@ -107,7 +112,9 @@ namespace HMSAPI.Service.TblPatient
                                     Emergency_Contact = patient.Emergency_Contact,
                                     Medical_History = patient.Medical_History,
                                     UserId = user.UserId,
-
+                                    CreateBy = user.CreateBy,
+                                    CreatedOn = user.CreatedOn,
+                                    IsActive = user.IsActive,
 
                                 });
 
@@ -223,7 +230,11 @@ namespace HMSAPI.Service.TblPatient
                             existingUser.Password = update.Password;
                             existingUser.FullName = update.FullName;
                             existingUser.RoleId = update.RoleId;
+                            existingUser.UpdateBy = update.UpdateBy;
+                            existingUser.UpdateOn = update.UpdateOn;
+                            existingUser.IsActive = update.IsActive;
                         }
+                        update.IncreamentVersion();
                         connection.TblUsers.Update(existingUser);
                         await connection.SaveChangesAsync();
 
@@ -242,9 +253,12 @@ namespace HMSAPI.Service.TblPatient
                                 existingPatient.Emergency_Contact = update.Emergency_Contact;
                                 existingPatient.Medical_History = update.Medical_History;
                                 existingPatient.UserId = update.UserId;
+                                existingUser.UpdateBy = update.UpdateBy;
+                                existingUser.UpdateOn= update.UpdateOn;
+                                existingUser.IsActive = update.IsActive;    
 
                             }
-
+                            existingUser.IncreamentVersion();
                             connection.TblPatients.Update(existingPatient);
                             await connection.SaveChangesAsync();
                         }

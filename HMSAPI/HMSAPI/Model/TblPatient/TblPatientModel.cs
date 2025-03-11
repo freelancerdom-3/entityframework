@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HMSAPI.Model.TblPatient
 {
-    public class TblPatientModel
+    public class TblPatientModel : SecurityModel
     {
         [Key]
         public int PatientId { get; set; }

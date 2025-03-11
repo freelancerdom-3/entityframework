@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 
 namespace HMSAPI.Model.TblEmployeeDepartmentMapping
 {
-    public class TblEmployeeDepartmentMappingModel
+    public class TblEmployeeDepartmentMappingModel : SecurityModel
     {
 
         [Key]

@@ -30,6 +30,7 @@ namespace HMSAPI.Service.TblHospitalTyp
 
                     if (!duplicateName)
                     {
+                        hospitalTypModel.VersionNo = 1;
                         //_hsmDbContext.TblHospitalTypes.Add(hospitalTypModel);
 
                         //_hsmDbContext.SaveChanges();
@@ -71,6 +72,7 @@ namespace HMSAPI.Service.TblHospitalTyp
                     {
                         data.HospitalType = HospitalType.HospitalType;
                         connection.TblHospitalTypes.Update(data);
+                        data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
