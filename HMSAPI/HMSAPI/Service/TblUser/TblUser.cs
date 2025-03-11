@@ -142,17 +142,30 @@ namespace HMSAPI.Service.TblUser
             APIResponseModel responseModel = new();
             try
             {
-                bool match = false;
+
                 using (var connection = _hsmDbContext)
                 {
-                    match = connection.TblUsers
-                        .Where(x => x.Email == email && x.Password == password)
-                        .FirstOrDefault()?.UserId > 0;
+                    bool duplicateEmail = connection.TblUsers
+                        .Any(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+
+                    if (duplicateEmail)
+                    {
+
+
+
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Login Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Invalid Credentials";
+                        responseModel.Data = false;
+                    }
                 }
-                responseModel.Data = true;
-                responseModel.StatusCode = HttpStatusCode.OK;
-                responseModel.Message = "ValidateCredential Successfully";
             }
+
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;

@@ -22,11 +22,10 @@ namespace HMSAPI.Service.TblMedicineDetails
             {
                 using (var connection = _hsmDbContext)
                 {
-                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(X => X.TreatmentDetailsId == model.TreatmentDetailsId);
-                    bool DuplicateMedicineTypID = connection.TblMedicineDetails.Any(x => x.MedicineTypeID == model.MedicineTypeID);
-                    bool DuplicateIssueDate = connection.TblMedicineDetails.Any(x => x.IssueDateTime == model.IssueDateTime);
+                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(X => X.TreatmentDetailsId == model.TreatmentDetailsId 
+                   && X.MedicineTypeID == model.MedicineTypeID && X.IssueDateTime == model.IssueDateTime);
 
-                    if (!DuplicateTreatmentID && !DuplicateMedicineTypID && !DuplicateIssueDate)
+                    if (!DuplicateTreatmentID)
                     {
                         model.VersionNo = 1;
                         _ = await connection.TblMedicineDetails.AddAsync(model);

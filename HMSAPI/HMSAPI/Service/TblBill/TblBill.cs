@@ -78,6 +78,7 @@ namespace HMSAPI.Service.TblBill
                 
                 using (var connection = _hsmDbContext)
                 {
+                    bill.VersionNo = 1;
                     bool duplicatetreatment = connection.TblBills
                        .Any(x => x.TreatmentDetailsId == bill.TreatmentDetailsId);
 
@@ -117,12 +118,14 @@ namespace HMSAPI.Service.TblBill
                     if (data != null)
 
                     {
-                       // data.BillId = bill.BillId;
                         data.BillDate = bill.BillDate;
                         data.TotalAmount = bill.TotalAmount;
                         data.PaymentMethod = bill.PaymentMethod;
                         data.PatientId = bill.PatientId;
                         data.TreatmentDetailsId = bill.TreatmentDetailsId;
+                        data.UpdateBy = bill.UpdateBy;
+                        data.UpdateOn = bill.UpdateOn;
+                        data.IncreamentVersion();
                         connection.TblBills.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

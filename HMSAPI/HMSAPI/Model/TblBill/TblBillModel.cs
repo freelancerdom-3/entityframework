@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HMSAPI.Model.GenericModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HMSAPI.Model.TblBill
 {
-    public class TblBillModel
+    public class TblBillModel : SecurityModel
     {
         [Key]
         public int BillId { get; set; }

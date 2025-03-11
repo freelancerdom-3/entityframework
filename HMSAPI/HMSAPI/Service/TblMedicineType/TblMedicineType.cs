@@ -28,6 +28,7 @@ namespace HMSAPI.Service.TblMedicineType
 
                     if (!duplicateName)
                     {
+                        medicineModel.VersionNo = 1;
                         _ =await connection.TblMedicineTypes.AddAsync(medicineModel);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -149,7 +150,10 @@ namespace HMSAPI.Service.TblMedicineType
                         .Where(X => X.MedicineTypeID == model.MedicineTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        data.UpdateOn = model.UpdateOn;
+                        data.UpdateBy = model.UpdateBy;
                         data.TypeName = model.TypeName;
+                        data.IncreamentVersion();
                         connection.Update(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
