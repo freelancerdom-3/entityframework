@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 
 
 namespace HMSAPI.Model.TblShift
 {
-    public class TblShiftModel
+    public class TblShiftModel : SecurityModel
     {
 
 

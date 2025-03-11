@@ -32,7 +32,7 @@ namespace HMSAPI.Service.TblShift
 
                     if (!DuplicateShift)
                     {
-
+                        Shift.VersionNo = 1;
                         connection.TblShifts.Add(Shift);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -182,6 +182,7 @@ namespace HMSAPI.Service.TblShift
                     if (data != null)
                     {
                         data.Shiftname = "Mornig Night";
+                        data.IncreamentVersion();
                         connection.TblShifts.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

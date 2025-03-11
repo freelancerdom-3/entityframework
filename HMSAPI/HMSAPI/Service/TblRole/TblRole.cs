@@ -26,6 +26,7 @@ namespace HMSAPI.Service.TblRole
                     bool duplicateRoleName = connection.TblRoles.Any(x => x.RoleName.ToLower() == roleModel.RoleName.ToLower());
                     if (!duplicateRoleName)
                     {
+                        roleModel.VersionNo = 1;
                         _ = connection.TblRoles.Add(roleModel);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -160,6 +161,10 @@ namespace HMSAPI.Service.TblRole
                     if (data != null)
                     {
                         data.RoleName = "vishal";
+                        data.UpdateBy = data.UpdateBy;
+                        data.UpdateOn = data.UpdateOn;
+                        data.IsActive = data.IsActive;
+                        data.IncreamentVersion();
                         connection.TblRoles.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

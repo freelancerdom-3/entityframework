@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.GenericModel;
 
 namespace HMSAPI.Model.RoomTypeModel
 {
-    public class TblRoomTypeModel
+    public class TblRoomTypeModel : SecurityModel
     {
         [Key]
         public int RoomTypeId { get; set; }

@@ -29,7 +29,8 @@ namespace HMSAPI.Service.TblRoomLocations
 
                         if (Data != null)
                         {
-                            connection.TblRoomLocations.Update(Data);
+                            Data.IncreamentVersion();
+;                           connection.TblRoomLocations.Update(Data);
                             connection.SaveChanges();
                             responseModel.StatusCode = HttpStatusCode.OK;
                             responseModel.Message = "Update Dieases Successfully:";
@@ -170,6 +171,7 @@ namespace HMSAPI.Service.TblRoomLocations
                             .Any(x => x.Floornumber == tblRoomLocation.Floornumber);
                         if (!DuplicateRoomLocation)
                         {
+                             tblRoomLocation.VersionNo = 1;
                             _ = await connection.TblRoomLocations.AddAsync(tblRoomLocation);
                             connection.SaveChanges();
                             responseModel.Data = true;

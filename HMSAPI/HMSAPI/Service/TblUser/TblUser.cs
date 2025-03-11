@@ -175,6 +175,7 @@ namespace HMSAPI.Service.TblUser
 
                     if (!duplicateEmail)
                     {
+                        model.VersionNo = 1;
                         _ = await connection.TblUsers.AddAsync(model);
                         connection.SaveChanges();
 
@@ -223,6 +224,10 @@ namespace HMSAPI.Service.TblUser
                         data.Email = model.Email;
                         data.Password = model.Password;
                         data.FullName = model.FullName;
+                        data.UpdateBy = model.UpdateBy;
+                        data.UpdateOn = model.UpdateOn;
+                        data.IsActive = model.IsActive;
+                        data.IncreamentVersion();
                         connection.TblUsers.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

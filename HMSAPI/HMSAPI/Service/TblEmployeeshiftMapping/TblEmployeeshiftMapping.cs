@@ -32,29 +32,21 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     }
                     else
                     {
-                        var existShiftData = connection.TblEmployeeshifts
-     .Where(x =>
-         x.ShiftId == objModel.ShiftId &&
-         x.UserId == objModel.UserId &&
-        // x.EmployeeshiftMappingStartingDate.HasValue &&
-         //x.EmployeeshiftMappingEndingData.HasValue &&
-        // objModel.EmployeeshiftMappingStartingDate.HasValue &&
-         //objModel.EmployeeshiftMappingEndingData.HasValue &&
-         (
-             x.EmployeeshiftMappingStartingDate.Value.Date <= objModel.EmployeeshiftMappingEndingData.Value.Date &&
-             x.EmployeeshiftMappingEndingData.Value.Date >= objModel.EmployeeshiftMappingStartingDate.Value.Date
-         )
-     ).FirstOrDefault();
-
+                        var existShiftData = connection.TblEmployeeshifts.Where(x => x.ShiftId == objModel.ShiftId && (
+                             x.EmployeeshiftMappingStartingDate.Value.Date <= objModel.EmployeeshiftMappingEndingData.Value.Date &&
+                             x.EmployeeshiftMappingEndingData.Value.Date >= objModel.EmployeeshiftMappingStartingDate.Value.Date)).FirstOrDefault();
 
                         if (existShiftData != null)
                         {
+
                             responseModel.StatusCode = HttpStatusCode.BadRequest;
                             responseModel.Message = "Data Already Exist";
                             responseModel.Data = false;
                         }
                         else
                         {
+
+                            objModel.VersionNo = 1;
                             _ = await connection.TblEmployeeshifts.AddAsync(objModel);
 
                             connection.SaveChanges();
@@ -233,7 +225,10 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                         data.EmployeeshiftMappingEndingData = employeeshiftmapping.EmployeeshiftMappingEndingData;
                         data.UserId = employeeshiftmapping.UserId;
                         data.ShiftId = employeeshiftmapping.ShiftId;
-
+                        data.UpdateBy = data.UpdateBy;
+                        data.UpdateOn  = data.UpdateOn;
+                        data.IsActive = data.IsActive;
+                        data.IncreamentVersion();
                         // connection.TblRoles.Update(data);
                         connection.TblEmployeeshifts.Update(data);
                         connection.SaveChanges();

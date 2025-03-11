@@ -35,6 +35,7 @@ namespace HMSAPI.Service.TblDiseaseType
                         .Any(x => x.DieseaseName.ToLower() == tblDiseaseType.DieseaseName.ToLower());
                     if (!DuplicateDieases)
                     {
+                        tblDiseaseType.VersionNo = 1;
                         _ = await connection.TblDiseaseType.AddAsync(tblDiseaseType);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -71,6 +72,10 @@ namespace HMSAPI.Service.TblDiseaseType
                     TblDiseaseTypeModel? data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        data.UpdateOn = data.UpdateOn;
+                        data.UpdateBy = data.UpdateBy;
+                        data.IsActive = data.IsActive;
+                        data.IncreamentVersion();
                         connection.TblDiseaseType.Update(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;

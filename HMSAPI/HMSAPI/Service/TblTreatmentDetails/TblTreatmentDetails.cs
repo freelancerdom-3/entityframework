@@ -29,6 +29,7 @@ namespace HMSAPI.Service.TblTreatmentDetails
                     //if (!duplicateUserId)
                     //{
                         //#1
+                        deptModel.VersionNo = 1;
                         
                         _ = await connection.TblTreatmentDetails.AddAsync(deptModel);
                         connection.SaveChanges();
@@ -71,6 +72,10 @@ namespace HMSAPI.Service.TblTreatmentDetails
                         data.DieseaseTypeID = departmentModel.TreatmentDetailsId;
                         data.PatientId = departmentModel.TreatmentDetailsId;
                         data.TreatmentDate=departmentModel.TreatmentDate;
+                        data.UpdateBy = departmentModel.UpdateBy;
+                        data.UpdateOn = departmentModel.UpdateOn;
+                        data.IsActive = departmentModel.IsActive;
+                        data.IncreamentVersion();
                         connection.TblTreatmentDetails.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;

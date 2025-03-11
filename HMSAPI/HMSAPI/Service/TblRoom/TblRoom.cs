@@ -33,6 +33,7 @@ namespace HMSAPI.Service.TblRoom
                             .Any(x => x.RoomNumber == TblRoom.RoomNumber);
                         if (!DuplicateRoom)
                         {
+                             TblRoom.VersionNo = 1;
                             _ = await connection.TblRoom.AddAsync(TblRoom);
                             connection.SaveChanges();
                             responseModel.Data = true;
@@ -69,6 +70,7 @@ namespace HMSAPI.Service.TblRoom
 
                         if (Data != null)
                         {
+                            Data.IncreamentVersion();
                             connection.TblRoom.Update(Data);
                             connection.SaveChanges();
                             responseModel.StatusCode = HttpStatusCode.OK;

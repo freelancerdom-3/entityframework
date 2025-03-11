@@ -30,6 +30,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
 
                     if (!DuplicateRoomTypeFacilityMapping)
                     {
+                        facilitymodel.VersionNo = 1;
                         _ = await connection.TblRoomTypeFacilityMapping.AddAsync(facilitymodel);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -67,6 +68,10 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                     if (Data != null)
                     {
                         Data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
+                        Data.UpdateBy = Data.UpdateBy;
+                        Data.UpdateOn = Data.UpdateOn;
+                        Data.IsActive = Data.IsActive;
+                        Data.IncreamentVersion();
                         connection.Update(Data);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
