@@ -235,8 +235,8 @@ namespace HMSAPI.Service.TblPatient
                             existingUser.UpdateBy = update.UpdateBy;
                             existingUser.UpdateOn = update.UpdateOn;
                             existingUser.IsActive = update.IsActive;
+                            existingUser.VersionNo += 1;
                         }
-                        update.IncreamentVersion();
                         connection.TblUsers.Update(existingUser);
                         await connection.SaveChangesAsync();
 
@@ -255,12 +255,11 @@ namespace HMSAPI.Service.TblPatient
                                 existingPatient.Emergency_Contact = update.Emergency_Contact;
                                 existingPatient.Medical_History = update.Medical_History;
                                 existingPatient.UserId = update.UserId;
-                                existingUser.UpdateBy = update.UpdateBy;
-                                existingUser.UpdateOn= update.UpdateOn;
-                                existingUser.IsActive = update.IsActive;    
-
+                                existingPatient.UpdateBy = update.UpdateBy;
+                                existingPatient.UpdateOn= update.UpdateOn;
+                                existingPatient.IsActive = update.IsActive;
+                                existingPatient.VersionNo += 1;
                             }
-                            update.IncreamentVersion();
                             connection.TblPatients.Update(existingPatient);
                             await connection.SaveChangesAsync();
                         }
