@@ -1,6 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeshiftMapping;
+using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.TblRole;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -118,7 +119,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
         {
             APIResponseModel responseModel = new APIResponseModel();
 
-            List<TblEmployeeshiftMappingModel> lstEmployeeshiftMapping = new();
+            List<GetTblEmployeeshiftMappingViewModel> lstEmployeeshiftMapping = new();
 
 
 
@@ -127,17 +128,9 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                 using (var connection = _hsmDbContext)
                 {
 
-                    if (!string.IsNullOrEmpty(searchBy) && DateTime.TryParse(searchBy, out DateTime endDate))
-                    {
-                        lstEmployeeshiftMapping = await connection.TblEmployeeshifts
-                            .Where(x => x.EmployeeshiftMappingEndingData == endDate)
-                            .ToListAsync();
-                    }
-                    else
-                    {
-
-                        lstEmployeeshiftMapping = await connection.TblEmployeeshifts.ToListAsync();
-                    }
+                   lstEmployeeshiftMapping = await connection.getTblEmployeeshiftMappingViewModel.FromSqlRaw($@"select TblEmployeeshiftMapping.*,TblUser.FullName,TblShift.Shiftname from TblEmployeeshiftMapping 
+inner join TblShift on TblShift.ShiftId=TblEmployeeshiftMapping.ShiftId
+inner join TblUser on TblUser.UserId=TblEmployeeshiftMapping.UserId where FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstEmployeeshiftMapping;
                     responseModel.StatusCode = HttpStatusCode.OK;

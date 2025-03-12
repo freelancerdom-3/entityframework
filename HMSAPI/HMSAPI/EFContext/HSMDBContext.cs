@@ -37,6 +37,7 @@ using HMSAPI.Model.TblRoomTypeFacilityMapping;
 using HMSAPI.Model.TblRoom.View_Model;
 using HMSAPI.Model.TblRoomLocation.View_Model;
 using HMSAPI.Model.TblFeedback.ViewModel;
+using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.GenericModel;
 
 
@@ -185,6 +186,8 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblRoomLocationModel> GetTblRoomLocationModel { get; set; }   
 
         public DbSet<GetTblFeedbackViewModel> GetTblFeedbackViewModel { get; set; }
+
+        public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel {  get; set; }
     }
 }
 
