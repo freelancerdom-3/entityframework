@@ -184,7 +184,7 @@ namespace HMSAPI.Service.TblUser
                 using (var connection = _hsmDbContext)
                 {
                     bool duplicateEmail = connection.TblUsers
-                        .Any(x => x.Email.ToLower() == model.Email.ToLower());
+                        .Any(x => x.Email.ToLower() == model.Email.ToLower() && x.MobileNumber == model.MobileNumber);
 
                     if (!duplicateEmail)
                     {
@@ -212,8 +212,6 @@ namespace HMSAPI.Service.TblUser
             }
             return responseModel;
         }
-
-
 
 
 

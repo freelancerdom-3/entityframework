@@ -22,28 +22,40 @@ namespace HMSAPI.Service.TblMedicineDetails
             {
                 using (var connection = _hsmDbContext)
                 {
-                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(X => X.TreatmentDetailsId == model.TreatmentDetailsId 
-                   && X.MedicineTypeID == model.MedicineTypeID && X.IssueDateTime == model.IssueDateTime);
-
-                    if (!DuplicateTreatmentID)
+                    connection.Database.BeginTransaction();
+                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(x => x.TreatmentDetailsId == model.TreatmentDetailsId 
+                     && x.IssueDateTime >= model.IssueDateTime.AddSeconds(-10) &&
+                        x.IssueDateTime <= model.IssueDateTime.AddSeconds(10));
+                    try
                     {
-                        model.VersionNo = 1;
-                        _ = await connection.TblMedicineDetails.AddAsync(model);
-                        connection.SaveChanges();
-                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
-                        responseModel.Data = true;
-                        responseModel.Message = "Record Inserted Sucessfully";
+                        if (!DuplicateTreatmentID)
+                        {
+                            model.VersionNo = 1;
+                            _ = await connection.TblMedicineDetails.AddAsync(model);
+                            connection.SaveChanges();
+                            connection.Database.CommitTransaction();
+                            responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                            responseModel.Data = true;
+                            responseModel.Message = "Record Inserted Sucessfully";
+                        }
+                        else
+                        {
+                            connection.Database.RollbackTransaction();
+                            responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                            responseModel.Message = "You Enter data is Duplicate";
+                            responseModel.Data = false;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
-                        responseModel.Message = "You Enter data is Duplicate";
-                        responseModel.Data = false;
+                        connection.Database.RollbackTransaction();
+                        throw;
                     }
                 }
             }
             catch (Exception ex)
             {
+
                 responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
                 responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;

@@ -233,7 +233,7 @@ namespace HMSAPI.Service.TblPatient
                             existingUser.FullName = update.FullName;
                             existingUser.RoleId = update.RoleId;
                             existingUser.UpdateBy = update.UpdateBy;
-                            existingUser.UpdateOn = update.UpdateOn;
+                            existingUser.UpdateOn= update.UpdateOn;
                             existingUser.IsActive = update.IsActive;
                             existingUser.VersionNo += 1;
                         }
@@ -256,7 +256,7 @@ namespace HMSAPI.Service.TblPatient
                                 existingPatient.Medical_History = update.Medical_History;
                                 existingPatient.UserId = update.UserId;
                                 existingPatient.UpdateBy = update.UpdateBy;
-                                existingPatient.UpdateOn= update.UpdateOn;
+                                existingPatient.UpdateOn = update.UpdateOn;
                                 existingPatient.IsActive = update.IsActive;
                                 existingPatient.VersionNo += 1;
                             }
@@ -291,4 +291,5 @@ namespace HMSAPI.Service.TblPatient
 
     }
 }
+
 

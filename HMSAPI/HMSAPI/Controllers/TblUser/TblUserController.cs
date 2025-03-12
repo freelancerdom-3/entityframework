@@ -20,7 +20,7 @@ namespace HMSAPI.Controllers.TblUser
 
 
         [HttpGet("[action]")]
-        [HttpGet("AuthenticateUser")]
+        
         public async Task<APIResponseModel> ValidateCredential(string email, string password)
         {
             return await _serviceTblUser.ValidateCredential(email, password);
