@@ -28,6 +28,10 @@ using HMSAPI.Service.GetDropDownList;
 using HMSAPI.Service.TblRoom;
 using HMSAPI.Service.RoomType;
 using HMSAPI.Service.TblRoomType;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,8 +52,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//JWT Authentication
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
+{
+     options.TokenValidationParameters = new TokenValidationParameters
+     {
+     ValidateIssuer = true,
+     ValidateAudience = true,
+     ValidateLifetime = true,
+     ValidateIssuerSigningKey = true,
+     ValidIssuer = builder.Configuration["Jwt:Issuer"],
+     ValidAudience = builder.Configuration["Jwt:Audience"],
+     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+     };
+});
+builder.Services.AddAuthentication();
+
+
 
 // Custom services
+//builder.Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+//builder.Services.AddScoped<ITokenData, TokenData>();
+
 builder.Services.AddScoped<ITblUser, TblUser>();
 builder.Services.AddScoped<ITblHospitalDepartment, TblHospitalDepartment>();
 builder.Services.AddScoped<ITblRole, TblRole>();
@@ -84,6 +109,32 @@ builder.Services.AddScoped<ITblRoomType, TblRoomType>();
 
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -94,8 +145,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

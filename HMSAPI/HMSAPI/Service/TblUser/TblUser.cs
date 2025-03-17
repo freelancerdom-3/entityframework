@@ -6,9 +6,13 @@ using HMSAPI.Model.TblPatient.ViewModel;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -17,9 +21,17 @@ namespace HMSAPI.Service.TblUser
     public class TblUser : ITblUser
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblUser(HSMDBContext hSMDBContext)
+        
+        //private readonly HttpContextAccessor _contextAccessor;
+
+
+        public TblUser(HSMDBContext hSMDBContext)//, HttpContextAccessor contextAccessor)
         {
             _hsmDbContext = hSMDBContext;
+            
+            //_contextAccessor = contextAccessor;
+
+
         }
 
         public async Task<APIResponseModel> ForgetPassword(string email)
@@ -145,15 +157,16 @@ namespace HMSAPI.Service.TblUser
 
                 using (var connection = _hsmDbContext)
                 {
-                    bool duplicateEmail = connection.TblUsers
-                        .Any(x => x.Email.ToLower() == email.ToLower() && x.Password == password);
+                    TblUserModel? duplicateEmail = connection.TblUsers
+                        .Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
 
-                    if (duplicateEmail)
+                    //var token = GenerateJSONWebToken(duplicateEmail);
+                    if (duplicateEmail != null)
                     {
+                        var token = GenerateJSONWebToken(duplicateEmail);
 
 
-
-                        responseModel.Data = true;
+                        responseModel.Data = token;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Login Successfully";
                     }
@@ -213,8 +226,6 @@ namespace HMSAPI.Service.TblUser
             return responseModel;
         }
 
-
-
         public async Task<APIResponseModel> Update(TblUserModel model)
         {
             APIResponseModel responseModel = new();
@@ -222,6 +233,23 @@ namespace HMSAPI.Service.TblUser
             {
                 using (var connection = _hsmDbContext)
                 {
+
+                    //var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                    // .FirstOrDefault(c => c.Type == "UserId");
+
+                     
+
+                    //if (userIdClaim == null)
+                    //{
+                    //    responseModel.StatusCode = HttpStatusCode.Unauthorized;
+                    //    responseModel.Message = "Unauthorized: Token is missing UserId claim";
+                    //    responseModel.Data = null;
+                    //    return responseModel;
+                    //}
+
+                    //model.UpdateBy = int.Parse(userIdClaim.Value); // Assigning UserId from JWT token
+
+
                     bool duplicateEmail = connection.TblUsers.Any(x => x.Email == model.Email.ToLower());
                     bool duplicateMobile = connection.TblUsers.Any(x => x.MobileNumber == model.MobileNumber);
                     TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == model.UserId).FirstOrDefaultAsync();
@@ -297,6 +325,33 @@ namespace HMSAPI.Service.TblUser
             return responseModel;
         }
 
-        
+
+        private string GenerateJSONWebToken(TblUserModel user)
+        {
+            var configdata = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false)
+                .Build();
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configdata["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.FullName),
+                new Claim("UserId", user.UserId.ToString())
+            };
+
+            var token = new JwtSecurityToken(configdata["Jwt:Issuer"],
+             //configdata["Jwt:Issuer"],
+             configdata["Jwt:Audience"],
+             //configdata["Jwt:Audience"],
+             claims,
+             expires: DateTime.Now.AddMinutes(120),
+             signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
     }
 }
