@@ -5,5 +5,10 @@
         public long UserID { get; }
 
         public long RoleId {  get; }
+
+
+
+
+
     }
 }
