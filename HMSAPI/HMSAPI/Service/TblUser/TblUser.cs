@@ -5,6 +5,7 @@ using HMSAPI.Model.TblPatient;
 using HMSAPI.Model.TblPatient.ViewModel;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Model.TblUser.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
@@ -22,17 +23,21 @@ namespace HMSAPI.Service.TblUser
     {
         private readonly HSMDBContext _hsmDbContext;
         
-        //private readonly HttpContextAccessor _contextAccessor;
+        private readonly HttpContextAccessor _contextAccessor;
+
+        private readonly ITokenData _tokenData;
 
 
-        public TblUser(HSMDBContext hSMDBContext)//, HttpContextAccessor contextAccessor)
+        
+
+        public TblUser(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
             
-            //_contextAccessor = contextAccessor;
-
-
         }
+    
+        
 
         public async Task<APIResponseModel> ForgetPassword(string email)
         {
@@ -199,22 +204,34 @@ namespace HMSAPI.Service.TblUser
                     bool duplicateEmail = connection.TblUsers
                         .Any(x => x.Email.ToLower() == model.Email.ToLower() && x.MobileNumber == model.MobileNumber);
 
-                    if (!duplicateEmail)
+                    if (Convert.ToInt32(_tokenData.RoleId) == 3) 
                     {
-                        model.VersionNo = 1;
-                        _ = await connection.TblUsers.AddAsync(model);
-                        connection.SaveChanges();
+                        if (!duplicateEmail)
+                        {
+                            model.VersionNo = 1;
+                            model.CreateBy = Convert.ToInt32(_tokenData.UserID);
+                            _ = await connection.TblUsers.AddAsync(model);
 
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Inserted Successfully";
+                            connection.SaveChanges();
+
+                            responseModel.Data = true;
+                            responseModel.StatusCode = HttpStatusCode.OK;
+                            responseModel.Message = "Inserted Successfully";
+                        }
+                        else
+                        {
+                            responseModel.StatusCode = HttpStatusCode.BadRequest;
+                            responseModel.Message = "Duplicate User Found";
+                            responseModel.Data = false;
+                        }
                     }
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Duplicate User Found";
-                        responseModel.Data = false;
+                        responseModel.Message = "dont have p";
                     }
+
+                   
                 }
             }
             catch (Exception ex)
@@ -228,57 +245,64 @@ namespace HMSAPI.Service.TblUser
 
         public async Task<APIResponseModel> Update(TblUserModel model)
         {
+           
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
 
-                    //var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
-                    // .FirstOrDefault(c => c.Type == "UserId");
-
-                     
-
-                    //if (userIdClaim == null)
-                    //{
-                    //    responseModel.StatusCode = HttpStatusCode.Unauthorized;
-                    //    responseModel.Message = "Unauthorized: Token is missing UserId claim";
-                    //    responseModel.Data = null;
-                    //    return responseModel;
-                    //}
-
-                    //model.UpdateBy = int.Parse(userIdClaim.Value); // Assigning UserId from JWT token
-
-
                     bool duplicateEmail = connection.TblUsers.Any(x => x.Email == model.Email.ToLower());
                     bool duplicateMobile = connection.TblUsers.Any(x => x.MobileNumber == model.MobileNumber);
                     TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == model.UserId).FirstOrDefaultAsync();
                     //TblUserModel? data = await connection.TblUsers.Where(x => x.Email != model.Email && x.MobileNumber != model.MobileNumber).FirstOrDefaultAsync();
+                   
+                   //var vishal =Convert.ToInt32(_tokenData.RoleId);
 
-                    if (data != null && !duplicateEmail && !duplicateMobile)
-
+                    
+                    if (Convert.ToInt32(_tokenData.RoleId)==1) 
                     {
-                        data.RoleId = model.RoleId;
-                        data.MobileNumber = model.MobileNumber;
-                        data.Email = model.Email;
-                        data.Password = model.Password;
-                        data.FullName = model.FullName;
-                        data.UpdateBy = model.UpdateBy;
-                        data.UpdateOn = model.UpdateOn;
-                        data.IsActive = model.IsActive;
-                        data.IncreamentVersion();
-                        connection.TblUsers.Update(data);
-                        connection.SaveChanges();
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Update Successfully";
+                        if (data != null && !duplicateEmail && !duplicateMobile)
+
+                        {
+                            model.UpdateBy = Convert.ToInt32(_tokenData.UserID);
+
+                            data.RoleId = model.RoleId;
+                            data.MobileNumber = model.MobileNumber;
+                            data.Email = model.Email;
+                            data.Password = model.Password;
+                            data.FullName = model.FullName;
+                            data.UpdateBy = model.UpdateBy;
+                            data.UpdateOn = model.UpdateOn;
+                            data.IsActive = model.IsActive;
+                           
+                            data.IncreamentVersion();
+                            connection.TblUsers.Update(data);
+                            
+
+                            connection.SaveChanges();
+                            responseModel.Data = true;
+                            responseModel.StatusCode = HttpStatusCode.OK;
+                            responseModel.Message = "Update Successfully";
+                        }
+                        else
+                        {
+                            responseModel.StatusCode = HttpStatusCode.BadRequest;
+                            responseModel.Message = "Duplicate  Found";
+                            responseModel.Data = false;
+                        }
                     }
+
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Duplicate  Found";
-                        responseModel.Data = false;
+                        responseModel.Message = "You Don't have Permission";
+                       
+
                     }
+
+
+                    
                 }
             }
             catch (Exception ex)
@@ -339,7 +363,8 @@ namespace HMSAPI.Service.TblUser
                 
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.FullName),
-                new Claim("UserId", user.UserId.ToString())
+                new Claim("UserId", user.UserId.ToString()),
+                new Claim("Roleid",user.RoleId.ToString())
             };
 
             var token = new JwtSecurityToken(configdata["Jwt:Issuer"],

@@ -1,6 +1,7 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Service.TblRole;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace HMSAPI.Controllers.TblRole
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblRoleController : ControllerBase
     {
         private readonly ITblRole _serviceTblRole;

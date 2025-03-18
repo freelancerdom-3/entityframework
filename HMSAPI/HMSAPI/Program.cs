@@ -31,7 +31,8 @@ using HMSAPI.Service.TblRoomType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using HMSAPI.Service.TokenDate;
+using HMSAPI.Service.TokenData;
+//using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,11 @@ builder.Services.AddAuthentication();
 // Custom services
 //builder.Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 //builder.Services.AddScoped<ITokenData, TokenData>();
+
+builder.Services.AddSingleton<ITokenData,TokenData>();
+builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
+
+
 
 builder.Services.AddScoped<ITblUser, TblUser>();
 builder.Services.AddScoped<ITblHospitalDepartment, TblHospitalDepartment>();

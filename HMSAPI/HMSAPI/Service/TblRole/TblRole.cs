@@ -1,6 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRole;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -10,9 +11,11 @@ namespace HMSAPI.Service.TblRole
         
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblRole(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+        public TblRole(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
         }
         public async Task<APIResponseModel> Add(TblRoleModel roleModel)
         {
@@ -27,6 +30,7 @@ namespace HMSAPI.Service.TblRole
                     if (!duplicateRoleName)
                     {
                         roleModel.VersionNo = 1;
+                        roleModel.CreateBy = Convert.ToInt32(_tokenData.UserID);
                         _ = connection.TblRoles.Add(roleModel);
                         connection.SaveChanges();
                         responseModel.Data = true;
