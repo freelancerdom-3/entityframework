@@ -3,6 +3,7 @@ using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblPatient.ViewModel;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace HMSAPI.Controllers.TblUser
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblUserController : ControllerBase
     {
         private readonly ITblUser _serviceTblUser;
@@ -20,6 +22,7 @@ namespace HMSAPI.Controllers.TblUser
 
 
         [HttpGet("[action]")]
+        [AllowAnonymous]
         
         public async Task<APIResponseModel> ValidateCredential(string email, string password)
         {
@@ -29,6 +32,7 @@ namespace HMSAPI.Controllers.TblUser
 
 
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             return await _serviceTblUser.GetAll(searchBy);

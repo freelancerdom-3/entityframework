@@ -1,18 +1,24 @@
 ﻿using HMSAPI.EFContext;
+using HMSAPI.Model.Enums;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
+using HMSAPI.Model.TblMenuRoleMapping;
 using HMSAPI.Model.TblPatient;
 using HMSAPI.Model.TblPatient.ViewModel;
+using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblUser;
 using HMSAPI.Model.TblUser.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using static HMSAPI.Model.Enums.Enums;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -22,17 +28,27 @@ namespace HMSAPI.Service.TblUser
     {
         private readonly HSMDBContext _hsmDbContext;
         
-        //private readonly HttpContextAccessor _contextAccessor;
+        private readonly HttpContextAccessor _contextAccessor;
+
+        private readonly ITokenData _tokenData;
 
 
-        public TblUser(HSMDBContext hSMDBContext)//, HttpContextAccessor contextAccessor)
+        public TblUser(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
             
-            //_contextAccessor = contextAccessor;
-
-
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
+
+
+        
+
+      
+
+        //  private string RoleName => Convert.ToString(_tokenData.RoleName);
 
         public async Task<APIResponseModel> ForgetPassword(string email)
         {
@@ -118,7 +134,7 @@ namespace HMSAPI.Service.TblUser
 
                     bool duplicateEmail = connection.TblUsers
                         .Any(x => x.Email.ToLower() == userModel.Email.ToLower());
-
+                    
 
                     if (!duplicateEmail)
                     {
@@ -160,10 +176,11 @@ namespace HMSAPI.Service.TblUser
                     TblUserModel? duplicateEmail = connection.TblUsers
                         .Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
 
-                    //var token = GenerateJSONWebToken(duplicateEmail);
+                  List<TblMenuRoleMapping>  _lstRoleMenumapping = connection.TblMenuRoleMapping.ToList(); //48
+
                     if (duplicateEmail != null)
                     {
-                        var token = GenerateJSONWebToken(duplicateEmail);
+                        var token = GenerateJSONWebToken(duplicateEmail, _lstRoleMenumapping);
 
 
                         responseModel.Data = token;
@@ -187,8 +204,8 @@ namespace HMSAPI.Service.TblUser
             }
             return responseModel;
         }
-    
 
+     
         public async Task<APIResponseModel> Add(TblUserModel model)
         {
             APIResponseModel responseModel = new();
@@ -199,22 +216,36 @@ namespace HMSAPI.Service.TblUser
                     bool duplicateEmail = connection.TblUsers
                         .Any(x => x.Email.ToLower() == model.Email.ToLower() && x.MobileNumber == model.MobileNumber);
 
-                    if (!duplicateEmail)
-                    {
-                        model.VersionNo = 1;
-                        _ = await connection.TblUsers.AddAsync(model);
-                        connection.SaveChanges();
+                  //  if (_tokenData.IsPermission() = true) { }
 
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Inserted Successfully";
+                    if (RoleId == 3) 
+                    {
+                        if (!duplicateEmail)
+                        {
+                            model.VersionNo = 1;
+                            model.CreateBy = UserId;
+                            _ = await connection.TblUsers.AddAsync(model);
+
+                            connection.SaveChanges();
+
+                            responseModel.Data = true;
+                            responseModel.StatusCode = HttpStatusCode.OK;
+                            responseModel.Message = "Inserted Successfully";
+                        }
+                        else
+                        {
+                            responseModel.StatusCode = HttpStatusCode.BadRequest;
+                            responseModel.Message = "Duplicate User Found";
+                            responseModel.Data = false;
+                        }
                     }
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Duplicate User Found";
-                        responseModel.Data = false;
+                        responseModel.Message = "dont have p";
                     }
+
+                   
                 }
             }
             catch (Exception ex)
@@ -229,63 +260,65 @@ namespace HMSAPI.Service.TblUser
         public async Task<APIResponseModel> Update(TblUserModel model)
         {
             APIResponseModel responseModel = new();
-            try
+          //  if(true)
+            if(_tokenData.IsPermission(Enums.Menus.Users, PermissionType.IsEdit)) //(_tokenData.IsPermission((int)Enums.Menus.Users, "IsEdit")) //Enums.Users , ISAdd
             {
-                using (var connection = _hsmDbContext)
+                try
                 {
-
-                    //var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
-                    // .FirstOrDefault(c => c.Type == "UserId");
-
-                     
-
-                    //if (userIdClaim == null)
-                    //{
-                    //    responseModel.StatusCode = HttpStatusCode.Unauthorized;
-                    //    responseModel.Message = "Unauthorized: Token is missing UserId claim";
-                    //    responseModel.Data = null;
-                    //    return responseModel;
-                    //}
-
-                    //model.UpdateBy = int.Parse(userIdClaim.Value); // Assigning UserId from JWT token
-
-
-                    bool duplicateEmail = connection.TblUsers.Any(x => x.Email == model.Email.ToLower());
-                    bool duplicateMobile = connection.TblUsers.Any(x => x.MobileNumber == model.MobileNumber);
-                    TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == model.UserId).FirstOrDefaultAsync();
-                    //TblUserModel? data = await connection.TblUsers.Where(x => x.Email != model.Email && x.MobileNumber != model.MobileNumber).FirstOrDefaultAsync();
-
-                    if (data != null && !duplicateEmail && !duplicateMobile)
-
+                    using (var connection = _hsmDbContext)
                     {
-                        data.RoleId = model.RoleId;
-                        data.MobileNumber = model.MobileNumber;
-                        data.Email = model.Email;
-                        data.Password = model.Password;
-                        data.FullName = model.FullName;
-                        data.UpdateBy = model.UpdateBy;
-                        data.UpdateOn = model.UpdateOn;
-                        data.IsActive = model.IsActive;
-                        data.IncreamentVersion();
-                        connection.TblUsers.Update(data);
-                        connection.SaveChanges();
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Update Successfully";
+                        bool duplicateEmail = connection.TblUsers.Any(x => x.Email == model.Email.ToLower());
+                        bool duplicateMobile = connection.TblUsers.Any(x => x.MobileNumber == model.MobileNumber);
+                        TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == model.UserId).FirstOrDefaultAsync();
+                            if (data != null && !duplicateEmail && !duplicateMobile)
+
+                            {
+                            model.UpdateBy = UserId;
+                                //  model.UpdateBy=_tokenData.UserID
+
+                                data.RoleId = model.RoleId;
+                                data.MobileNumber = model.MobileNumber;
+                                data.Email = model.Email;
+                                data.Password = model.Password;
+                                data.FullName = model.FullName;
+                                data.UpdateBy = model.UpdateBy;
+                                data.UpdateOn = model.UpdateOn;
+                                data.IsActive = model.IsActive;
+
+                                data.IncreamentVersion();
+                                connection.TblUsers.Update(data);
+
+
+                                connection.SaveChanges();
+                                responseModel.Data = true;
+                                responseModel.StatusCode = HttpStatusCode.OK;
+                                responseModel.Message = "Update Successfully";
+                            }
+                            else
+                            {
+                                responseModel.StatusCode = HttpStatusCode.BadRequest;
+                                responseModel.Message = "Duplicate  Found";
+                                responseModel.Data = false;
+                            }
+                        
+
+                       
+
+
+
                     }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Duplicate  Found";
-                        responseModel.Data = false;
-                    }
+
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                    responseModel.Message = ex.InnerException.Message;
+                    responseModel.Data = null;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+                responseModel.Message = "Permission Denied";
             }
             return responseModel;
         }
@@ -326,7 +359,7 @@ namespace HMSAPI.Service.TblUser
         }
 
 
-        private string GenerateJSONWebToken(TblUserModel user)
+        private string GenerateJSONWebToken(TblUserModel user, List<TblMenuRoleMapping> tblMenuRoles)//,TblRoleModel role)
         {
             var configdata = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
@@ -337,17 +370,23 @@ namespace HMSAPI.Service.TblUser
             var claims = new[]
             {
                 
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.FullName),
-                new Claim("UserId", user.UserId.ToString())
+               // new Claim(JwtRegisteredClaimNames.Email, user.Email),//abc@gmail.com >> YWJjQGdtYWlsLmNvbQ==
+                new Claim(JwtRegisteredClaimNames.Email,Convert.ToBase64String(Encoding.UTF8.GetBytes(user.Email))),
+                //new Claim(JwtRegisteredClaimNames.Sub, Convert.ToBase64String(Encoding.UTF8.GetBytes( user.FullName))),
+                new Claim(JwtRegisteredClaimNames.Sub,user.FullName),
+                new Claim("UserId",Convert.ToBase64String(Encoding.UTF8.GetBytes(user.UserId.ToString()))),
+                new Claim("Roleid",Convert.ToBase64String(Encoding.UTF8.GetBytes(user.RoleId.ToString()))),
+              //new Claim("UserId",user.UserId.ToString()),
+                //new Claim("Roleid",user.RoleId.ToString()),
+                //new Claim("Permission",Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tblMenuRoles)))),
+                new Claim("Permission",JsonConvert.SerializeObject(tblMenuRoles)),
+
             };
 
             var token = new JwtSecurityToken(configdata["Jwt:Issuer"],
-             //configdata["Jwt:Issuer"],
              configdata["Jwt:Audience"],
-             //configdata["Jwt:Audience"],
              claims,
-             expires: DateTime.Now.AddMinutes(120),
+             expires: DateTime.Now.AddMinutes(320),
              signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -355,3 +394,9 @@ namespace HMSAPI.Service.TblUser
 
     }
 }
+
+
+
+
+
+

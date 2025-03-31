@@ -31,7 +31,8 @@ using HMSAPI.Service.TblRoomType;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using HMSAPI.Service.TokenDate;
+using HMSAPI.Service.TokenData;
+//using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,20 @@ var configdata = new ConfigurationBuilder()
                 .Build();
 string? DFConnection = configdata.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<HSMDBContext>(options => options.UseSqlServer("DFConnection"));
+
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                                .AllowAnyMethod() // Allows POST, GET, PUT, DELETE, etc.
+                                .AllowAnyHeader() // Allows Content-Type, Authorization, etc.
+                                .AllowCredentials(); // If cookies or authentication tokens are needed
+                      });
+});
 
 
 builder.Services.AddControllers();
@@ -75,6 +90,8 @@ builder.Services.AddAuthentication();
 //builder.Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 //builder.Services.AddScoped<ITokenData, TokenData>();
 
+builder.Services.AddSingleton<ITokenData, TokenData>();
+builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 builder.Services.AddScoped<ITblUser, TblUser>();
 builder.Services.AddScoped<ITblHospitalDepartment, TblHospitalDepartment>();
 builder.Services.AddScoped<ITblRole, TblRole>();
@@ -95,10 +112,6 @@ builder.Services.AddScoped<ITblRoomTypeFacilityMapping, TblRoomTypeFacilityMappi
 builder.Services.AddScoped<ITblFacility, TblFacility>();
 builder.Services.AddScoped<ITblFacilityTypes, TblFacilityTypes>();
 builder.Services.AddScoped<ITblBill, TblBill>();
-
-
-
-
 builder.Services.AddScoped<ITblPatientAdmitionDetails, TblPatientAdmitionDetails>();
 builder.Services.AddScoped<ITblFeedback, TblFeedback>();
 builder.Services.AddScoped<ITblFacilityTypes, TblFacilityTypes>();
@@ -144,6 +157,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 //app.UseAuthentication();
 //app.UseAuthorization();
@@ -155,3 +169,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
+
+

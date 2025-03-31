@@ -14,31 +14,34 @@
             Setting = 2,
             Patients = 3,
             Admin = 4,
-            Users = 5,
-            HospitalType = 6,
-            HospitalDepartment = 7,
-            Role = 8,
-            Shift = 9,
-            DiseaseType = 10,
-            MedicineType = 11,
-            RoomType = 12,
-            FacilityType = 13,
-            Employeeshift = 14,
-            Room = 15,
-            RoomLocations = 16,
-            RoomFacility = 17,
-            EmployeeDepartment = 18,
-            PatientData = 19,
-            TreatmentDetails = 20,
-            MedicineDetails = 21,
-            AdmissionDetails = 22,
-            Billing = 23
+            Users = 6,
+            HospitalType = 7,
+            HospitalDepartment = 8,
+            Role = 9,
+            Shift = 10,
+            DiseaseType = 11,
+            MedicineType = 12,
+            RoomType = 13,
+            FacilityType = 14,
+            Employeeshift = 15,
+            Room = 16,
+            RoomLocations = 17,
+            RoomFacility = 18,
+            EmployeeDepartment = 19,
+            PatientData = 20,
+            TreatmentDetails = 21,
+            MedicineDetails = 22,
+            AdmissionDetails = 23,
+            Billing = 24
 
+        }
 
-
-
-
-
+        public enum PermissionType
+        {
+            IsAdd=1,
+            IsDelete=2,
+            IsEdit=3,
+            IsView=4
         }
     }
 }

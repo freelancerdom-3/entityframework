@@ -1,6 +1,7 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Service.TblRole;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace HMSAPI.Controllers.TblRole
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblRoleController : ControllerBase
     {
         private readonly ITblRole _serviceTblRole;
@@ -16,10 +18,6 @@ namespace HMSAPI.Controllers.TblRole
         {
             _serviceTblRole = tblRole;
         }
-
-        
-
-
 
         [HttpPost("[action]")]
 
@@ -50,7 +48,11 @@ namespace HMSAPI.Controllers.TblRole
         [HttpGet("[action]")]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await   (_serviceTblRole.GetAll(searchBy));
+            return await   (_serviceTblRole.GetAll(searchBy));          
+
+
+
+
         }
     }
 }
