@@ -12,10 +12,10 @@ namespace HMSAPI.Service.TblRole
     {
         private readonly HSMDBContext _hsmDbContext;
         private readonly ITokenData _tokenData;
-        public TblRole(HSMDBContext hSMDBContext, ITokenData tokendata)
+        public TblRole(HSMDBContext hSMDBContext)//, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
-            _tokenData = tokendata;
+            //_tokenData = tokendata;
         }
         public async Task<APIResponseModel> Add(TblRoleModel roleModel)
         {
@@ -194,5 +194,7 @@ namespace HMSAPI.Service.TblRole
             return responseModel;
 
         }
+
+
     }
 }

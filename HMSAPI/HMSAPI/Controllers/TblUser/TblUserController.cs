@@ -32,6 +32,7 @@ namespace HMSAPI.Controllers.TblUser
 
 
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             return await _serviceTblUser.GetAll(searchBy);

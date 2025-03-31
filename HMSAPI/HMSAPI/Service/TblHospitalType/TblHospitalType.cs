@@ -1,7 +1,9 @@
 ﻿using HMSAPI.EFContext;
+using HMSAPI.Model.Enums;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Service.TblHospitalType;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -10,12 +12,26 @@ namespace HMSAPI.Service.TblHospitalTyp
 {
     public class TblHospitalType : ITblHospitalType
     {
+        //private readonly HSMDBContext _hsmDbContext;
+
+
+        //public TblHospitalType(HSMDBContext hSMDBContext)
+        //{
+        //    _hsmDbContext = hSMDBContext;
+        //}
+
         private readonly HSMDBContext _hsmDbContext;
 
+       
 
-        public TblHospitalType(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+
+
+        public TblHospitalType(HSMDBContext hSMDBContext)//, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+          //  _tokenData = tokendata;
+
         }
 
         public async Task<APIResponseModel> Add(TblHospitalTypeModel hospitalTypModel)
@@ -169,24 +185,34 @@ namespace HMSAPI.Service.TblHospitalTyp
         public async Task<APIResponseModel>  GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
-            try
+
+           // if (_tokenData.IsPermission((int)Enums.Roles.Patient, "IsView"))
+           if(true)
             {
-                List<TblHospitalTypeModel> lstHospitalType = new();
-                using (var connection = _hsmDbContext)
+                try
                 {
-                    lstHospitalType = string.IsNullOrEmpty(searchBy) ? connection.TblHospitalTypes.ToList() :
-                    connection.TblHospitalTypes.Where(x => x.HospitalType.ToLower() == searchBy.ToLower()).ToList();
-                    responseModel.Data = lstHospitalType;
-                    responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = null;
+                    List<TblHospitalTypeModel> lstHospitalType = new();
+                    using (var connection = _hsmDbContext)
+                    {
+                        lstHospitalType = string.IsNullOrEmpty(searchBy) ? connection.TblHospitalTypes.ToList() :
+                        connection.TblHospitalTypes.Where(x => x.HospitalType.ToLower() == searchBy.ToLower()).ToList();
+                        responseModel.Data = lstHospitalType;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                    responseModel.Message = ex.InnerException.Message;
+                    responseModel.Data = null;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+                responseModel.Message = "you dont have permission";
             }
+               
             return responseModel;
         }
     }

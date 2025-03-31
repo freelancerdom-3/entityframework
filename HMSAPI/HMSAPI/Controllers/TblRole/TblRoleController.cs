@@ -19,10 +19,6 @@ namespace HMSAPI.Controllers.TblRole
             _serviceTblRole = tblRole;
         }
 
-        
-
-
-
         [HttpPost("[action]")]
 
         public async Task<APIResponseModel> Add(TblRoleModel roleModel)
@@ -52,7 +48,11 @@ namespace HMSAPI.Controllers.TblRole
         [HttpGet("[action]")]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await   (_serviceTblRole.GetAll(searchBy));
+            return await   (_serviceTblRole.GetAll(searchBy));          
+
+
+
+
         }
     }
 }

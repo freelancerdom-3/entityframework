@@ -39,6 +39,7 @@ using HMSAPI.Model.TblRoomLocation.View_Model;
 using HMSAPI.Model.TblFeedback.ViewModel;
 using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblMenuRoleMapping;
 
 
 
@@ -70,19 +71,19 @@ namespace HMSAPI.EFContext
         {
             modelBuilder.Entity<TblMedicineTypeModel>().ToTable("TblMedicineType");
             modelBuilder.Entity<TblUserModel>().ToTable("TblUser");
-        
+
             modelBuilder.Entity<TblRoleModel>().ToTable("TblRole");
             modelBuilder.Entity<TblHospitalTypeModel>().ToTable("TblHospitalType");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblDiseaseTypeModel>().ToTable("TblDiseaseType");
-;            base.OnModelCreating(modelBuilder); 
+            ; base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TblHospitalDepartmentModel>().ToTable("TblHospitalDepartment");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblEmployeeDepartmentMappingModel>().ToTable("TblEmployeeDepartmentMapping");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblMedicineDiseaseMappingModel>().ToTable("TblMedicineDiseaseMapping");
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblRoomTypeModel>().ToTable("TblRoomType");
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblRoomModel>().ToTable("TblRoom");
@@ -94,7 +95,8 @@ namespace HMSAPI.EFContext
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TblFeedbackModel>().ToTable("Tblfeedback");
             modelBuilder.Entity<TblBillModel>().ToTable("TblBill");
-            
+            modelBuilder.Entity<TblMenuRoleMapping>().ToTable("TblMenuRoleMapping");
+
 
 
             modelBuilder.Entity<TblEmployeeshiftMappingModel>().ToTable("TblEmployeeshiftMapping");
@@ -112,6 +114,7 @@ namespace HMSAPI.EFContext
 
 
             modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");  //patientAdmitionDaetails
+
         }
 
 
@@ -127,25 +130,25 @@ namespace HMSAPI.EFContext
         public DbSet<TblHospitalDepartmentModel> TblHospitalDepts { get; set; }
         public DbSet<TblShiftModel> TblShifts { get; set; }
 
-        public DbSet <TblEmployeeDepartmentMappingModel> TblEmployeeDepartmentMappings{ get; set; }
+        public DbSet<TblEmployeeDepartmentMappingModel> TblEmployeeDepartmentMappings { get; set; }
 
         public DbSet<TblMedicineDiseaseMappingModel> TblMedicineDiseaseMappings { get; set; }
         public DbSet<GetTblMedicineDiseaseMappingViewModel> GetTblMedicineDiseaseMappingViewModels { get; set; }
 
-        public DbSet <GetTblEmployeeDepartmentmappingViewModel> GetTblEmployeeDepartmentMappingViewModel { get;set; }
+        public DbSet<GetTblEmployeeDepartmentmappingViewModel> GetTblEmployeeDepartmentMappingViewModel { get; set; }
         public DbSet<TblRoomLocationModel> TblRoomLocations { get; set; }
         public DbSet<TblRoomModel> TblRoom { get; set; }
         public DbSet<TblRoomTypeModel> tblRoomTypes { get; set; }
         public DbSet<TblEmployeeshiftMappingModel> TblEmployeeshifts { get; set; }
 
         public DbSet<TblPatientModel> TblPatients { get; set; }
-        public DbSet<TblTreatmentDetailsModel> TblTreatmentDetails { get; set; } 
+        public DbSet<TblTreatmentDetailsModel> TblTreatmentDetails { get; set; }
         public DbSet<TblPateintDoctormappingModel> TblPateintDoctormappingModels { get; set; }
 
         public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
-      
+
         public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
-        
+
 
 
 
@@ -160,34 +163,39 @@ namespace HMSAPI.EFContext
 
 
         public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
-        
+
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
         public DbSet<GetMedicineDetailsViewModel> GetMedicineDetailsViewModel { get; set; }
 
-        public DbSet <GetPateintDoctorMappingViewModel>GetPateintDoctorMappingViewModels { get; set; }
+        public DbSet<GetPateintDoctorMappingViewModel> GetPateintDoctorMappingViewModels { get; set; }
 
         public DbSet<GetTblPatientViewModel> GetTblPatientViewModel { get; set; }
 
-        public DbSet<GetTblPatientViewModel2> GetTblPatientViewModel2 {get; set; }
+        public DbSet<GetTblPatientViewModel2> GetTblPatientViewModel2 { get; set; }
 
         public DbSet<TblFeedbackModel> TblFeedbacks { get; set; }
-         
+
         public DbSet<TblBillModel> TblBills { get; set; }
 
         public DbSet<BillPatientViewModel> billPatientViewModels { get; set; }
-    
-        public DbSet <GetDropDownListModel> GetDropDownListModel { get; set; }
+
+        public DbSet<GetDropDownListModel> GetDropDownListModel { get; set; }
 
         public DbSet<TblFacilityTypeModels> TblFacilityTypes { get; set; }
         public DbSet<TblFacilityModel> TblFacility { get; set; }
         public DbSet<TblRoomTypeFacilityMappingModel> TblRoomTypeFacilityMapping { get; set; }
-        public DbSet<GetTblRoomTypeFacilityMappingModel> GetTblRoomTypeFacilityMappingModel { get; set; }   
-        public DbSet<GetTblRoomModel> GetTblRoomModel { get; set; }   
-        public DbSet<GetTblRoomLocationModel> GetTblRoomLocationModel { get; set; }   
+        public DbSet<GetTblRoomTypeFacilityMappingModel> GetTblRoomTypeFacilityMappingModel { get; set; }
+        public DbSet<GetTblRoomModel> GetTblRoomModel { get; set; }
+        public DbSet<GetTblRoomLocationModel> GetTblRoomLocationModel { get; set; }
 
         public DbSet<GetTblFeedbackViewModel> GetTblFeedbackViewModel { get; set; }
 
-        public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel {  get; set; }
+        public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel { get; set; }
+
+
+
+        public DbSet<TblMenuRoleMapping> TblMenuRoleMapping { get; set; } //new
+
     }
 }
 
