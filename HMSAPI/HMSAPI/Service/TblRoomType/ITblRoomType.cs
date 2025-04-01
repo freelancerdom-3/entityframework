@@ -11,6 +11,6 @@ namespace HMSAPI.Service.RoomType
         Task<APIResponseModel> Add(TblRoomTypeModel TblRoomType);
 
         Task<APIResponseModel> GetByID(int id);
-        Task<APIResponseModel> Update(int id);
+        Task<APIResponseModel> Update(TblRoomTypeModel id);
     }
 }

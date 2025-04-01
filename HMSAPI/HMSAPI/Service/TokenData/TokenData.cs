@@ -27,12 +27,11 @@ namespace HMSAPI.Service.TokenData
 
         public long UserID => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "UserId").Value)));
        // public long UserID => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String((_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "UserId").Value))));
-        public long RoleId => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "Roleid").Value))); 
-        public List<TblMenuRoleMapping> lstMenuPermission =>
-           JsonConvert.DeserializeObject<List<TblMenuRoleMapping>>(_contextAccessor.HttpContext.User.Claims
-               .First(x => x.Type == "Permission")
-               .ToString()
-               .Replace("Permission:", ""));
+        public long RoleId => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "Roleid").Value)));
+        public List<TblMenuRoleMapping>? lstMenuPermission => JsonConvert.DeserializeObject<List<TblMenuRoleMapping>>(_contextAccessor.HttpContext?.User?.Claims
+        .FirstOrDefault(x => x.Type == "Permission")?
+        .ToString()
+         ?.Replace("Permission:", "") ?? "[]");
 
         public bool IsPermission(Menus menuId, PermissionType permissionType)
         {
@@ -40,16 +39,16 @@ namespace HMSAPI.Service.TokenData
             switch (permissionType)
             {
                 case PermissionType.IsView:
-                    result= lstMenuPermission.Any(x => x.MenuId == (int)menuId && x.IsView == 1 && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsView == true && RoleId == RoleId);
                     break;
                 case PermissionType.IsEdit:
-                    result= lstMenuPermission.Any(x => x.MenuId == (int)menuId && x.IsEdit == 1 && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsEdit == true && RoleId == RoleId);
                     break;
                 case PermissionType.IsAdd:
-                    result= lstMenuPermission.Any(x => x.MenuId == (int)menuId && x.IsAdd == 1 && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsAdd == true && RoleId == RoleId);
                     break;
                 case PermissionType.IsDelete:
-                    result= lstMenuPermission.Any(x => x.MenuId == (int)menuId && x.IsDelete == 1 && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsDelete == true && RoleId == RoleId);
                     break;
                 default:
                     break;

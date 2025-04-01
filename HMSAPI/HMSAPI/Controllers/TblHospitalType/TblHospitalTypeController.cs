@@ -25,7 +25,7 @@ namespace HMSAPI.Controllers.TblHospitalType
 
 
 
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(TblHospitalTypeModel HospitalType)
         {
             return await _serviceTblHospitalType.Update(HospitalType);

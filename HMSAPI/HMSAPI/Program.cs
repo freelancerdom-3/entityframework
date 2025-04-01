@@ -22,16 +22,14 @@ using HMSAPI.Service.TblBill;
 using HMSAPI.Service.TblFacilityTypes;
 using HMSAPI.Service.TblFacility;
 using HMSAPI.Service.TblRoomTypeFacilityMapping;
-using HMSAPI.Service.TblFacility;
-using HMSAPI.Service.TblFacilityTypes;
 using HMSAPI.Service.GetDropDownList;
 using HMSAPI.Service.TblRoom;
 using HMSAPI.Service.RoomType;
 using HMSAPI.Service.TblRoomType;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HMSAPI.Service.TokenData;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 //using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,16 +47,17 @@ builder.Services.AddDbContext<HSMDBContext>(options => options.UseSqlServer("DFC
 
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://localhost:4200")
-                                .AllowAnyMethod() // Allows POST, GET, PUT, DELETE, etc.
-                                .AllowAnyHeader() // Allows Content-Type, Authorization, etc.
-                                .AllowCredentials(); // If cookies or authentication tokens are needed
-                      });
+options.AddPolicy(name: MyAllowSpecificOrigins,
+                  policy =>
+                  {
+                        policy.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()  
+                        .AllowAnyHeader()  
+                        .AllowCredentials();
+                  });
 });
 
 
@@ -69,18 +68,19 @@ builder.Services.AddSwaggerGen();
 
 //JWT Authentication
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
-     options.TokenValidationParameters = new TokenValidationParameters
-     {
-     ValidateIssuer = true,
-     ValidateAudience = true,
-     ValidateLifetime = true,
-     ValidateIssuerSigningKey = true,
-     ValidIssuer = builder.Configuration["Jwt:Issuer"],
-     ValidAudience = builder.Configuration["Jwt:Audience"],
-     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-     };
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
 });
 builder.Services.AddAuthentication();
 

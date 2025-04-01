@@ -31,10 +31,8 @@ namespace HMSAPI.Controllers.RoomType
           
         }
 
-
-
-        [HttpPatch("[action]")]
-        public async Task<APIResponseModel> Update(int id)
+        [HttpPut("[action]")]
+        public async Task<APIResponseModel> Update(TblRoomTypeModel id)
         {
             return await _serviceRoomType.Update(id);
         }

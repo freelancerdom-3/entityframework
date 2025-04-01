@@ -5,14 +5,13 @@ namespace HMSAPI.Model.TblMenuRoleMapping
     public class TblMenuRoleMapping
     {
         [Key]
-        public int MenuRoleMapping { get; set; }
-        public int RoleId { get; set; }
-        public int MenuId { get; set; }
-        // The property name must match exactly. Check for any typos or casing issues.
-        public int IsAdd { get; set; }
-        public int IsEdit { get; set; }
-        public int IsDelete { get; set; }
-
-        public int IsView {  get; set; }    
+        public int MenuRoleMappingID { get; set; }
+        public int RoleID { get; set; }
+        public int MenuID { get; set; }
+        public bool IsEdit { get; set; }
+        public bool IsAdd { get; set; }
+        public bool IsDelete { get; set; }
+        public bool IsView { get; set; }
     }
 }
+
