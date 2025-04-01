@@ -16,6 +16,6 @@ namespace HMSAPI.Service.TblShift
         Task<APIResponseModel> Delete(int id);
 
         Task<APIResponseModel> GetById(int id);
-        Task<APIResponseModel> Update(int id);
+        Task<APIResponseModel> Update(TblShiftModel model);
     }
 }

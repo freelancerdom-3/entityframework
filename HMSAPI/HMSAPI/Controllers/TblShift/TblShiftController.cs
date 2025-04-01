@@ -46,9 +46,9 @@ namespace HMSAPI.Controllers.TblShift
         }
 
         [HttpPut("[action]")]
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> Update(TblShiftModel model)
         {
-            return await(_serviceTblShift.Update(id));
+            return await(_serviceTblShift.Update(model));
         }
 
 

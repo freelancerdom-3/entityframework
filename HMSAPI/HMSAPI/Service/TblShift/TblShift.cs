@@ -3,6 +3,7 @@ using HMSAPI.Model.TblShift;
 using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 namespace HMSAPI.Service.TblShift
 
 {
@@ -168,7 +169,7 @@ namespace HMSAPI.Service.TblShift
 
         }
 
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> Update(TblShiftModel model)
         {
             APIResponseModel responseModel = new();
 
@@ -177,19 +178,22 @@ namespace HMSAPI.Service.TblShift
                 using (var connection = _hsmDbContext)
                 {
 
-                    TblShiftModel? data = connection.TblShifts.Where(j => j.ShiftId == id).FirstOrDefault();
+                    TblShiftModel? data = await connection.TblShifts.Where(x => x.ShiftId == model.ShiftId).FirstOrDefaultAsync();
 
                     if (data != null)
                     {
-                        data.Shiftname = "Mornig Night";
+                        //data.Shiftname = "Mornig Night";
+                        data.Shiftname = model.Shiftname;
+                        data.UpdateBy = model.UpdateBy;
+                        data.UpdateOn = model.UpdateOn;
+                        data.StartTime = model.StartTime;
+                        data.EndTime = model.EndTime;
                         data.IncreamentVersion();
                         connection.TblShifts.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Update Successfully";
-
-
                     }
 
                     else
