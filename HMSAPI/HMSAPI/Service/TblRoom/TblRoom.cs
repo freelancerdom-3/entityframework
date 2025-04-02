@@ -3,6 +3,7 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRoom.View_Model;
+using HMSAPI.Model.TblRoomTypeFacilityMapping;
 using HMSAPI.Model.TblRoomTypeFacilityMapping.View_Model;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -127,6 +128,66 @@ namespace HMSAPI.Service.TblRoom
                 }
                 return responseModel;
             }
+
+
+        public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                //using (var connection = _hsmDbContext)
+                //{
+                    List<TblRoomModel> roomid = context.TblRoom.Where(x=>x.RoomTypeID==id).ToList();
+
+                    if (roomid != null)
+                    {
+                    foreach (TblRoomModel room in roomid)
+                    {
+                        context.TblRoom.Remove(room);
+                    }
+                        //await context.SaveChangesAsync();
+                    }
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Deleted Successfully";
+                //}
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
+
+
+        //public async Task<APIResponseModel> Deletebyroomid(int id)
+        //{
+        //    APIResponseModel responseModel = new();
+        //    try
+        //    {
+        //        var room = await _hsmDbContext.TblRoom
+        //            .Where(x => x.RoomID == id).FirstOrDefaultAsync();
+
+        //        if (room != null)
+        //        {
+        //            _hsmDbContext.TblRoom.Remove(room);
+        //            await _hsmDbContext.SaveChangesAsync();
+        //        }
+
+        //        responseModel.StatusCode = HttpStatusCode.OK;
+        //        responseModel.Message = "Deleted Successfully";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //        responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+        //        responseModel.Data = null;
+        //    }
+
+        //    return responseModel;
+        //}
 
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {

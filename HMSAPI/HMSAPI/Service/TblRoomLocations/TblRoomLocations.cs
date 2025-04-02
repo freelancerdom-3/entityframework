@@ -87,8 +87,70 @@ namespace HMSAPI.Service.TblRoomLocations
                 return responseModel;
             }
 
-            public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id)
+        {
+            APIResponseModel responseModel = new();
+            try
             {
+                //using (var connection = _hsmDbContext)
+                //{
+                   List <TblRoomLocationModel> roomid =  context.TblRoomLocations.Where(x => x.RoomID == id).ToList();
+
+
+                if (roomid != null)
+                    {
+                    foreach (TblRoomLocationModel room in roomid)
+                    {
+                    context.TblRoomLocations.Remove(room);
+
+                    }
+                        await context.SaveChangesAsync();
+                }
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Deleted Successfully";
+                //}
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
+
+
+        //public async Task<APIResponseModel> Deletebyroomid(int id)
+        //{
+        //    APIResponseModel responseModel = new();
+        //    try
+        //    {
+        //        var roomLocation = await _hsmDbContext.TblRoomLocations
+        //            .Where(x => x.RoomLocationID == id).FirstOrDefaultAsync();
+
+        //        if (roomLocation != null)
+        //        {
+        //            _hsmDbContext.TblRoomLocations.Remove(roomLocation);
+        //            await _hsmDbContext.SaveChangesAsync();
+        //        }
+
+        //        responseModel.StatusCode = HttpStatusCode.OK;
+        //        responseModel.Message = "Deleted Successfully";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //        responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+        //        responseModel.Data = null;
+        //    }
+
+        //    return responseModel;
+        //}
+
+
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        {
             APIResponseModel responseModel = new();
             List<GetTblRoomTypeFacilityMappingModel> lsttblRoomTypeFacilityMappings = new();
             try
