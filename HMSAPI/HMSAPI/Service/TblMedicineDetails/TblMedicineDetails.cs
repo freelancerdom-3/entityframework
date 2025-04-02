@@ -2,7 +2,9 @@
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDetails;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
+using HMSAPI.Model.TblRoom;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HMSAPI.Service.TblMedicineDetails
@@ -192,5 +194,41 @@ namespace HMSAPI.Service.TblMedicineDetails
 
 
         }
+
+        public  async Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                //using (var connection = _hsmDbContext)
+                //{
+                List<TblMedicineDetailsModel> medicineid = connection.TblMedicineDetails.Where(x => x.MedicineTypeID == id).ToList();
+
+                if (medicineid != null)
+                {
+                    foreach (TblMedicineDetailsModel medicine in medicineid)
+                    {
+                        connection.TblMedicineDetails.Remove(medicine);
+                    }
+                    //await context.SaveChangesAsync();
+                }
+                responseModel.StatusCode = HttpStatusCode.OK;
+                responseModel.Message = "Deleted Successfully";
+                //}
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
+
+        //public Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id)
+        //{
+        //    
+        //}
     }
 }

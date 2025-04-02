@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDetails;
 
 namespace HMSAPI.Service.TblMedicineDetails
@@ -10,6 +11,8 @@ namespace HMSAPI.Service.TblMedicineDetails
         Task<APIResponseModel> Delete(int ID);
         Task<APIResponseModel> GetByID(int ID);
         Task<APIResponseModel> GetAll(string? searchby = null);
+
+        Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id);
 
 
 

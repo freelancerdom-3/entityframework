@@ -1,6 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
+using HMSAPI.Service.TblMedicineDetails;
+using HMSAPI.Service.TblMedicineDiseaseMapping;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +11,13 @@ namespace HMSAPI.Service.TblMedicineType
     public class TblMedicineType : ITblMedicineType
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblMedicineType(HSMDBContext hsmDbContext)
+        private readonly ITblMedicineDetails _TblMedicineDetails;
+        private readonly ITblMedicineDiseaseMapping _TblMedicineDiseaseMapping;
+        public TblMedicineType(HSMDBContext hsmDbContext,ITblMedicineDetails tblMedicineDetails,ITblMedicineDiseaseMapping TblMedicineDiseaseMapping)
         {
             _hsmDbContext = hsmDbContext;
+            _TblMedicineDetails= tblMedicineDetails;
+            _TblMedicineDiseaseMapping= TblMedicineDiseaseMapping;
         }
 
         
@@ -70,7 +76,14 @@ namespace HMSAPI.Service.TblMedicineType
                 {
                     TblMedicineTypeModel? data =await connection.TblMedicineTypes.Where(X => X.MedicineTypeID == Id).FirstOrDefaultAsync();
                     if (data != null)
+
                     {
+                        _TblMedicineDetails?.DeletebyMedicineTypeID(connection, Id);
+                        _TblMedicineDiseaseMapping?.DeletebyMedicineTypeID(connection, Id);
+
+
+
+
                         connection.TblMedicineTypes.Remove(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;

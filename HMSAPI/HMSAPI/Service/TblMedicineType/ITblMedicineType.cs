@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
 
 namespace HMSAPI.Service.TblMedicineType
@@ -14,5 +15,7 @@ namespace HMSAPI.Service.TblMedicineType
         Task<APIResponseModel> Update(TblMedicineTypeModel model);
 
         Task<APIResponseModel> Delete(int Id);
+
+        
     }
 }
