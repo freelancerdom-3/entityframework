@@ -43,5 +43,10 @@ namespace HMSAPI.Controllers.TblHospitalDept
         {
             return await _serviceTblHosDep.GetAll(searchBy);
         }
+        [HttpDelete("[action]")]
+        public async Task<APIResponseModel> DeleteByID(int id)
+        {
+            return await _serviceTblHosDep.DeleteByID(id);
+        }
     }
 }

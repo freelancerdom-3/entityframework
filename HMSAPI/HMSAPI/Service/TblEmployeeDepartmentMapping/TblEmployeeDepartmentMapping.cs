@@ -214,6 +214,65 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
 
         }
 
+        public async Task<APIResponseModel> DeleteByID(int employeeDepartmentMappingId)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    // Find the child record
+                    var childRecord = await connection.TblEmployeeDepartmentMappings
+                        .Where(x => x.EmployeeDepartmentMappingId == employeeDepartmentMappingId)
+                        .FirstOrDefaultAsync();
+
+                    if (childRecord != null)
+                    {
+                        int hospitalDepartmentID = childRecord.HospitalDepartmentId;
+
+                        // Remove the child record
+                        connection.TblEmployeeDepartmentMappings.Remove(childRecord);
+                        await connection.SaveChangesAsync();
+
+                        // Check if there are any remaining child records for this department
+                        bool hasOtherMappings = await connection.TblEmployeeDepartmentMappings
+                            .AnyAsync(x => x.HospitalDepartmentId == hospitalDepartmentID);
+
+                        // If no more child records exist, delete the parent
+                        if (!hasOtherMappings)
+                        {
+                            var parentRecord = await connection.TbLHospitalDepartment
+                                .Where(x => x.HospitalDepartmentId == hospitalDepartmentID)
+                                .FirstOrDefaultAsync();
+
+                            if (parentRecord != null)
+                            {
+                                connection.TbLHospitalDepartment.Remove(parentRecord);
+                                await connection.SaveChangesAsync();
+                            }
+                        }
+
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Child deleted successfully. Parent deleted if no more children exist.";
+                        responseModel.Data = true;
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Child record not found.";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = "Error occurred: " + ex.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
 
     }
 }

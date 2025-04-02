@@ -13,5 +13,6 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
         Task<APIResponseModel> GetByID(int id);
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
+        Task<APIResponseModel> DeleteByID(int id);
     }
 }

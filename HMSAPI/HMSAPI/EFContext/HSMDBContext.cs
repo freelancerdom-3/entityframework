@@ -127,7 +127,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<TblHospitalTypeModel> TblHospitalTypes { get; set; }
 
-        public DbSet<TblHospitalDepartmentModel> TblHospitalDepts { get; set; }
+        public DbSet<TblHospitalDepartmentModel> TbLHospitalDepartment { get; set; }
         public DbSet<TblShiftModel> TblShifts { get; set; }
 
         public DbSet<TblEmployeeDepartmentMappingModel> TblEmployeeDepartmentMappings { get; set; }
@@ -193,6 +193,7 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel { get; set; }
         public DbSet<TblMenuRoleMapping> TblMenuRolemapping {  get; set; }
         public DbSet<GetTblRoomTypeViewModel> GetTblRoomTypeViewModel { get; set; }
+        public DbSet<TblHospitalDepartmentViewModel> TblHospitalDepartmentViewModel { get; set; }
 
     }
 }

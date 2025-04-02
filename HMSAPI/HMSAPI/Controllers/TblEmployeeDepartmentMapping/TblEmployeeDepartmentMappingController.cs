@@ -48,5 +48,10 @@ namespace HMSAPI.Controllers.TblEmployeeDepartmentMapping
         {
             return await _serviceTblEmployeeDepartmentMapping.GetByID(id);
         }
+        [HttpDelete("[action]")]
+        public async Task<APIResponseModel> DeleteByID(int id)
+        {
+            return await _serviceTblEmployeeDepartmentMapping.DeleteByID(id);
+        }
     }
 }

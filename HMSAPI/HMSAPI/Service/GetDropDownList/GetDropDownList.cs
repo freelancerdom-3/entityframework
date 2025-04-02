@@ -129,7 +129,7 @@ namespace HMSAPI.Service.GetDropDownList
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstRolles = connection.TblHospitalDepts.ToList();
+                    lstRolles = connection.TbLHospitalDepartment.ToList();
 
                     //responseModel.Data = lstRolles;
                     responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.HospitalDepartmentId, name = x.DepartmentName}).ToList();

@@ -9,4 +9,12 @@ namespace HMSAPI.Model.TblHospitalDepartment
         public int HospitalDepartmentId { get; set; }
         public string? DepartmentName { get; set; }
     }
+
+    public class TblHospitalDepartmentViewModel : ListViewModel
+    {
+        [Key]
+        public int HospitalDepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
+    }
+
 }
