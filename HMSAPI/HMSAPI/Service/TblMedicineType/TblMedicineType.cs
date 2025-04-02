@@ -1,6 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblMedicineType
@@ -27,10 +28,15 @@ namespace HMSAPI.Service.TblMedicineType
                     .Any(X => X.TypeName.ToLower() == medicineModel.TypeName.ToLower());
 
                     if (!duplicateName)
+
                     {
+                        medicineModel.CreateBy = 1;
+                        medicineModel.CreatedOn = DateTime.Now;
                         medicineModel.VersionNo = 1;
+                        
                         _ =await connection.TblMedicineTypes.AddAsync(medicineModel);
                         connection.SaveChanges();
+                        
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                         responseModel.Message = "Inserted Successfully";
                         responseModel.Data = true;
@@ -99,7 +105,7 @@ namespace HMSAPI.Service.TblMedicineType
                 using (var connection = _hsmDbContext)
                 {
                     lstmedicine = connection.GetTblMedicineTypeViewModels.FromSqlRaw($@"
-                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdateBy, tr.MedicineTypeID, 
+                    SELECT tu.FullName AS CreateBy, uu.FullName AS UpdateBy, tr.MedicineTypeID, 
                    tr.TypeName,tr.CreatedOn,tr.UpdateOn, tr.IsActive,tr.VersionNo
                         FROM TblMedicineType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreateBy  
                      left JOIN TblUser uu ON uu.UserId = tr.UpdateBy 
