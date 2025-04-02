@@ -29,12 +29,12 @@ namespace HMSAPI.Controllers.TblMedicineType
         }
 
         [HttpGet("[action]")]
-        public async Task<APIResponseModel> GetAll()
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
-            return await _serviceTblMedicineTyp.GetAll();
+            return await _serviceTblMedicineTyp.GetAll(searchBy);
         }
 
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(TblMedicineTypeModel model)
         {
             return await _serviceTblMedicineTyp.Update(model);

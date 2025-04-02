@@ -2,8 +2,8 @@
 {
     public class ListViewModel
     {
-        public string? CreatedBy { get; set; }
-        public string? UpdatedBy { get; set; }
+        public string? CreateBy { get; set; }
+        public string? UpdateBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? UpdateOn { get; set; }
         public int VersionNo { get; set; }

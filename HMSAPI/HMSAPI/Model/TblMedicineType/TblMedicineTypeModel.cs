@@ -9,4 +9,11 @@ namespace HMSAPI.Model.TblMedicineType
         public int MedicineTypeID { get; set; }
         public string? TypeName { get; set; }
     }
+    public class GetTblMedicineTypeViewModel : ListViewModel
+    {
+        [Key]
+        public int MedicineTypeID { get; set; }
+        public string? TypeName { get; set; }
+
+    }
 }

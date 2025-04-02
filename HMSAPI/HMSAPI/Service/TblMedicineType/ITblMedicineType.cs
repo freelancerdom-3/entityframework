@@ -9,7 +9,7 @@ namespace HMSAPI.Service.TblMedicineType
 
         Task<APIResponseModel> GetByID(int id);
 
-        Task<APIResponseModel> GetAll();
+        Task<APIResponseModel> GetAll(string? searchBy = null);
 
         Task<APIResponseModel> Update(TblMedicineTypeModel model);
 
