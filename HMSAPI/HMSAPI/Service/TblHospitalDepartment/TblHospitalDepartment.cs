@@ -276,6 +276,7 @@ namespace HMSAPI.Service.TblHospitalDept
                 {
                     lstUsers = connection.TblHospitalDepartmentViewModel.FromSqlRaw(@"
                 SELECT 
+
                     tu.FullName AS CreatedBy, 
                     uu.FullName AS UpdatedBy, 
                     thd.HospitalDepartmentID, 
