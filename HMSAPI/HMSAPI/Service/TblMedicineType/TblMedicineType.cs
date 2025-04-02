@@ -90,15 +90,21 @@ namespace HMSAPI.Service.TblMedicineType
 
         }
 
-        public async Task<APIResponseModel> GetAll()
+        public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new APIResponseModel();
-            List<TblMedicineTypeModel> lstmedicine = new List<TblMedicineTypeModel>();
+            List<GetTblMedicineTypeViewModel> lstmedicine = new List<GetTblMedicineTypeViewModel>();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstmedicine = await connection.TblMedicineTypes.ToListAsync();
+                    lstmedicine = connection.GetTblMedicineTypeViewModels.FromSqlRaw($@"
+                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdateBy, tr.MedicineTypeID, 
+                   tr.TypeName,tr.CreatedOn,tr.UpdateOn, tr.IsActive,tr.VersionNo
+                        FROM TblMedicineType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreateBy  
+                     left JOIN TblUser uu ON uu.UserId = tr.UpdateBy 
+                    where tu.fullName LIKE  '%{searchBy}%'").ToList();
+
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "Get All Record Successfully";
                     responseModel.Data = lstmedicine;
@@ -150,8 +156,8 @@ namespace HMSAPI.Service.TblMedicineType
                         .Where(X => X.MedicineTypeID == model.MedicineTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.UpdateOn = model.UpdateOn;
-                        data.UpdateBy = model.UpdateBy;
+                        data.UpdateOn = DateTime.Now;
+                        data.UpdateBy = 1;
                         data.TypeName = model.TypeName;
                         data.IncreamentVersion();
                         connection.Update(data);

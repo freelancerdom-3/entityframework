@@ -194,6 +194,8 @@ namespace HMSAPI.EFContext
         public DbSet<TblMenuRoleMapping> TblMenuRolemapping {  get; set; }
         public DbSet<GetTblRoomTypeViewModel> GetTblRoomTypeViewModel { get; set; }
 
+        public DbSet<GetTblMedicineTypeViewModel>GetTblMedicineTypeViewModels { get; set; }
+
     }
 }
 
