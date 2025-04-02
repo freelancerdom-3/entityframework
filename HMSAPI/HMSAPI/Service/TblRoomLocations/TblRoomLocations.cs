@@ -88,7 +88,7 @@ namespace HMSAPI.Service.TblRoomLocations
             }
 
             public async Task<APIResponseModel> GetAll(string? searchBy = null)
-        {
+            {
             APIResponseModel responseModel = new();
             List<GetTblRoomTypeFacilityMappingModel> lsttblRoomTypeFacilityMappings = new();
             try
