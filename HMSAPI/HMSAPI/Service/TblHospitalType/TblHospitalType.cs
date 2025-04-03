@@ -186,16 +186,20 @@ namespace HMSAPI.Service.TblHospitalTyp
         {
             APIResponseModel responseModel = new();
 
-           // if (_tokenData.IsPermission((int)Enums.Roles.Patient, "IsView"))
-           if(true)
+            // if (_tokenData.IsPermission((int)Enums.Roles.Patient, "IsView"))
+            List<GetTblHospitalTypeModel> lstHospitalType = new();
+
+            if (true)
             {
                 try
                 {
-                    List<TblHospitalTypeModel> lstHospitalType = new();
+                    
                     using (var connection = _hsmDbContext)
                     {
-                        lstHospitalType = string.IsNullOrEmpty(searchBy) ? connection.TblHospitalTypes.ToList() :
-                        connection.TblHospitalTypes.Where(x => x.HospitalType.ToLower() == searchBy.ToLower()).ToList();
+                        lstHospitalType = connection.getTblHospitalTypeModels.FromSqlRaw($@"SELECT TU.FullName AS CreatedBy,UT.FullName
+                         AS UpdatedBy,HT.HospitalTypeID,HT.HospitalType,HT.CreatedOn,HT.UpdateOn,HT.IsActive,HT.VersionNo
+                         FROM TblHospitalType HT INNER JOIN TblUser TU ON TU.UserId=HT.CreateBy INNER JOIN TblUser UT 
+                         ON UT.UserId=HT.UpdateBy where TU.FullName like '%{searchBy}%'").ToList();
                         responseModel.Data = lstHospitalType;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = null;

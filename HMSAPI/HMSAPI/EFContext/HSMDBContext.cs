@@ -40,6 +40,7 @@ using HMSAPI.Model.TblFeedback.ViewModel;
 using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMenuRoleMapping;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 
 
 
@@ -162,7 +163,7 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModels { get; set; }
 
 
-        public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
+        public DbSet<GetPateintDoctorMappingViewModel> getPateintDoctorMappingViewModels { get; set; }
 
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
         public DbSet<GetMedicineDetailsViewModel> GetMedicineDetailsViewModel { get; set; }
@@ -196,6 +197,9 @@ namespace HMSAPI.EFContext
         public DbSet<TblHospitalDepartmentViewModel> TblHospitalDepartmentViewModel { get; set; }
 
         public DbSet<GetTblMedicineTypeViewModel>GetTblMedicineTypeViewModels { get; set; }
+
+        public DbSet<GetTblShiftViewModel> GetTblShiftViewModel { get; set; }
+        public DbSet<GetTblHospitalTypeModel> getTblHospitalTypeModels { get; set; }
 
     }
 }

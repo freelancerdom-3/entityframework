@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HMSAPI.Model.GenericModel;
 
-namespace HMSAPI.Model.TblTreatmentDetails
-{
+namespace HMSAPI.Model.TblTreatmentDetails{
     public class TblTreatmentDetailsModel : SecurityModel
     {
         [Key]

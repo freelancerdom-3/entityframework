@@ -2,6 +2,8 @@
 using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblShift;
 using HMSAPI.Service.TblShift;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +11,7 @@ namespace HMSAPI.Controllers.TblShift
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class TblShiftController : ControllerBase
     {
 

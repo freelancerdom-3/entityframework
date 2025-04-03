@@ -115,6 +115,34 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
             return responseModel;
         }
 
+        public async Task<APIResponseModel> DeleteByShiftId(HSMDBContext context, int id)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                List<TblEmployeeshiftMappingModel> empshiftid = context.TblEmployeeshifts.Where(x => x.ShiftId == id).ToList();
+
+                if (empshiftid != null)
+                {
+                    foreach(TblEmployeeshiftMappingModel mappingModel in empshiftid)
+                    {
+                        context.TblEmployeeshifts.Remove(mappingModel);
+                    }
+                }
+                responseModel.StatusCode = HttpStatusCode.OK;
+                responseModel.Message = "Deleted Successfully";
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
+
+
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new APIResponseModel();

@@ -4,6 +4,7 @@ using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
+using HMSAPI.Service.TblEmployeeshiftMapping;
 namespace HMSAPI.Service.TblShift
 
 {
@@ -11,11 +12,13 @@ namespace HMSAPI.Service.TblShift
     {
 
         private readonly HSMDBContext _hsmDbContext;
+        private readonly ITblEmployeeshiftMapping _tblEmployeeshiftMapping;
         //private object connection;
 
-        public TblShift(HSMDBContext hSMDBContext)
+        public TblShift(HSMDBContext hSMDBContext, ITblEmployeeshiftMapping tblEmployeeshiftMapping)
         {
             _hsmDbContext = hSMDBContext;
+            _tblEmployeeshiftMapping = tblEmployeeshiftMapping;
         }
 
         public async Task<APIResponseModel> Add(TblShiftModel Shift)
@@ -33,6 +36,9 @@ namespace HMSAPI.Service.TblShift
 
                     if (!DuplicateShift)
                     {
+                        Shift.CreateBy = 1;
+                        //Shift.UpdateBy = 1;
+                        Shift.CreatedOn = DateTime.Now;
                         Shift.VersionNo = 1;
                         connection.TblShifts.Add(Shift);
                         connection.SaveChanges();
@@ -75,6 +81,7 @@ namespace HMSAPI.Service.TblShift
 
                     if (data != null)
                     {
+                        _tblEmployeeshiftMapping?.DeleteByShiftId(connection, id);
                         connection.TblShifts.Remove(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -107,14 +114,19 @@ namespace HMSAPI.Service.TblShift
         {
             APIResponseModel responseModel = new();
 
-            List<TblShiftModel> shitList = new();
+           // List<TblShiftModel> shitList = new();
+            List<GetTblShiftViewModel> list = new();
 
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    shitList = string.IsNullOrEmpty(searchBy)? connection.TblShifts.ToList():connection.TblShifts.Where(x=>x.Shiftname==searchBy).ToList();
-                    responseModel.Data = shitList;
+                    list = connection.GetTblShiftViewModel.FromSqlRaw($@"
+                           select tu.FullName as Createdby, uu.FullName as UpdatedBy, tr.ShiftId,
+                           tr.StartTime,tr.EndTime,tr.Shiftname,tr.CreatedOn,tr.UpdateOn,tr.IsActive,tr.VersionNo 
+                           from TblShift tr inner join TblUser tu on tu.UserId = tr.CreateBy
+                           left join TblUser uu on uu.UserId = tr.UpdateBy where tu.FullName like '%{searchBy}%'").ToList();
+                    responseModel.Data = list;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Inserted Successfully";
                 }
@@ -188,6 +200,8 @@ namespace HMSAPI.Service.TblShift
                         data.UpdateOn = model.UpdateOn;
                         data.StartTime = model.StartTime;
                         data.EndTime = model.EndTime;
+                        model.UpdateBy = 2;
+                        model.UpdateOn = DateTime.Now;
                         data.IncreamentVersion();
                         connection.TblShifts.Update(data);
                         connection.SaveChanges();
