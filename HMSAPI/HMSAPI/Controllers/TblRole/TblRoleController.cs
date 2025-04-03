@@ -9,7 +9,7 @@ namespace HMSAPI.Controllers.TblRole
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TblRoleController : ControllerBase
     {
         private readonly ITblRole _serviceTblRole;
@@ -27,9 +27,9 @@ namespace HMSAPI.Controllers.TblRole
         }
 
         [HttpPatch("[action]")]
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> Update(TblRoleModel roleModel)
         {
-            return await (_serviceTblRole.Update(id));
+            return await (_serviceTblRole.Update(roleModel));
         }
 
         [HttpDelete("[action]")]
