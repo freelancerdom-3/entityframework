@@ -9,7 +9,7 @@ namespace HMSAPI.Model.TblEmployeeshiftMapping
       public int  EmployeeshiftMappingId  { get; set; }
         public DateTime? EmployeeshiftMappingStartingDate { get; set; }
 
-        public DateTime? EmployeeshiftMappingEndingData { get; set; }
+        public DateTime? EmployeeshiftMappingEndingDate { get; set; }
 
         public int UserId { get; set; }
 

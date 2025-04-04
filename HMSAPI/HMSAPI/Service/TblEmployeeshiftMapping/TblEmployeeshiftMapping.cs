@@ -24,7 +24,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    if (objModel.EmployeeshiftMappingStartingDate == null || objModel.EmployeeshiftMappingEndingData == null)
+                    if (objModel.EmployeeshiftMappingStartingDate == null || objModel.EmployeeshiftMappingEndingDate == null)
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
                         responseModel.Message = "Start Date & End Date Are Required";
@@ -33,8 +33,8 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     else
                     {
                         var existShiftData = connection.TblEmployeeshifts.Where(x => x.ShiftId == objModel.ShiftId && (
-                             x.EmployeeshiftMappingStartingDate.Value.Date <= objModel.EmployeeshiftMappingEndingData.Value.Date &&
-                             x.EmployeeshiftMappingEndingData.Value.Date >= objModel.EmployeeshiftMappingStartingDate.Value.Date)).FirstOrDefault();
+                             x.EmployeeshiftMappingStartingDate.Value.Date <= objModel.EmployeeshiftMappingEndingDate.Value.Date &&
+                             x.EmployeeshiftMappingEndingDate.Value.Date >= objModel.EmployeeshiftMappingEndingDate.Value.Date)).FirstOrDefault();
 
                         if (existShiftData != null)
                         {
@@ -182,7 +182,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     {
                         responseModel.Data = new { 
                             data.EmployeeshiftMappingStartingDate,
-                            data.EmployeeshiftMappingEndingData,
+                            data.EmployeeshiftMappingEndingDate,
                             data.UserId,
                             data.ShiftId,
                             };
@@ -225,7 +225,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     {
 
                         data.EmployeeshiftMappingStartingDate = employeeshiftmapping.EmployeeshiftMappingStartingDate;
-                        data.EmployeeshiftMappingEndingData = employeeshiftmapping.EmployeeshiftMappingEndingData;
+                        data.EmployeeshiftMappingEndingDate = employeeshiftmapping.EmployeeshiftMappingEndingDate;
                         data.UserId = employeeshiftmapping.UserId;
                         data.ShiftId = employeeshiftmapping.ShiftId;
                         data.UpdatedBy = data.UpdatedBy;
