@@ -1,18 +1,15 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRoom.View_Model;
-using HMSAPI.Model.TblRoomTypeFacilityMapping;
-using HMSAPI.Model.TblRoomTypeFacilityMapping.View_Model;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace HMSAPI.Service.TblRoom
 {
-    
-    
-        public class TblRoom : ITblRoom
+
+
+    public class TblRoom : ITblRoom
         {
             private readonly HSMDBContext _hsmDbContext;
 
@@ -135,9 +132,7 @@ namespace HMSAPI.Service.TblRoom
             APIResponseModel responseModel = new();
             try
             {
-                //using (var connection = _hsmDbContext)
-                //{
-                    List<TblRoomModel> roomid = context.TblRoom.Where(x=>x.RoomTypeID==id).ToList();
+                List<TblRoomModel> roomid = context.TblRoom.Where(x=>x.RoomTypeID==id).ToList();
 
                     if (roomid != null)
                     {
@@ -149,7 +144,7 @@ namespace HMSAPI.Service.TblRoom
                     }
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Deleted Successfully";
-                //}
+               
             }
             catch (Exception ex)
             {
@@ -162,32 +157,7 @@ namespace HMSAPI.Service.TblRoom
         }
 
 
-        //public async Task<APIResponseModel> Deletebyroomid(int id)
-        //{
-        //    APIResponseModel responseModel = new();
-        //    try
-        //    {
-        //        var room = await _hsmDbContext.TblRoom
-        //            .Where(x => x.RoomID == id).FirstOrDefaultAsync();
-
-        //        if (room != null)
-        //        {
-        //            _hsmDbContext.TblRoom.Remove(room);
-        //            await _hsmDbContext.SaveChangesAsync();
-        //        }
-
-        //        responseModel.StatusCode = HttpStatusCode.OK;
-        //        responseModel.Message = "Deleted Successfully";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
-        //        responseModel.Message = ex.InnerException?.Message ?? ex.Message;
-        //        responseModel.Data = null;
-        //    }
-
-        //    return responseModel;
-        //}
+       
 
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
@@ -197,9 +167,12 @@ namespace HMSAPI.Service.TblRoom
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstTblRoomView = await connection.GetTblRoomModel.FromSqlRaw($@"select TblRoom.RoomID,tblroomtype.RoomTypeId,TblRoomType.RoomType from TblRoom
-                    inner join TblRoomType on TblRoomType.RoomTypeId = TblRoomType.RoomTypeId   where RoomType
-                    like '%{searchBy}%'").ToListAsync();
+                    lstTblRoomView = await connection.GetTblRoomModel.FromSqlRaw($@"
+                    select TblRoom.RoomID,TblRoomType.RoomType,TblRoom.RoomNumber from TblRoom
+                    inner join TblRoomType on TblRoomType.RoomTypeID = TblRoom.RoomTypeID
+                    WHERE TblRoomType.RoomType LIKE '%{searchBy}%'").ToListAsync();
+
+                    
                     responseModel.Data = lstTblRoomView;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
@@ -266,3 +239,12 @@ namespace HMSAPI.Service.TblRoom
         }
 }
 
+//lstTblRoomView = await connection.GetTblRoomModel.FromSqlRaw($@"
+//SELECT TblRoom.RoomID, TblRoomType.RoomTypeId, TblRoomType.RoomType, TblRoom.FacilityName 
+//FROM TblRoom
+//INNER JOIN TblRoomType ON TblRoomType.RoomTypeId = TblRoomType.RoomTypeId
+//WHERE RoomType LIKE '%{searchBy}%'").ToListAsync();
+
+//lstTblRoomView = await connection.GetTblRoomModel.FromSqlRaw($@"select TblRoom.RoomID,tblroomtype.RoomTypeId,TblRoomType.RoomType from TblRoom
+//inner join TblRoomType on TblRoomType.RoomTypeId = TblRoomType.RoomTypeId   where RoomType
+//like '%{searchBy}%'").ToListAsync();

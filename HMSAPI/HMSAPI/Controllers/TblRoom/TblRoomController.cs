@@ -1,13 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Service.TblRoom;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblRoom
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblRoomController : ControllerBase
     {
         private readonly ITblRoom _serviceRoom;
@@ -30,7 +31,7 @@ namespace HMSAPI.Controllers.TblRoom
         }
 
 
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(int id)
         {
             return await _serviceRoom.Update(id);

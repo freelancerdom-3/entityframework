@@ -1,15 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeDepartmentMapping;
-using HMSAPI.Model.TblHospitalDepartment;
 using HMSAPI.Service.TblEmployeeDepartmentMapping;
-using HMSAPI.Service.TblHospitalDept;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblEmployeeDepartmentMapping
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblEmployeeDepartmentMappingController : ControllerBase
     {
 

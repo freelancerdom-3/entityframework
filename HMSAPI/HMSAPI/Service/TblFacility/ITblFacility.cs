@@ -1,5 +1,4 @@
 ﻿using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblFacility;
 
 namespace HMSAPI.Service.TblFacility

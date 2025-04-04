@@ -1,6 +1,5 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
-using HMSAPI.Model.TblUser;
 
 namespace HMSAPI.Service.TblBill
 {

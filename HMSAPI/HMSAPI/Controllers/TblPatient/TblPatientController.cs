@@ -1,15 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
-using HMSAPI.Service.TblHospitalType;
 using HMSAPI.Service.TblPatient;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using HMSAPI.Model.TblPatient;
 using HMSAPI.Model.TblPatient.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMSAPI.Controllers.TblPatient
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblPatientController : ControllerBase
     {
         private readonly ITblPatient _serviceTblPatient;
@@ -29,7 +28,7 @@ namespace HMSAPI.Controllers.TblPatient
         }
 
 
-        [HttpPost("[action]")] 
+        [HttpPut("[action]")] 
         public async Task<APIResponseModel> Update(GetTblPatientViewModel update )
         {
             return await _serviceTblPatient.Update(update);
@@ -51,9 +50,7 @@ namespace HMSAPI.Controllers.TblPatient
         [HttpDelete("[action]")]
         public async Task<APIResponseModel> Delete(int UserId)
         {
-            //return await _serviceTblPatient.Delete(model);
-            //return await _serviceTblPatient.Delete(model);
-            return await _serviceTblPatient.Delete(UserId);
+           return await _serviceTblPatient.Delete(UserId);
         }
     }
 

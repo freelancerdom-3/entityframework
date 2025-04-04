@@ -3,9 +3,6 @@ using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblBill.ViewModel;
-using HMSAPI.Model.TblMedicineType;
-using HMSAPI.Model.TblUser;
-using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblBill
@@ -123,8 +120,8 @@ namespace HMSAPI.Service.TblBill
                         data.PaymentMethod = bill.PaymentMethod;
                         data.PatientId = bill.PatientId;
                         data.TreatmentDetailsId = bill.TreatmentDetailsId;
-                        data.UpdateBy = bill.UpdateBy;
-                        data.UpdateOn = bill.UpdateOn;
+                        data.UpdatedBy = bill.UpdatedBy;
+                        data.UpdatedOn = bill.UpdatedOn;
                         data.IncreamentVersion();
                         connection.TblBills.Update(data);
                         connection.SaveChanges();

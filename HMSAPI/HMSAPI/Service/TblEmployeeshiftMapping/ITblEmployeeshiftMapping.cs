@@ -1,7 +1,6 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeshiftMapping;
-using HMSAPI.Model.TblRole;
 
 namespace HMSAPI.Service.TblEmployeeshiftMapping
 {

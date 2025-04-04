@@ -1,7 +1,6 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace HMSAPI.Service.TblMedicineDiseaseMapping
 {

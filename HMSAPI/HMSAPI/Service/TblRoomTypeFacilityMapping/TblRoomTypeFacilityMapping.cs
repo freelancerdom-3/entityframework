@@ -69,8 +69,8 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                     if (Data != null)
                     {
                         Data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
-                        Data.UpdateBy = Data.UpdateBy;
-                        Data.UpdateOn = Data.UpdateOn;
+                        Data.UpdatedBy = Data.UpdatedBy;
+                        Data.UpdatedOn = Data.UpdatedOn;
                         Data.IsActive = Data.IsActive;
                         Data.IncreamentVersion();
                         connection.Update(Data);

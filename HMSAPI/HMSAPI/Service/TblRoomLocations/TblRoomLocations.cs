@@ -1,15 +1,13 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRoomLocation;
-using HMSAPI.Model.TblRoomTypeFacilityMapping.View_Model;
-using HMSAPI.Service.TblRoom;
+using HMSAPI.Model.TblRoomLocation.View_Model;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace HMSAPI.Service.TblRoomLocations
 {
-        public class TblRoomLocations : ITblRoomLocations
+    public class TblRoomLocations : ITblRoomLocations
         {
             private readonly HSMDBContext _hsmDbContext;
 
@@ -108,7 +106,6 @@ namespace HMSAPI.Service.TblRoomLocations
                 }
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Deleted Successfully";
-                //}
             }
             catch (Exception ex)
             {
@@ -119,56 +116,28 @@ namespace HMSAPI.Service.TblRoomLocations
 
             return responseModel;
         }
-
-
-        //public async Task<APIResponseModel> Deletebyroomid(int id)
-        //{
-        //    APIResponseModel responseModel = new();
-        //    try
-        //    {
-        //        var roomLocation = await _hsmDbContext.TblRoomLocations
-        //            .Where(x => x.RoomLocationID == id).FirstOrDefaultAsync();
-
-        //        if (roomLocation != null)
-        //        {
-        //            _hsmDbContext.TblRoomLocations.Remove(roomLocation);
-        //            await _hsmDbContext.SaveChangesAsync();
-        //        }
-
-        //        responseModel.StatusCode = HttpStatusCode.OK;
-        //        responseModel.Message = "Deleted Successfully";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
-        //        responseModel.Message = ex.InnerException?.Message ?? ex.Message;
-        //        responseModel.Data = null;
-        //    }
-
-        //    return responseModel;
-        //}
-
-
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
-            List<GetTblRoomTypeFacilityMappingModel> lsttblRoomTypeFacilityMappings = new();
+            List<GetTblRoomLocationModel> lsttblroomlocations = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lsttblRoomTypeFacilityMappings = await connection.GetTblRoomTypeFacilityMappingModel.FromSqlRaw($@"select TblRoom.RoomID,tblroomtype.RoomTypeId,TblRoomType.RoomType from TblRoom
-                    inner join TblRoomType on TblRoomType.RoomTypeId = TblRoomType.RoomTypeId   where RoomType
-                    like '%{searchBy}%'").ToListAsync();
-                    responseModel.Data = lsttblRoomTypeFacilityMappings;
+                    lsttblroomlocations = await connection.GetTblRoomLocationModel.FromSqlRaw($@"
+                    select TblRoomLocations.RoomLocationID, TblRoom.RoomID, TblRoom.RoomNumber 
+                    from TblRoomLocations
+                    inner join TblRoom on TblRoom.RoomID = TblRoomLocations.RoomID 
+                    where TblRoom.RoomID like '%{searchBy}%'").ToListAsync();
+                    responseModel.Data = lsttblroomlocations;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
                 }
-                if (lsttblRoomTypeFacilityMappings != null)
+                if (lsttblroomlocations != null)
                 {
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get All Recode Successfull";
-                    responseModel.Data = lsttblRoomTypeFacilityMappings;
+                    responseModel.Data = lsttblroomlocations;
 
                 }
                 else

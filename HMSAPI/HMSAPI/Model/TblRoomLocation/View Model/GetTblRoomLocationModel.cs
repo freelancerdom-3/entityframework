@@ -7,6 +7,6 @@ namespace HMSAPI.Model.TblRoomLocation.View_Model
         [Key]
         public int RoomLocationID { get; set; }
         public int RoomID { get; set; }
-        public string? RoomType { get; set; }
+        public int RoomNumber { get; set; }
     }
 }

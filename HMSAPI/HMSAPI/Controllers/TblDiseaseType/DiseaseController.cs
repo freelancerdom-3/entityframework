@@ -2,9 +2,6 @@
 using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Service.TblDiseaseType;
 using Microsoft.AspNetCore.Authorization;
-
-//using HMSAPI.Service.TblUser;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblDiseaseType
@@ -33,24 +30,16 @@ namespace HMSAPI.Controllers.TblDiseaseType
             return await _serviceTblDiesaesType.Update(id);
         }
 
-        [HttpDelete("[action]")]
-        public async Task<APIResponseModel> delete(TblDiseaseTypeModel DiseasetypeModel)
-        {
-            return await _serviceTblDiesaesType.delete(DiseasetypeModel);
-        }
-
-        
-
-        [HttpDelete("[action]")]
+       [HttpDelete("[action]")]
         public async Task<APIResponseModel> deleteByID(int id)
         {
             return await _serviceTblDiesaesType.deleteByID(id);
         }
 
         [HttpGet("[action]")]
-        public async Task<APIResponseModel> GetTbl(int id)
+        public async Task<APIResponseModel> GetByID(int id)
         {
-            return await _serviceTblDiesaesType.GetTbl(id);
+            return await _serviceTblDiesaesType.GetByID(id);
         }
 
         [HttpGet("[action]")]

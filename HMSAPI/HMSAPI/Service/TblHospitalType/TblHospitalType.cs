@@ -1,32 +1,17 @@
 ﻿using HMSAPI.EFContext;
-using HMSAPI.Model.Enums;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Service.TblHospitalType;
 using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HMSAPI.Service.TblHospitalTyp
 {
     public class TblHospitalType : ITblHospitalType
     {
-        //private readonly HSMDBContext _hsmDbContext;
-
-
-        //public TblHospitalType(HSMDBContext hSMDBContext)
-        //{
-        //    _hsmDbContext = hSMDBContext;
-        //}
-
         private readonly HSMDBContext _hsmDbContext;
-
-       
-
         private readonly ITokenData _tokenData;
-
-
         public TblHospitalType(HSMDBContext hSMDBContext)//, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
@@ -197,9 +182,9 @@ namespace HMSAPI.Service.TblHospitalTyp
                     using (var connection = _hsmDbContext)
                     {
                         lstHospitalType = connection.getTblHospitalTypeModels.FromSqlRaw($@"SELECT TU.FullName AS CreatedBy,UT.FullName
-                         AS UpdatedBy,HT.HospitalTypeID,HT.HospitalType,HT.CreatedOn,HT.UpdateOn,HT.IsActive,HT.VersionNo
-                         FROM TblHospitalType HT INNER JOIN TblUser TU ON TU.UserId=HT.CreateBy INNER JOIN TblUser UT 
-                         ON UT.UserId=HT.UpdateBy where TU.FullName like '%{searchBy}%'").ToList();
+                         AS UpdatedBy,HT.HospitalTypeID,HT.HospitalType,HT.CreatedOn,HT.UpdatedOn,HT.IsActive,HT.VersionNo
+                         FROM TblHospitalType HT INNER JOIN TblUser TU ON TU.UserId=HT.CreatedBy INNER JOIN TblUser UT 
+                         ON UT.UserId=HT.UpdatedBy where TU.FullName like '%{searchBy}%'").ToList();
                         responseModel.Data = lstHospitalType;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = null;

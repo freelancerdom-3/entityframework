@@ -1,16 +1,10 @@
 ﻿using System.Net;
 using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblFeedback;
-using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblPatient;
 using HMSAPI.Model.TblPatient.ViewModel;
-using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblUser;
-using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HMSAPI.Service.TblPatient
 {
@@ -90,7 +84,7 @@ namespace HMSAPI.Service.TblPatient
                                 FullName = patient.FullName,
                                 RoleId = patient.RoleId,
                                 MobileNumber = patient.MobilNumber,
-                                CreateBy = patient.CreateBy,
+                                CreatedBy = patient.CreatedBy,
                                 CreatedOn = patient.CreatedOn,
                                 IsActive = patient.IsActive,
                                 VersionNo = 1,
@@ -113,7 +107,7 @@ namespace HMSAPI.Service.TblPatient
                                     Emergency_Contact = patient.Emergency_Contact,
                                     Medical_History = patient.Medical_History,
                                     UserId = user.UserId,
-                                    CreateBy = user.CreateBy,
+                                    CreatedBy = user.CreatedBy,
                                     CreatedOn = user.CreatedOn,
                                     IsActive = user.IsActive,
                                     VersionNo = 1,
@@ -232,8 +226,8 @@ namespace HMSAPI.Service.TblPatient
                             existingUser.Password = update.Password;
                             existingUser.FullName = update.FullName;
                             existingUser.RoleId = update.RoleId;
-                            existingUser.UpdateBy = update.UpdateBy;
-                            existingUser.UpdateOn= update.UpdateOn;
+                            existingUser.UpdatedBy = update.UpdatedBy;
+                            existingUser.UpdatedOn = update.UpdatedOn;
                             existingUser.IsActive = update.IsActive;
                             existingUser.VersionNo += 1;
                         }
@@ -255,8 +249,8 @@ namespace HMSAPI.Service.TblPatient
                                 existingPatient.Emergency_Contact = update.Emergency_Contact;
                                 existingPatient.Medical_History = update.Medical_History;
                                 existingPatient.UserId = update.UserId;
-                                existingPatient.UpdateBy = update.UpdateBy;
-                                existingPatient.UpdateOn = update.UpdateOn;
+                                existingPatient.UpdatedBy = update.UpdatedBy;
+                                existingPatient.UpdatedOn = update.UpdatedOn;
                                 existingPatient.IsActive = update.IsActive;
                                 existingPatient.VersionNo += 1;
                             }

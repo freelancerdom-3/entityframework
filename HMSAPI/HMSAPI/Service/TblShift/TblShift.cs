@@ -30,14 +30,13 @@ namespace HMSAPI.Service.TblShift
                 using (var connection = _hsmDbContext)
                 {
 
-                    // bool duplicateRoleName = connection.TblRoles.Any(x => x.RoleName.ToLower() == roleModel.RoleName.ToLower());
+                    
 
                     bool DuplicateShift = connection.TblShifts.Any(x => x.Shiftname.ToLower() == Shift.Shiftname.ToLower());
 
                     if (!DuplicateShift)
                     {
-                        Shift.CreateBy = 1;
-                        //Shift.UpdateBy = 1;
+                        Shift.CreatedBy = 1;
                         Shift.CreatedOn = DateTime.Now;
                         Shift.VersionNo = 1;
                         connection.TblShifts.Add(Shift);
@@ -123,9 +122,9 @@ namespace HMSAPI.Service.TblShift
                 {
                     list = connection.GetTblShiftViewModel.FromSqlRaw($@"
                            select tu.FullName as Createdby, uu.FullName as UpdatedBy, tr.ShiftId,
-                           tr.StartTime,tr.EndTime,tr.Shiftname,tr.CreatedOn,tr.UpdateOn,tr.IsActive,tr.VersionNo 
-                           from TblShift tr inner join TblUser tu on tu.UserId = tr.CreateBy
-                           left join TblUser uu on uu.UserId = tr.UpdateBy where tu.FullName like '%{searchBy}%'").ToList();
+                           tr.StartTime,tr.EndTime,tr.Shiftname,tr.CreatedOn,tr.UpdatedOn,tr.IsActive,tr.VersionNo 
+                           from TblShift tr inner join TblUser tu on tu.UserId = tr.CreatedBy
+                           left join TblUser uu on uu.UserId = tr.UpdatedBy where tu.FullName like '%{searchBy}%'").ToList();
                     responseModel.Data = list;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Inserted Successfully";
@@ -194,14 +193,13 @@ namespace HMSAPI.Service.TblShift
 
                     if (data != null)
                     {
-                        //data.Shiftname = "Mornig Night";
                         data.Shiftname = model.Shiftname;
-                        data.UpdateBy = model.UpdateBy;
-                        data.UpdateOn = model.UpdateOn;
+                        data.UpdatedBy = model.UpdatedBy;
+                        data.UpdatedOn = model.UpdatedOn;
                         data.StartTime = model.StartTime;
                         data.EndTime = model.EndTime;
-                        model.UpdateBy = 2;
-                        model.UpdateOn = DateTime.Now;
+                        model.UpdatedBy = 2;
+                        model.UpdatedOn = DateTime.Now;
                         data.IncreamentVersion();
                         connection.TblShifts.Update(data);
                         connection.SaveChanges();

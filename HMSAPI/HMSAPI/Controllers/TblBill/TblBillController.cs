@@ -1,15 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
-using HMSAPI.Model.TblUser;
 using HMSAPI.Service.TblBill;
-using HMSAPI.Service.TblUser;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblBill
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblBillController : ControllerBase
     {
         private readonly ITblBill _serviceTblBill;

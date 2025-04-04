@@ -3,8 +3,6 @@ using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFeedback;
 using HMSAPI.Model.TblFeedback.ViewModel;
-using HMSAPI.Model.TblHospitalType;
-using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblFeedback
@@ -121,7 +119,5 @@ namespace HMSAPI.Service.TblFeedback
             }
             return responseModel;
         }
-
-
     }
 }

@@ -145,11 +145,13 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
 
                 using (var connection = _hsmDbContext)
                 {
-
-                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModel.FromSql($@"select TblPatientAdmitionDetails.PatientAdmitionDetailsId,TblRoom.RoomNumber,TblUser.fullname  from TblPatientAdmitionDetails
-                             inner join TblUser on TblUser.UserId = TblPatientAdmitionDetails.UserID 
-                    inner join TblRoom on TblRoom.RoomId = TblPatientAdmitionDetails.RoomId where fullname like '%{searchBy}%'").ToListAsync();
-
+                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModel.FromSqlRaw($@"
+                    
+                    
+                    select TblPatientAdmitionDetails.PatientAdmitionDetailsId,TblRoom.RoomID,TblUser.UserId,TblPatientAdmitionDetails.AdmisionDate,TblRoom.RoomNumber,TblUser.FullName from TblPatientAdmitionDetails 
+                    inner join TblRoom on TblRoom.RoomID = TblPatientAdmitionDetails.RoomID
+                    inner join TblUser on TblUser.UserId = TblPatientAdmitionDetails.UserId 
+                    where FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstPatientAdmitionDetails;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Your Data";
@@ -160,7 +162,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-               responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }
             return responseModel;
@@ -219,8 +221,8 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                         data.RoomID= ObjUpdate.RoomID;
                         data.TreatmentDetailsId= ObjUpdate.TreatmentDetailsId;
                         data.DischargeDate= ObjUpdate.DischargeDate;
-                        data.UpdateBy  = ObjUpdate.UpdateBy;
-                        data.UpdateOn = ObjUpdate.UpdateOn;
+                        data.UpdatedBy  = ObjUpdate.UpdatedBy;
+                        data.UpdatedOn = ObjUpdate.UpdatedOn;
                         data.IsActive = ObjUpdate.IsActive;
                         data.IncreamentVersion();
                         connection.SaveChanges();

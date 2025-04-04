@@ -1,13 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblPateintDoctormapping;
 using HMSAPI.Service.TblPateintDoctormapping;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblPateintDoctormapping
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblPateintDoctormappingController : ControllerBase
     {
         private readonly ITblPateintDoctormapping _servicetblPateintDoctormapping;

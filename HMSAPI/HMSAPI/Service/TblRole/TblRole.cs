@@ -30,7 +30,7 @@ namespace HMSAPI.Service.TblRole
                     if (!duplicateRoleName)
                     {
                         roleModel.VersionNo = 1;
-                        roleModel.CreateBy = 1;
+                        roleModel.CreatedBy = 1;
                         roleModel.CreatedOn = DateTime.Now;
                         //roleModel.CreateBy = Convert.ToInt32(_tokenData.UserID);
                         _ = connection.TblRoles.Add(roleModel);
@@ -107,9 +107,9 @@ namespace HMSAPI.Service.TblRole
                 {
                     lstRolles = connection.getTblRoleViewModels.FromSqlRaw($@"
                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoleId, 
-                    tr.RoleName,tr.CreatedOn,tr.UpdateOn, tr.IsActive,tr.VersionNo
-                    FROM TblRole tr INNER JOIN TblUser tu ON tu.UserId = tr.CreateBy 
-                    left JOIN TblUser uu ON uu.UserId = tr.UpdateBy 
+                    tr.RoleName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                    FROM TblRole tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
+                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
                     where tu.fullName LIKE  '%{searchBy}%'").ToList();
                     //lstRolles = string.IsNullOrEmpty(searchBy) ? connection.TblRoles.ToList() : connection.TblRoles.Where(x => x.RoleName.ToLower() == searchBy.ToLower()).ToList();
                     responseModel.Data = lstRolles;
@@ -173,8 +173,8 @@ namespace HMSAPI.Service.TblRole
                     if (data != null)
                     {
                         data.RoleName = data.RoleName;
-                        data.UpdateBy = data.UpdateBy;
-                        data.UpdateOn = data.UpdateOn;
+                        data.UpdatedBy = data.UpdatedBy;
+                        data.UpdatedOn = data.UpdatedOn;
                         data.IsActive = data.IsActive;
                         data.IncreamentVersion();
                         connection.TblRoles.Update(data);

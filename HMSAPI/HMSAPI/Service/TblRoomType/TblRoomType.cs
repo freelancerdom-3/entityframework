@@ -48,8 +48,8 @@ namespace HMSAPI.Service.TblRoomType
                     if (!DuplicateRoomType)
                     {
                         TblRoomTyp.VersionNo = 1;
-                        TblRoomTyp.CreateBy = 1;
-                        TblRoomTyp.UpdateBy = 1;
+                        TblRoomTyp.CreatedBy = 1;
+                        TblRoomTyp.UpdatedBy = 1;
                         TblRoomTyp.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                         TblRoomTyp.IsActive = true;
 
@@ -212,9 +212,9 @@ namespace HMSAPI.Service.TblRoomType
                 {
                     lstRoomType = connection.GetTblRoomTypeViewModel.FromSqlRaw($@"
                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoomTypeId, 
-                    tr.RoomType,tr.CreatedOn,tr.UpdateOn, tr.IsActive,tr.VersionNo
-                    FROM TblRoomType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreateBy  
-                    INNER JOIN TblUser uu ON uu.UserId = tr.UpdateBy 
+                    tr.RoomType,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                    FROM TblRoomType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
+                    INNER JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
                     where tu.fullName LIKE  '%{searchBy}%'").ToList();
                     responseModel.Data = lstRoomType;
                     responseModel.StatusCode = HttpStatusCode.OK;

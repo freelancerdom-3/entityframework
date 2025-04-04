@@ -1,12 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblDiseaseType;
 using HMSAPI.Model.TblFacilityTypes;
-using HMSAPI.Service.TblDiseaseType;
-using HMSAPI.Service.TblFacilityTypes;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HMSAPI.Service.TblFacilityTypes
 {

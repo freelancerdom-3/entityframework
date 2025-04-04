@@ -1,14 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFacility;
-using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Service.TblFacility;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblFacility
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblFacilityController : ControllerBase
     {
         private readonly ITblFacility _servicetblfacility;
@@ -23,7 +23,7 @@ namespace HMSAPI.Controllers.TblFacility
             return await _servicetblfacility.Add(tblFacility);
         }
 
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(TblFacilityModel tblFacility)
         {
             return await _servicetblfacility.Update(tblFacility);

@@ -1,5 +1,4 @@
-﻿using HMSAPI.EFContext;
-using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
 
 namespace HMSAPI.Service.TblMedicineType

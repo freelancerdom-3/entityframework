@@ -1,15 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRoomLocation;
-using HMSAPI.Service.TblRoom;
 using HMSAPI.Service.TblRoomLocations;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblRoomLocation
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblRoomLocationController : ControllerBase
     {
         private readonly ITblRoomLocations _serviceRoomLocation;
@@ -31,11 +30,7 @@ namespace HMSAPI.Controllers.TblRoomLocation
             return await _serviceRoomLocation.GetAll(searchBy);
         }
 
-
-
-
-
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(int id)
         {
             return await _serviceRoomLocation.Update(id);
