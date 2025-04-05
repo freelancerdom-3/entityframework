@@ -11,5 +11,6 @@ namespace HMSAPI.Service.TblBill
         Task<APIResponseModel> Add(TblBillModel bill);
         Task<APIResponseModel> Update(int id, TblBillModel bill);
         Task<APIResponseModel> Delete(int id);
+        Task<APIResponseModel> Deletebyid(int id);
     }
 }

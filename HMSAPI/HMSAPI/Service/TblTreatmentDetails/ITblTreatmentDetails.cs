@@ -13,5 +13,7 @@ namespace HMSAPI.Service.TblTreatmentDetails
         Task<APIResponseModel> GetByID(int id);
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
+
+        Task<APIResponseModel> Deletebyid(int id);
     }
 }

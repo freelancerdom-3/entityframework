@@ -65,6 +65,44 @@ namespace HMSAPI.Service.TblPatient
             return responseModel;
         }
 
+        public async Task<APIResponseModel> Deletebyid(int userId)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                using (var connection = _hSMDBContext)
+                {
+                    TblPatientModel? patient = await _hSMDBContext.TblPatients.Where(x => x.PatientId == userId).FirstOrDefaultAsync();
+
+                    //TblUserModel? user = await _hSMDBContext.TblUsers.Where(x => x.UserId == userId).FirstOrDefaultAsync();
+
+                    //if (patient != null || user != null)
+                    //{
+                    //    connection.TblPatients.Remove(patient);
+                    //    //connection.TblUsers.Remove(user);
+
+                    //    await _hSMDBContext.SaveChangesAsync();
+
+                    //    responseModel.Data = true;
+                    //    responseModel.StatusCode = HttpStatusCode.OK;
+                    //    responseModel.Message = "Deleted Successfully";
+                    //}
+                    //else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "ID Not Found";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
 
 
         public async Task<APIResponseModel> Add(GetTblPatientViewModel patient)

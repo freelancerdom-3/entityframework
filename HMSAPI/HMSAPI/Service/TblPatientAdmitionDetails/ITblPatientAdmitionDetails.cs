@@ -15,5 +15,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
         Task<APIResponseModel> GetById(int objGetById);
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
+
+        Task<APIResponseModel> deletebyid(int objDelete);
     }
 }

@@ -44,13 +44,13 @@ namespace HMSAPI.Controllers.TblUser
             return await _serviceTblUser.SignupUser(userModel);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<APIResponseModel> ForgetPassword(string email)
         {
             return await _serviceTblUser.ForgetPassword(email);        
         }
-
+        
         [HttpPost("[action]")]
         public async Task<APIResponseModel> Add(TblUserModel model)
         {
