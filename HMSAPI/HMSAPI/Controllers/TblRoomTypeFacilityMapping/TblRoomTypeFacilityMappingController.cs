@@ -1,13 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRoomTypeFacilityMapping;
 using HMSAPI.Service.TblRoomTypeFacilityMapping;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblRoomTypeFacilityMapping
-//namespace TblRoomTypeFacilityMappingType.Controllers.TblRoomTypeFacilityMapping
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblRoomTypeFacilityMappingController : ControllerBase
     {
         private readonly ITblRoomTypeFacilityMapping _servicetblroomfacilitymapping;

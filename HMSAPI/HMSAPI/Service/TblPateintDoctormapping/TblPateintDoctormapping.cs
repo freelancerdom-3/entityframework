@@ -70,8 +70,8 @@ namespace HMSAPI.Service.TblPateintDoctormapping
 
                         data.UserId = departmentModel.UserId;
                         data.PatientId = departmentModel.PatientId;
-                        data.UpdateBy = departmentModel.UpdateBy;
-                        data.UpdateOn = departmentModel.UpdateOn;
+                        data.UpdatedBy = departmentModel.UpdatedBy;
+                        data.UpdatedOn = departmentModel.UpdatedOn;
                         data.IsActive = departmentModel.IsActive;
                         data.IncreamentVersion();
                         connection.TblPateintDoctormappingModels.Update(data);

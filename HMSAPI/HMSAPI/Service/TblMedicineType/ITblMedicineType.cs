@@ -14,5 +14,7 @@ namespace HMSAPI.Service.TblMedicineType
         Task<APIResponseModel> Update(TblMedicineTypeModel model);
 
         Task<APIResponseModel> Delete(int Id);
+
+        
     }
 }

@@ -72,8 +72,8 @@ namespace HMSAPI.Service.TblTreatmentDetails
                         data.DieseaseTypeID = departmentModel.TreatmentDetailsId;
                         data.PatientId = departmentModel.TreatmentDetailsId;
                         data.TreatmentDate=departmentModel.TreatmentDate;
-                        data.UpdateBy = departmentModel.UpdateBy;
-                        data.UpdateOn = departmentModel.UpdateOn;
+                        data.UpdatedBy = departmentModel.UpdatedBy;
+                        data.UpdatedOn = departmentModel.UpdatedOn;
                         data.IsActive = departmentModel.IsActive;
                         data.IncreamentVersion();
                         connection.TblTreatmentDetails.Update(data);

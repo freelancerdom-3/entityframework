@@ -7,9 +7,8 @@ namespace HMSAPI.Service.TblDiseaseType
     {
         Task<APIResponseModel> Add(TblDiseaseTypeModel diseasetypeModel);
         Task<APIResponseModel> Update(int id);
-        Task<APIResponseModel> delete(TblDiseaseTypeModel diseasetypeModel);
         Task<APIResponseModel> deleteByID(int id);
-        Task<APIResponseModel> GetTbl(int Id);
+        Task<APIResponseModel> GetByID(int Id);
         Task<APIResponseModel> GetAll(String? searchby = null);  
     }
 }

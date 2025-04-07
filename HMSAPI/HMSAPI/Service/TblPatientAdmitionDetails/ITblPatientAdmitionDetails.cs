@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblRole;
 
@@ -15,6 +16,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
         Task<APIResponseModel> GetById(int objGetById);
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
+        Task<APIResponseModel> Deletebyroomid(HSMDBContext connection, int id);
 
         Task<APIResponseModel> deletebyid(int objDelete);
     }

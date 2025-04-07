@@ -3,7 +3,7 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDetails;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
 
 namespace HMSAPI.Service.TblMedicineDetails
 {
@@ -79,8 +79,8 @@ namespace HMSAPI.Service.TblMedicineDetails
                         data.Frequency = TblMedicineDetails.Frequency;
                         data.Duration = TblMedicineDetails.Duration;
                         data.Instruction = TblMedicineDetails.Instruction;
-                        data.UpdateBy = TblMedicineDetails.UpdateBy;
-                        data.UpdateOn = TblMedicineDetails.UpdateOn;
+                        data.UpdatedBy = TblMedicineDetails.UpdatedBy;
+                        data.UpdatedOn = TblMedicineDetails.UpdatedOn;
                         data.IsActive = TblMedicineDetails.IsActive;
                         data.IncreamentVersion();
                         connection.Update(data);
@@ -219,11 +219,33 @@ namespace HMSAPI.Service.TblMedicineDetails
                 responseModel.Data = null;
             }
             return responseModel;
+        }
 
+        public  async Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                 List<TblMedicineDetailsModel> medicineid = connection.TblMedicineDetails.Where(x => x.MedicineTypeID == id).ToList();
 
+                if (medicineid != null)
+                {
+                    foreach (TblMedicineDetailsModel medicine in medicineid)
+                    {
+                        connection.TblMedicineDetails.Remove(medicine);
+                    }
+                }
+                responseModel.StatusCode = HttpStatusCode.OK;
+                responseModel.Message = "Deleted Successfully";
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
 
-
-
+            return responseModel;
         }
     }
 }

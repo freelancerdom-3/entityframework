@@ -1,6 +1,6 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeshiftMapping;
-using HMSAPI.Model.TblRole;
 
 namespace HMSAPI.Service.TblEmployeeshiftMapping
 {
@@ -17,6 +17,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
 
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
+        Task<APIResponseModel> DeleteByShiftId(HSMDBContext context, int id);
 
     }
 }

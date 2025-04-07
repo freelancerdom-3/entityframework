@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRoomTypeFacilityMapping;
 
 namespace HMSAPI.Service.TblRoomTypeFacilityMapping
@@ -16,5 +17,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
 
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
+
+        Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id);
     }
 }

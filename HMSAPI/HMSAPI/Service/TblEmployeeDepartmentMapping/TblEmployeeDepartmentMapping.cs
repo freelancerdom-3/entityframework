@@ -63,8 +63,6 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                 using (var connection = _hsmDbContext)
                 {
                     TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.UserId == departmentModel.UserId).FirstOrDefaultAsync();
-
-                    //update
                     if (data != null)
                     {
                         data.HospitalDepartmentId = departmentModel.HospitalDepartmentId;
@@ -103,8 +101,6 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                 using (var connection = _hsmDbContext)
                 {
                     TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id).FirstOrDefaultAsync();
-
-                    //delete
                     if (data != null)
                     {
 
@@ -176,20 +172,12 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
 
                 using (var connection = _hsmDbContext)
                 {
-
-
-                    data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id).FirstOrDefaultAsync();
-
-
-
+                     data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-
-
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Get Record Successfully";
                         responseModel.Data = data;
-
                     }
                     else
                     {
@@ -208,10 +196,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                 responseModel.Data = null;
 
             }
-
-
             return responseModel;
-
         }
 
         public async Task<APIResponseModel> DeleteByID(int employeeDepartmentMappingId)
@@ -221,24 +206,18 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    // Find the child record
-                    var childRecord = await connection.TblEmployeeDepartmentMappings
+                     var childRecord = await connection.TblEmployeeDepartmentMappings
                         .Where(x => x.EmployeeDepartmentMappingId == employeeDepartmentMappingId)
                         .FirstOrDefaultAsync();
 
                     if (childRecord != null)
                     {
                         int hospitalDepartmentID = childRecord.HospitalDepartmentId;
-
-                        // Remove the child record
                         connection.TblEmployeeDepartmentMappings.Remove(childRecord);
                         await connection.SaveChangesAsync();
-
-                        // Check if there are any remaining child records for this department
                         bool hasOtherMappings = await connection.TblEmployeeDepartmentMappings
                             .AnyAsync(x => x.HospitalDepartmentId == hospitalDepartmentID);
 
-                        // If no more child records exist, delete the parent
                         if (!hasOtherMappings)
                         {
                             var parentRecord = await connection.TbLHospitalDepartment

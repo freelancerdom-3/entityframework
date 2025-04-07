@@ -278,7 +278,7 @@ namespace HMSAPI.Service.TblUser
                         if (!duplicateEmail)
                         {
                             model.VersionNo = 1;
-                            model.CreateBy = UserId;
+                            model.CreatedBy = UserId;
                             _ = await connection.TblUsers.AddAsync(model);
 
                             connection.SaveChanges();
@@ -328,7 +328,7 @@ namespace HMSAPI.Service.TblUser
                             if (data != null && !duplicateEmail && !duplicateMobile)
 
                             {
-                            model.UpdateBy = UserId;
+                            model.UpdatedBy = UserId;
                                 //  model.UpdateBy=_tokenData.UserID
 
                                 data.RoleId = model.RoleId;
@@ -336,8 +336,8 @@ namespace HMSAPI.Service.TblUser
                                 data.Email = model.Email;
                                 data.Password = model.Password;
                                 data.FullName = model.FullName;
-                                data.UpdateBy = model.UpdateBy;
-                                data.UpdateOn = model.UpdateOn;
+                                data.UpdatedBy = model.UpdatedBy;
+                                data.UpdatedOn = model.UpdatedOn;
                                 data.IsActive = model.IsActive;
 
                                 data.IncreamentVersion();

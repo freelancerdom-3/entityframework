@@ -1,5 +1,4 @@
 ﻿using HMSAPI.Model.GenericModel;
-
 using HMSAPI.Model.TblHospitalDepartment;
 using HMSAPI.Service.TblHospitalDept;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +9,7 @@ namespace HMSAPI.Controllers.TblHospitalDept
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+    [Authorize]
     public class TblHospitalDeptController : ControllerBase
     {
         private readonly ITblHospitalDepartment _serviceTblHosDep;

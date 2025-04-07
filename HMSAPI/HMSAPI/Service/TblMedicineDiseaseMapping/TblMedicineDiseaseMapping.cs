@@ -1,10 +1,9 @@
-﻿using Azure;
-using HMSAPI.EFContext;
+﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace HMSAPI.Service.TblMedicineDiseaseMapping
 {
@@ -81,6 +80,32 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             catch (Exception ex)
             {
                 responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
+        public async  Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                List<TblMedicineDiseaseMappingModel> medicineid = connection.TblMedicineDiseaseMappings.Where(x => x.MedicineTypeID == id).ToList();
+
+                if (medicineid != null)
+                {
+                    foreach (TblMedicineDiseaseMappingModel medicine in medicineid)
+                    {
+                        connection.TblMedicineDiseaseMappings.Remove(medicine);
+                    }
+                }
+                responseModel.StatusCode = HttpStatusCode.OK;
+                responseModel.Message = "Deleted Successfully";
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
                 responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }
@@ -171,7 +196,5 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             }
             return responseModel;
         }
-
-        
     }
 }

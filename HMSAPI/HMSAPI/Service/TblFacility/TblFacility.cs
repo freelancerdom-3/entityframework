@@ -27,9 +27,6 @@ namespace HMSAPI.Service.TblFacility
 
                     if (!duplicateName)
                     {
-                        //_hsmDbContext.TblHospitalTypes.Add(hospitalTypModel);
-
-                        //_hsmDbContext.SaveChanges();
                         tblFacility.VersionNo = 1;
                         _ = await connection.TblFacility.AddAsync(tblFacility);
                         connection.SaveChanges();
@@ -65,12 +62,10 @@ namespace HMSAPI.Service.TblFacility
                     TblFacilityModel? data = await connection.TblFacility.Where(x => x.FacilityID == Id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        //connection.TblHospitalTypes.Remove(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete Successfully";
-
                     }
                     else
                     {
@@ -155,8 +150,8 @@ namespace HMSAPI.Service.TblFacility
                     if (data != null)
                     {
                         data.FacilityName = tblFacility.FacilityName;
-                        data.UpdateBy = tblFacility.UpdateBy;
-                        data.UpdateOn = tblFacility.UpdateOn;
+                        data.UpdatedBy = tblFacility.UpdatedBy;
+                        data.UpdatedOn = tblFacility.UpdatedOn;
                         data.IsActive = tblFacility.IsActive;
                         data.IncreamentVersion();
                         connection.TblFacility.Update(data);

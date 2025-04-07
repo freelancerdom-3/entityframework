@@ -25,8 +25,6 @@ using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
 using HMSAPI.Model.TblPatient.ViewModel;
 using HMSAPI.Model.TblFeedback;
-
-//using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblBill.ViewModel;
@@ -109,11 +107,7 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblFacilityModel>().ToTable("TblFacility");
             modelBuilder.Entity<TblFacilityTypeModels>().ToTable("TblfacilityType");
             modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
-
-
-
-
-            modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");  //patientAdmitionDaetails
+            modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");
 
         }
 
@@ -148,21 +142,8 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
 
         public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
-
-
-
-
-        //public DbSet<GetTblEmployeeshiftMappingViewModel> GetTblEmployeeshiftMappingViewModels {  get; set; }
-
-
-
-        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; } //PatientAdmitionDetails
-
-
-        public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModels { get; set; }
-
-
-        public DbSet<GetPateintDoctorMappingViewModel> GetTblTreatmentDetailsViewModels { get; set; }
+        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; } 
+        public DbSet<GetPateintDoctorMappingViewModel> getPateintDoctorMappingViewModels { get; set; }
 
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
         public DbSet<GetMedicineDetailsViewModel> GetMedicineDetailsViewModel { get; set; }
@@ -196,6 +177,11 @@ namespace HMSAPI.EFContext
         public DbSet<TblHospitalDepartmentViewModel> TblHospitalDepartmentViewModel { get; set; }
 
         public DbSet<GetTblMedicineTypeViewModel>GetTblMedicineTypeViewModels { get; set; }
+
+        public DbSet<GetTblRoleViewModel> getTblRoleViewModels { get; set; }
+
+        public DbSet<GetTblShiftViewModel> GetTblShiftViewModel { get; set; }
+        public DbSet<GetTblHospitalTypeModel> getTblHospitalTypeModels { get; set; }
 
     }
 }

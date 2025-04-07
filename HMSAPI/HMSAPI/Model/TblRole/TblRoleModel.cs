@@ -9,4 +9,11 @@ namespace HMSAPI.Model.TblRole
         public int RoleId { get; set; }
         public string? RoleName { get; set; }
     }
+    public class GetTblRoleViewModel : ListViewModel
+    {
+        [Key]
+        public int RoleId { get; set; }
+        public string? RoleName { get; set; }
+
+    }
 }

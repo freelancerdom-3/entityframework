@@ -2,6 +2,7 @@
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFacilityTypes;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
+using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblRoomTypeFacilityMapping;
 using HMSAPI.Model.TblRoomTypeFacilityMapping.View_Model;
 using HMSAPI.Model.TblUser;
@@ -68,8 +69,8 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                     if (Data != null)
                     {
                         Data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
-                        Data.UpdateBy = Data.UpdateBy;
-                        Data.UpdateOn = Data.UpdateOn;
+                        Data.UpdatedBy = Data.UpdatedBy;
+                        Data.UpdatedOn = Data.UpdatedOn;
                         Data.IsActive = Data.IsActive;
                         Data.IncreamentVersion();
                         connection.Update(Data);
@@ -129,6 +130,67 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
             return responseModel;
         }
 
+        //public async Task<APIResponseModel> Deletebyroomid(int id)
+        //{
+        //    APIResponseModel responseModel = new();
+        //    try
+        //    {
+        //        using (var connection = _hsmDbContext)
+        //        {
+        //            TblRoomTypeFacilityMappingModel roomid = await connection.TblRoomTypeFacilityMapping.FindAsync(id);
+
+        //            if (roomid != null)
+        //            {
+        //                connection.TblRoomTypeFacilityMapping.Remove(roomid);
+        //                await connection.SaveChangesAsync();
+        //            }
+        //            responseModel.StatusCode = HttpStatusCode.OK;
+        //            responseModel.Message = "Deleted Successfully";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //        responseModel.Message = ex.InnerException.Message;
+        //        responseModel.Data = null;
+        //    }
+
+        //    return responseModel;
+        //}
+
+
+        public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context, int id)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+               
+
+                List<TblRoomTypeFacilityMappingModel> roomid = context.TblRoomTypeFacilityMapping.Where(x => x.RoomID == id).ToList();
+
+                if (roomid != null)
+                {
+                    foreach (TblRoomTypeFacilityMappingModel room in roomid) 
+                    {
+                        context.TblRoomTypeFacilityMapping.Remove(room);
+                    }
+                    await _hsmDbContext.SaveChangesAsync();
+                }
+
+                responseModel.StatusCode = HttpStatusCode.OK;
+                responseModel.Message = "Deleted Successfully";
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
+
+
         public async Task<APIResponseModel> GetById(int id)
         {
             APIResponseModel responseModel = new();
@@ -172,7 +234,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                 using (var connection = _hsmDbContext)
                 {
                     lsttblRoomTypeFacilityMappings = await connection.GetTblRoomTypeFacilityMappingModel.FromSqlRaw($@"
-select TblRoomTypeFacilityMapping.RoomTypeFacilityMappingID , TblRoom.RoomNumber , TblFacility.FacilityName,TblRoomType.RoomType  from TblRoomTypeFacilityMapping
+                    select TblRoomTypeFacilityMapping.RoomTypeFacilityMappingID , TblRoom.RoomNumber , TblFacility.FacilityName,TblRoomType.RoomType  from TblRoomTypeFacilityMapping
                     inner join TblRoom  on TblRoom.RoomID = TblRoomTypeFacilityMapping.RoomId
                     inner join TblFacility on tblfacility.FacilityName = tblfacility.FacilityName
 					inner join TblRoomType on TblRoomType.RoomType = TblRoomType.RoomType

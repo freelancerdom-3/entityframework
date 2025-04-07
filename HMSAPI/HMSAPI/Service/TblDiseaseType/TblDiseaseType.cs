@@ -1,17 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblDiseaseType;
-using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
-
-
-using HMSAPI.Service.TblUser;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 namespace HMSAPI.Service.TblDiseaseType
 {
     public class TblDiseaseType : ITblDiseaseType
@@ -72,8 +63,8 @@ namespace HMSAPI.Service.TblDiseaseType
                     TblDiseaseTypeModel? data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.UpdateOn = data.UpdateOn;
-                        data.UpdateBy = data.UpdateBy;
+                        data.UpdatedOn = data.UpdatedOn;
+                        data.UpdatedBy = data.UpdatedBy;
                         data.IsActive = data.IsActive;
                         data.IncreamentVersion();
                         connection.TblDiseaseType.Update(data);
@@ -97,41 +88,6 @@ namespace HMSAPI.Service.TblDiseaseType
             }
             return responseModel;
 
-        }
-
-        //Delete
-        public async Task<APIResponseModel> delete(TblDiseaseTypeModel tblDiseaseType)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                using (var connection = _hsmDbContext)
-                {
-                    TblDiseaseTypeModel? data = await connection.TblDiseaseType
-                   .Where(x => x.DieseaseName.ToLower() == tblDiseaseType.DieseaseName.ToLower())
-                   .FirstOrDefaultAsync();
-                    if (data != null)
-                    {
-                        connection.TblDiseaseType.Remove(data);
-                        connection.SaveChanges();
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Delete SuccessFully:";
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "DieasesName Is Not Found";
-                        responseModel.Data = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
         }
 
         //DELETEBYID
@@ -174,7 +130,7 @@ namespace HMSAPI.Service.TblDiseaseType
         
 
         //GETTBL
-        public async Task<APIResponseModel> GetTbl(int id)
+        public async Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
             TblDiseaseTypeModel data = new TblDiseaseTypeModel();
@@ -216,7 +172,6 @@ namespace HMSAPI.Service.TblDiseaseType
             {
                 using (var connection = _hsmDbContext)
                 {
-                    // await connection.TblDiseaseType.ToListAsync();
                     lstDisease = string.IsNullOrEmpty(searchby) ? await connection.TblDiseaseType.ToListAsync() :
                         await connection.TblDiseaseType.Where(x => x.DieseaseName.ToLower() == searchby.ToLower()).ToListAsync();
 

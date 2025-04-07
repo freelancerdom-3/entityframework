@@ -3,6 +3,7 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblRole;
+using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblUser.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -133,6 +134,43 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
 
         }
 
+        public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                //using (var connection = _hsmDbContext)
+                //{
+                //TblPatientAdmitionDetailsModel patientAdmission = await context.tblPatientAdmitionDetails.FindAsync(id);
+                //List<TblRoomModel> roomid = context.TblRoom.Where(x => x.RoomTypeID == id).ToList();
+                List<TblPatientAdmitionDetailsModel> patientAdmission = context.tblPatientAdmitionDetails.Where(x => x.RoomID == id).ToList();
+
+
+                if (patientAdmission != null)
+                    {
+                    foreach(TblPatientAdmitionDetailsModel room in patientAdmission)
+                    {
+                    context.tblPatientAdmitionDetails.Remove(room);
+
+                    }
+                        await context.SaveChangesAsync();
+                }
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Deleted Successfully";
+                //}
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
+
+
+
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
@@ -144,11 +182,13 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
 
                 using (var connection = _hsmDbContext)
                 {
-
-                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModel.FromSql($@"select TblPatientAdmitionDetails.PatientAdmitionDetailsId,TblRoom.RoomNumber,TblUser.fullname  from TblPatientAdmitionDetails
-                             inner join TblUser on TblUser.UserId = TblPatientAdmitionDetails.UserID 
-                    inner join TblRoom on TblRoom.RoomId = TblPatientAdmitionDetails.RoomId where fullname like '%{searchBy}%'").ToListAsync();
-
+                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModel.FromSqlRaw($@"
+                    
+                    
+                    select TblPatientAdmitionDetails.PatientAdmitionDetailsId,TblRoom.RoomID,TblUser.UserId,TblPatientAdmitionDetails.AdmisionDate,TblRoom.RoomNumber,TblUser.FullName from TblPatientAdmitionDetails 
+                    inner join TblRoom on TblRoom.RoomID = TblPatientAdmitionDetails.RoomID
+                    inner join TblUser on TblUser.UserId = TblPatientAdmitionDetails.UserId 
+                    where FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstPatientAdmitionDetails;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Your Data";
@@ -159,7 +199,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-               responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }
             return responseModel;
@@ -218,8 +258,8 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                         data.RoomID= ObjUpdate.RoomID;
                         data.TreatmentDetailsId= ObjUpdate.TreatmentDetailsId;
                         data.DischargeDate= ObjUpdate.DischargeDate;
-                        data.UpdateBy  = ObjUpdate.UpdateBy;
-                        data.UpdateOn = ObjUpdate.UpdateOn;
+                        data.UpdatedBy  = ObjUpdate.UpdatedBy;
+                        data.UpdatedOn = ObjUpdate.UpdatedOn;
                         data.IsActive = ObjUpdate.IsActive;
                         data.IncreamentVersion();
                         connection.SaveChanges();

@@ -3,11 +3,16 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.RoomTypeModel;
 using HMSAPI.Model.TblMenuRoleMapping;
 using HMSAPI.Service.RoomType;
+using HMSAPI.Service.TblPatientAdmitionDetails;
+using HMSAPI.Service.TblRoom;
+using HMSAPI.Service.TblRoomLocations;
+using HMSAPI.Service.TblRoomTypeFacilityMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HMSAPI.Service.TblRoomType
@@ -15,9 +20,19 @@ namespace HMSAPI.Service.TblRoomType
     public class TblRoomType : ITblRoomType
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblRoomType(HSMDBContext hSMDBContext)
+
+        private readonly ITblRoomTypeFacilityMapping _tblRoomTypeFacilityMapping;
+        private readonly ITblRoomLocations _tblRoomLocations;
+        private readonly ITblRoom _tblRoom;
+        private readonly ITblPatientAdmitionDetails _tblPatientAdmitionDetails;
+        public TblRoomType(HSMDBContext hSMDBContext, ITblRoomTypeFacilityMapping RoomTypeFacilityMapping, ITblRoomLocations tblRoomLocations, ITblRoom tblRoom, ITblPatientAdmitionDetails tblPatientAdmitionDetails)
         {
             _hsmDbContext = hSMDBContext;
+            _tblRoomTypeFacilityMapping = RoomTypeFacilityMapping;
+            _tblRoomLocations = tblRoomLocations;
+            _tblRoom = tblRoom;
+            _tblPatientAdmitionDetails = tblPatientAdmitionDetails;
+
         }
 
 
@@ -33,8 +48,8 @@ namespace HMSAPI.Service.TblRoomType
                     if (!DuplicateRoomType)
                     {
                         TblRoomTyp.VersionNo = 1;
-                        TblRoomTyp.CreateBy = 1;
-                        TblRoomTyp.UpdateBy = 1;
+                        TblRoomTyp.CreatedBy = 1;
+                        TblRoomTyp.UpdatedBy = 1;
                         TblRoomTyp.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                         TblRoomTyp.IsActive = true;
 
@@ -72,23 +87,35 @@ namespace HMSAPI.Service.TblRoomType
                 using (var connection = _hsmDbContext)
                 {
                     TblRoomTypeModel? data = await connection.tblRoomTypes
-                        .Where(x => x.RoomTypeId == id).FirstOrDefaultAsync();
-                  
+                        .Where(x => x.RoomTypeId == id). FirstOrDefaultAsync();
+
                     if (data != null)
                     {
+                        //connection.Database.BeginTransaction();
+                        _tblRoomTypeFacilityMapping?.Deletebyroomid(connection,id);
+
+                        _tblRoom?.Deletebyroomid(connection,id);
+
+                        _tblRoomLocations?.Deletebyroomid(connection,id);
+
+                        _tblPatientAdmitionDetails?.Deletebyroomid(connection,id);
+                        
+
+
                         connection.tblRoomTypes.Remove(data);
                         connection.SaveChanges();
+                        //connection.Database.CommitTransaction();
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete SuccessFully:";
                     }
                     else
                     {
+                        //connection.Database.RollbackTransaction();
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
                         responseModel.Message = "DieasesName Is Not Found";
                         responseModel.Data = false;
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -98,6 +125,11 @@ namespace HMSAPI.Service.TblRoomType
             }
             return responseModel;
         }
+
+
+       
+
+
 
 
 
@@ -112,7 +144,6 @@ namespace HMSAPI.Service.TblRoomType
                     TblRoomTypeModel? Data = await connection.tblRoomTypes.Where(x => x.RoomTypeId == id.RoomTypeId).FirstOrDefaultAsync();
                     if (Data != null)   
                     {
-                        //data.HospitalType = HospitalType.HospitalType;
                         Data.RoomType = id.RoomType;
                         connection.tblRoomTypes.Update(Data);
                         Data.IncreamentVersion();
@@ -181,9 +212,9 @@ namespace HMSAPI.Service.TblRoomType
                 {
                     lstRoomType = connection.GetTblRoomTypeViewModel.FromSqlRaw($@"
                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoomTypeId, 
-                    tr.RoomType,tr.CreatedOn,tr.UpdateOn, tr.IsActive,tr.VersionNo
-                    FROM TblRoomType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreateBy  
-                    INNER JOIN TblUser uu ON uu.UserId = tr.UpdateBy 
+                    tr.RoomType,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                    FROM TblRoomType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
+                    INNER JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
                     where tu.fullName LIKE  '%{searchBy}%'").ToList();
                     responseModel.Data = lstRoomType;
                     responseModel.StatusCode = HttpStatusCode.OK;

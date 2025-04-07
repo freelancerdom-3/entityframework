@@ -2,10 +2,10 @@
 {
     public class SecurityModel
     {
-        public int? CreateBy { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
-        public int? UpdateBy { get; set; }
-        public DateTime? UpdateOn { get; set; }
+        public int? UpdatedBy { get; set; }
+        public DateTime? UpdatedOn { get; set; }
         public bool? IsActive { get; set; }
         public int VersionNo { get; set; }
         public int IncreamentVersion()

@@ -30,7 +30,9 @@ namespace HMSAPI.Service.TblRole
                     if (!duplicateRoleName)
                     {
                         roleModel.VersionNo = 1;
-                        roleModel.CreateBy = Convert.ToInt32(_tokenData.UserID);
+                        roleModel.CreatedBy = 1;
+                        roleModel.CreatedOn = DateTime.Now;
+                        //roleModel.CreateBy = Convert.ToInt32(_tokenData.UserID);
                         _ = connection.TblRoles.Add(roleModel);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -97,13 +99,19 @@ namespace HMSAPI.Service.TblRole
         {
             APIResponseModel responseModel = new();
 
-            List<TblRoleModel> lstRolles = new();
+            List<GetTblRoleViewModel> lstRolles = new();
 
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstRolles = string.IsNullOrEmpty(searchBy) ? connection.TblRoles.ToList() : connection.TblRoles.Where(x => x.RoleName.ToLower() == searchBy.ToLower()).ToList();
+                    lstRolles = connection.getTblRoleViewModels.FromSqlRaw($@"
+                   SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoleId, 
+                    tr.RoleName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                    FROM TblRole tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
+                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
+                    where tu.fullName LIKE  '%{searchBy}%'").ToList();
+                    //lstRolles = string.IsNullOrEmpty(searchBy) ? connection.TblRoles.ToList() : connection.TblRoles.Where(x => x.RoleName.ToLower() == searchBy.ToLower()).ToList();
                     responseModel.Data = lstRolles;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Inserted Successfully";
@@ -150,7 +158,7 @@ namespace HMSAPI.Service.TblRole
 
         }
 
-        public async Task <APIResponseModel>  Update(int ObjId)
+        public async Task <APIResponseModel>  Update(TblRoleModel roleModel)
         {
             APIResponseModel responseModel = new();
 
@@ -160,13 +168,13 @@ namespace HMSAPI.Service.TblRole
                 using (var connection = _hsmDbContext)
                 {
 
-                    TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == ObjId).FirstOrDefault();
+                    TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == roleModel.RoleId).FirstOrDefault();
 
                     if (data != null)
                     {
-                        data.RoleName = "vishal";
-                        data.UpdateBy = data.UpdateBy;
-                        data.UpdateOn = data.UpdateOn;
+                        data.RoleName = data.RoleName;
+                        data.UpdatedBy = data.UpdatedBy;
+                        data.UpdatedOn = data.UpdatedOn;
                         data.IsActive = data.IsActive;
                         data.IncreamentVersion();
                         connection.TblRoles.Update(data);

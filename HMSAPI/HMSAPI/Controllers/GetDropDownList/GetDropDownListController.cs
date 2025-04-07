@@ -1,13 +1,13 @@
-﻿using HMSAPI.EFContext;
-using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Service.GetDropDownList;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.GetDropDownList
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GetDropDownListController : ControllerBase
     {
         private readonly IGetDropDownList _getDropDownList;

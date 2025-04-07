@@ -1,12 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFacilityTypes;
 using HMSAPI.Service.TblFacilityTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblFacilityTypes
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblFacilityTypesController : ControllerBase
     {
         private readonly ITblFacilityTypes _serviceTblFacilityType;

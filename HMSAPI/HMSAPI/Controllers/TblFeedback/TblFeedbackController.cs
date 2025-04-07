@@ -1,13 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFeedback;
 using HMSAPI.Service.TblFeedback;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblFeedback
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblFeedbackController : ControllerBase
     {
         private readonly ITblFeedback _serviceTblFeedback;

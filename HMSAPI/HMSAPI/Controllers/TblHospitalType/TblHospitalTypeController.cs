@@ -1,13 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Service.TblHospitalType;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblHospitalType
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblHospitalTypeController : ControllerBase
     {
         private readonly ITblHospitalType _serviceTblHospitalType;

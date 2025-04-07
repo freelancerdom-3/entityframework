@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblRoomLocation;
 
@@ -11,6 +12,7 @@ namespace HMSAPI.Service.TblRoomLocations
         Task<APIResponseModel> Delete(int id);
         Task<APIResponseModel> GetAll(string? searchBy = null);
         Task<APIResponseModel> GetByID(int id);
+        Task<APIResponseModel> Deletebyroomid(HSMDBContext connection, int id);
 
     }
 }

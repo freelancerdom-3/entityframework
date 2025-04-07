@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalType;
 
 namespace HMSAPI.Service.TblHospitalType

@@ -10,10 +10,10 @@ namespace HMSAPI.Model.TblPatientAdmitionDetails
         public int UserId { get; set; }
         public DateTime AdmisionDate {  get; set; }
 
-        public int  RoomID { get; set; }
+        public int RoomID { get; set; }
         public int TreatmentDetailsId { get; set; }
 
-        public DateTime?  DischargeDate { get; set; }//=null;
+        public DateTime? DischargeDate { get; set; }
 
 
     }

@@ -1,14 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblPatientAdmitionDetails;
-using HMSAPI.Model.TblRole;
 using HMSAPI.Service.TblPatientAdmitionDetails;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblPatientAdmitionDetails
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblPatientAdmitionDetailsController : ControllerBase
     {
         private readonly ITblPatientAdmitionDetails _serviceTblPatientAdmitionDetails;
@@ -25,7 +25,7 @@ namespace HMSAPI.Controllers.TblPatientAdmitionDetails
             return await _serviceTblPatientAdmitionDetails.Add(Add);
         }
 
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(TblPatientAdmitionDetailsModel UpdateId)
         {
             return await _serviceTblPatientAdmitionDetails.Update(UpdateId);

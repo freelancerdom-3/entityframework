@@ -9,7 +9,7 @@ namespace HMSAPI.Service.TblRole
         //Task<APIResponseModel>
         Task<APIResponseModel> Add(TblRoleModel roleModel);
 
-        Task<APIResponseModel> Update(int ObjId);
+        Task<APIResponseModel> Update(TblRoleModel roleModel);
 
         Task<APIResponseModel> delete(int id);
 

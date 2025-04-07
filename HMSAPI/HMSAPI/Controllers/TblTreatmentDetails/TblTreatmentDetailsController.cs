@@ -1,13 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblTreatmentDetails;
 using HMSAPI.Service.TblTreatmentDetails;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblTreatmentDetails
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblTreatmentDetailsController : ControllerBase
     {
         private readonly ITblTreatmentDetails _servicetblTreatmentDetails;

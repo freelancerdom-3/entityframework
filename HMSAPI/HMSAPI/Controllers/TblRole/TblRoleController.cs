@@ -2,7 +2,6 @@
 using HMSAPI.Model.TblRole;
 using HMSAPI.Service.TblRole;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblRole
@@ -26,10 +25,10 @@ namespace HMSAPI.Controllers.TblRole
             return await (_serviceTblRole.Add(roleModel));
         }
 
-        [HttpPatch("[action]")]
-        public async Task<APIResponseModel> Update(int id)
+        [HttpPut("[action]")]
+        public async Task<APIResponseModel> Update(TblRoleModel roleModel)
         {
-            return await (_serviceTblRole.Update(id));
+            return await (_serviceTblRole.Update(roleModel));
         }
 
         [HttpDelete("[action]")]

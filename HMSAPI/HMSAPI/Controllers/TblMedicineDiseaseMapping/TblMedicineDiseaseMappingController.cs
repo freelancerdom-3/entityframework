@@ -1,14 +1,14 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Service.TblMedicineDiseaseMapping;
-using HMSAPI.Service.TblMedicineType;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMSAPI.Controllers.TblMedicineDiseaseMapping
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TblMedicineDiseaseMappingController : ControllerBase
     {
         private readonly ITblMedicineDiseaseMapping _serviceTblMedicineDieseaseMapping;
@@ -23,7 +23,7 @@ namespace HMSAPI.Controllers.TblMedicineDiseaseMapping
             return await _serviceTblMedicineDieseaseMapping.Add(model);
         }
 
-        [HttpPatch("[action]")]
+        [HttpPut("[action]")]
         public async Task<APIResponseModel> Update(TblMedicineDiseaseMappingModel MedicineDiseaseMapping)
         {
             return await _serviceTblMedicineDieseaseMapping.Update(MedicineDiseaseMapping);

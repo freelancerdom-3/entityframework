@@ -1,7 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
-using Microsoft.AspNetCore.Mvc;
+using HMSAPI.Service.TblMedicineDetails;
+using HMSAPI.Service.TblMedicineDiseaseMapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblMedicineType
@@ -9,9 +10,13 @@ namespace HMSAPI.Service.TblMedicineType
     public class TblMedicineType : ITblMedicineType
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblMedicineType(HSMDBContext hsmDbContext)
+        private readonly ITblMedicineDetails _TblMedicineDetails;
+        private readonly ITblMedicineDiseaseMapping _TblMedicineDiseaseMapping;
+        public TblMedicineType(HSMDBContext hsmDbContext,ITblMedicineDetails tblMedicineDetails,ITblMedicineDiseaseMapping TblMedicineDiseaseMapping)
         {
             _hsmDbContext = hsmDbContext;
+            _TblMedicineDetails= tblMedicineDetails;
+            _TblMedicineDiseaseMapping= TblMedicineDiseaseMapping;
         }
 
         
@@ -30,7 +35,7 @@ namespace HMSAPI.Service.TblMedicineType
                     if (!duplicateName)
 
                     {
-                        medicineModel.CreateBy = 1;
+                        medicineModel.CreatedBy = 1;
                         medicineModel.CreatedOn = DateTime.Now;
                         medicineModel.VersionNo = 1;
                         
@@ -70,7 +75,10 @@ namespace HMSAPI.Service.TblMedicineType
                 {
                     TblMedicineTypeModel? data =await connection.TblMedicineTypes.Where(X => X.MedicineTypeID == Id).FirstOrDefaultAsync();
                     if (data != null)
+
                     {
+                        _TblMedicineDetails?.DeletebyMedicineTypeID(connection, Id);
+                        _TblMedicineDiseaseMapping?.DeletebyMedicineTypeID(connection, Id);
                         connection.TblMedicineTypes.Remove(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -105,12 +113,11 @@ namespace HMSAPI.Service.TblMedicineType
                 using (var connection = _hsmDbContext)
                 {
                     lstmedicine = connection.GetTblMedicineTypeViewModels.FromSqlRaw($@"
-                    SELECT tu.FullName AS CreateBy, uu.FullName AS UpdateBy, tr.MedicineTypeID, 
-                   tr.TypeName,tr.CreatedOn,tr.UpdateOn, tr.IsActive,tr.VersionNo
-                        FROM TblMedicineType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreateBy  
-                     left JOIN TblUser uu ON uu.UserId = tr.UpdateBy 
+                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.MedicineTypeID, 
+                    tr.TypeName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                    FROM TblMedicineType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
+                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
                     where tu.fullName LIKE  '%{searchBy}%'").ToList();
-
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "Get All Record Successfully";
                     responseModel.Data = lstmedicine;
@@ -123,8 +130,7 @@ namespace HMSAPI.Service.TblMedicineType
                 responseModel.Data = null;
             }
             return responseModel;
-                
-        }
+         }
 
         public async Task<APIResponseModel> GetByID(int id)
         {
@@ -147,7 +153,6 @@ namespace HMSAPI.Service.TblMedicineType
                 responseModel.Data = null;
             }
             return responseModel;
-
         }
 
         public async Task<APIResponseModel> Update(TblMedicineTypeModel model)
@@ -162,8 +167,8 @@ namespace HMSAPI.Service.TblMedicineType
                         .Where(X => X.MedicineTypeID == model.MedicineTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.UpdateOn = DateTime.Now;
-                        data.UpdateBy = 1;
+                        data.UpdatedOn = DateTime.Now;
+                        data.UpdatedBy = 1;
                         data.TypeName = model.TypeName;
                         data.IncreamentVersion();
                         connection.Update(data);
