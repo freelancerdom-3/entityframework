@@ -23,14 +23,18 @@ namespace HMSAPI.Service.TblMedicineDetails
                 using (var connection = _hsmDbContext)
                 {
                     connection.Database.BeginTransaction();
-                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(x => x.TreatmentDetailsId == model.TreatmentDetailsId 
-                     && x.IssueDateTime >= model.IssueDateTime.AddSeconds(-10) &&
-                        x.IssueDateTime <= model.IssueDateTime.AddSeconds(10));
+                    bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(x => x.TreatmentDetailsId == model.TreatmentDetailsId);
+                    // && x.IssueDateTime >= model.IssueDateTime.AddSeconds(-10) &&
+                       // x.IssueDateTime <= model.IssueDateTime.AddSeconds(10));
                     try
                     {
                         if (!DuplicateTreatmentID)
                         {
                             model.VersionNo = 1;
+                            model.CreatedBy = 1;
+                            model.CreatedOn = DateTime.Now;
+                            model.IssueDateTime= DateTime.Now;
+                            
                             _ = await connection.TblMedicineDetails.AddAsync(model);
                             connection.SaveChanges();
                             connection.Database.CommitTransaction();
@@ -79,8 +83,8 @@ namespace HMSAPI.Service.TblMedicineDetails
                         data.Frequency = TblMedicineDetails.Frequency;
                         data.Duration = TblMedicineDetails.Duration;
                         data.Instruction = TblMedicineDetails.Instruction;
-                        data.UpdatedBy = TblMedicineDetails.UpdatedBy;
-                        data.UpdatedOn = TblMedicineDetails.UpdatedOn;
+                        data.UpdatedBy = 1;
+                        data.UpdatedOn = DateTime.Now;
                         data.IsActive = TblMedicineDetails.IsActive;
                         data.IncreamentVersion();
                         connection.Update(data);
