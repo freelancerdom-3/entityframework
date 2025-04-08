@@ -7,7 +7,6 @@
         public DateTime? CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
         public int VersionNo { get; set; }
-
-
+        public bool? IsActive { get; set; }
     }
 }

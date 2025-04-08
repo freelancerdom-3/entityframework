@@ -182,16 +182,21 @@ namespace HMSAPI.Service.TblPateintDoctormapping
         {
             APIResponseModel responseModel = new();
 
-            List<GetPateintDoctorMappingViewModel> lstUsers = new();
+            List<GetPatientMappingViewModel> lstUsers = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.GetPateintDoctorMappingViewModels.FromSqlRaw($@"SELECT tp.PateintDoctormappingId,tu.FullName as DocterName,pu.FullName as PatientName FROM TblPateintDoctormapping tp
-                 inner join TblPatient Td on td.PatientId =tp.PatientId
-                  inner join TblUser Tu on tu.UserId= tp.UserId
-                  inner join TblUser pu  on pu.UserId=td.UserId
-                      where  pu.FullName like '%{searchBy}%'").ToListAsync();
+                    lstUsers = await connection.getPatientMappingViewModels.FromSqlRaw($@"SELECT tp.PateintDoctormappingId,tu.FullName as DocterName,pu.FullName as PatientName,tt.TreatmentCode,
+                               us.FullName as CreatedBy,tp.CreatedOn,pr.FullName as UpdatedBy,tp.UpdatedOn,tp.IsActive,tp.VersionNo
+                               FROM TblPateintDoctormapping tp
+			                   inner join TblUser us on us.UserId = tp.CreatedBy
+			                   left join TblUser pr on pr.UserId = tp.UpdatedBy
+			                   inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
+                               inner join TblPatient Td on td.PatientId =tp.PatientId
+                               inner join TblUser Tu on tu.UserId= tp.UserId
+                               inner join TblUser pu  on pu.UserId=td.UserId
+                               where  pu.FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
