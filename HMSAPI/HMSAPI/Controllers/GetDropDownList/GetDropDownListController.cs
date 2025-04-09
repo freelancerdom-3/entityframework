@@ -64,6 +64,7 @@ namespace HMSAPI.Controllers.GetDropDownList
             return await _getDropDownList.FillFacilityType();
         }
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> FillPatientName()
         {
             return await _getDropDownList.FillPatientName();

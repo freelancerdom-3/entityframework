@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
 
 namespace HMSAPI.Service.TblBill
@@ -10,6 +11,6 @@ namespace HMSAPI.Service.TblBill
         Task<APIResponseModel> Add(TblBillModel bill);
         Task<APIResponseModel> Update(int id, TblBillModel bill);
         Task<APIResponseModel> Delete(int id);
-        Task<APIResponseModel> Deletebyid(int id);
+        Task<APIResponseModel> Deletebyid(HSMDBContext context, int id);
     }
 }

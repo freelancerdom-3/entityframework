@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeDepartmentMapping;
 using HMSAPI.Model.TblTreatmentDetails;
 
@@ -14,6 +15,6 @@ namespace HMSAPI.Service.TblTreatmentDetails
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
 
-        Task<APIResponseModel> Deletebyid(int id);
+        Task<APIResponseModel> Deletebyid(HSMDBContext context, int  id);
     }
 }

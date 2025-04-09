@@ -18,6 +18,7 @@ namespace HMSAPI.Controllers.TblBill
         }
 
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             return await _serviceTblBill.GetAll(searchBy);
@@ -36,12 +37,14 @@ namespace HMSAPI.Controllers.TblBill
         }
 
         [HttpPost("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> Update(int id, TblBillModel bill)
         {
             return await _serviceTblBill.Update(id , bill);
         }
 
         [HttpDelete("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> Delete(int id)
         {
             return await _serviceTblBill.Delete(id);

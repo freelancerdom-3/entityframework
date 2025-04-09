@@ -138,19 +138,19 @@ namespace HMSAPI.Service.TblMedicineDetails
             }
             return responseModel;
         }
-        public async Task<APIResponseModel> Deletebyid(int ID)
+        public async Task<APIResponseModel> Deletebyid(HSMDBContext context, int ID)
         {
             APIResponseModel responseModel = new APIResponseModel();
             try
             {
-                using (var connection = _hsmDbContext)
+                //using (var connection = _hsmDbContext)
                 {
-                    TblMedicineDetailsModel? data = await connection.TblMedicineDetails
+                    TblMedicineDetailsModel? data = await context.TblMedicineDetails
                         .Where(x => x.TreatmentDetailsId == ID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblMedicineDetails.Remove(data);
-                        connection.SaveChanges();
+                        context.TblMedicineDetails.Remove(data);
+                        context.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                         responseModel.Message = "Deleted Successfully";

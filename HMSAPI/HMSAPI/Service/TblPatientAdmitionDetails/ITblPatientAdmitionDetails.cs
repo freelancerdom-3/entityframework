@@ -18,6 +18,6 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
         Task<APIResponseModel> GetAll(string? searchBy = null);
         Task<APIResponseModel> Deletebyroomid(HSMDBContext connection, int id);
 
-        Task<APIResponseModel> deletebyid(int objDelete);
+        Task<APIResponseModel> deletebyid(HSMDBContext context, int objDelete);
     }
 }

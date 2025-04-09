@@ -40,7 +40,10 @@ namespace HMSAPI.Model.TblPatient.ViewModel
         public string? Emergency_Contact { get; set; }
         public string? Medical_History { get; set; }
         public int UserId { get; set; }
-
+        public string? CreatedByName { get; set; }
+        public string? UpdatedByName { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
     }
 

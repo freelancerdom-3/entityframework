@@ -3,6 +3,7 @@ using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblBill.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblBill
@@ -10,10 +11,21 @@ namespace HMSAPI.Service.TblBill
     public class TblBill : ITblBill
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblBill(HSMDBContext hSMDBContext)
+
+        private readonly HttpContextAccessor _contextAccessor;
+
+        private readonly ITokenData _tokenData;
+
+
+        public TblBill(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
+
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
@@ -23,10 +35,16 @@ namespace HMSAPI.Service.TblBill
                 using (var connection = _hsmDbContext)
                 {
                     lstbills = await connection.billPatientViewModels.FromSqlRaw($@"
-                     SELECT   b.Billid,   u.FullName, b.TotalAmount,  b.PaymentMethod, b.BillDate
-                     FROM TblBill b
-                     INNER JOIN TblPatient p ON b.PatientId = p.PatientId
-                     INNER JOIN TblUser u ON p.UserId = u.UserId where FullName like '%{searchBy}%'").ToListAsync();
+                     SELECT   
+u.FullName AS CreatedBy, 
+u.FullName AS UpdatedBy, 
+b.CreatedOn, 
+b.UpdatedOn,
+b.Billid,   u.FullName, 
+b.TotalAmount,  b.PaymentMethod, b.BillDate
+ FROM TblBill b
+ INNER JOIN TblPatient p ON b.PatientId = p.PatientId
+ INNER JOIN TblUser u ON p.UserId = u.UserId  where FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstbills;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
@@ -82,6 +100,7 @@ namespace HMSAPI.Service.TblBill
                     if (!duplicatetreatment)
                     {
                         _ = await connection.TblBills.AddAsync(bill);
+                        
                         connection.SaveChanges();
 
                         responseModel.Data = true;
@@ -178,18 +197,18 @@ namespace HMSAPI.Service.TblBill
             }
             return responseModel;
         }
-        public async Task<APIResponseModel> Deletebyid(int id)
+        public async Task<APIResponseModel> Deletebyid(HSMDBContext context, int id)
         {
             APIResponseModel responseModel = new();
             try
             {
-                using (var connection = _hsmDbContext)
+                //var connection = _hsmDbContext)
                 {
-                    TblBillModel? data = await connection.TblBills.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
+                    TblBillModel? data = await context.TblBills.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblBills.Remove(data);
-                        connection.SaveChanges();
+                        context.TblBills.Remove(data);
+                        context.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete Successfully";

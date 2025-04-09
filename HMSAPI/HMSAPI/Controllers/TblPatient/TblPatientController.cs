@@ -8,7 +8,7 @@ namespace HMSAPI.Controllers.TblPatient
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TblPatientController : ControllerBase
     {
         private readonly ITblPatient _serviceTblPatient;
@@ -28,7 +28,8 @@ namespace HMSAPI.Controllers.TblPatient
         }
 
 
-        [HttpPut("[action]")] 
+        [HttpPut("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> Update(GetTblPatientViewModel update )
         {
             return await _serviceTblPatient.Update(update);
@@ -36,6 +37,7 @@ namespace HMSAPI.Controllers.TblPatient
 
 
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             return await _serviceTblPatient.GetAll(searchBy);
@@ -48,6 +50,7 @@ namespace HMSAPI.Controllers.TblPatient
         }
 
         [HttpDelete("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> Delete(int UserId)
         {
            return await _serviceTblPatient.Delete(UserId);

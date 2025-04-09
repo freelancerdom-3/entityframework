@@ -119,18 +119,18 @@ namespace HMSAPI.Service.TblFeedback
             }
             return responseModel;
         }
-        public async Task<APIResponseModel> Deletebyid(int id)
+        public async Task<APIResponseModel> Deletebyid( HSMDBContext context, int id)
         {
             APIResponseModel responseModel = new();
             try
             {
-                using (var connection = _hsmDbContext)
+                //using (var connection = _hsmDbContext)
                 {
-                    TblFeedbackModel? data = await connection.TblFeedbacks.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
+                    TblFeedbackModel? data = await context.TblFeedbacks.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblFeedbacks.Remove(data);
-                        connection.SaveChanges();
+                        context.TblFeedbacks.Remove(data);
+                        context.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete Successfully";

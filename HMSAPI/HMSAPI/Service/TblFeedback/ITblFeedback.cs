@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.EFContext;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFeedback;
 
 namespace HMSAPI.Service.TblFeedback
@@ -9,6 +10,6 @@ namespace HMSAPI.Service.TblFeedback
         Task<APIResponseModel> Add(TblFeedbackModel Feedbackmodel);
         Task<APIResponseModel> GetAll(string? searchBy = null);
         Task<APIResponseModel> Delete(int id);
-        Task<APIResponseModel> Deletebyid(int id);
+        Task<APIResponseModel> Deletebyid(HSMDBContext context,int id);
     }
 }
