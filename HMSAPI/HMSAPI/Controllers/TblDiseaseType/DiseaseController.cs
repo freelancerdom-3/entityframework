@@ -25,9 +25,9 @@ namespace HMSAPI.Controllers.TblDiseaseType
         }
 
         [HttpPut("[action]")]
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> Update(TblDiseaseTypeModel model)
         {
-            return await _serviceTblDiesaesType.Update(id);
+            return await _serviceTblDiesaesType.Update(model);
         }
 
        [HttpDelete("[action]")]

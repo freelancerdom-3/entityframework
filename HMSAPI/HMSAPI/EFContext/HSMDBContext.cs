@@ -184,6 +184,9 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblHospitalTypeModel> getTblHospitalTypeModels { get; set; }
         public DbSet<GetPatientMappingViewModel> getPatientMappingViewModels { get; set; }
 
+        public DbSet<Gettbltreatmentmodel> gettbltreatmentmodels { get; set; }
+
+        public DbSet<getdiseasetypeviewmodel>getdiseasetypeviewmodels { get; set; }
     }
 }
 

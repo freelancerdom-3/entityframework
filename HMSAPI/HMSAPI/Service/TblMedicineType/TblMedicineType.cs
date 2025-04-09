@@ -3,6 +3,7 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Service.TblMedicineDetails;
 using HMSAPI.Service.TblMedicineDiseaseMapping;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblMedicineType
@@ -12,14 +13,17 @@ namespace HMSAPI.Service.TblMedicineType
         private readonly HSMDBContext _hsmDbContext;
         private readonly ITblMedicineDetails _TblMedicineDetails;
         private readonly ITblMedicineDiseaseMapping _TblMedicineDiseaseMapping;
-        public TblMedicineType(HSMDBContext hsmDbContext,ITblMedicineDetails tblMedicineDetails,ITblMedicineDiseaseMapping TblMedicineDiseaseMapping)
+        private readonly ITokenData _tokenData;
+        public TblMedicineType(HSMDBContext hsmDbContext,ITblMedicineDetails tblMedicineDetails,ITblMedicineDiseaseMapping TblMedicineDiseaseMapping, ITokenData tokendata)
         {
             _hsmDbContext = hsmDbContext;
             _TblMedicineDetails= tblMedicineDetails;
             _TblMedicineDiseaseMapping= TblMedicineDiseaseMapping;
+            _tokenData = tokendata;
         }
 
-        
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
         public async Task<APIResponseModel> Add(TblMedicineTypeModel medicineModel)
         {
@@ -35,8 +39,8 @@ namespace HMSAPI.Service.TblMedicineType
                     if (!duplicateName)
 
                     {
-                        medicineModel.CreatedBy = 1;
-                        medicineModel.CreatedOn = DateTime.Now;
+                        medicineModel.CreatedBy = UserId;
+                        medicineModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); 
                         medicineModel.VersionNo = 1;
                         
                         _ =await connection.TblMedicineTypes.AddAsync(medicineModel);
@@ -167,8 +171,8 @@ namespace HMSAPI.Service.TblMedicineType
                         .Where(X => X.MedicineTypeID == model.MedicineTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.UpdatedOn = DateTime.Now;
-                        data.UpdatedBy = 1;
+                        data.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); 
+                        data.UpdatedBy = UserId;
                         data.TypeName = model.TypeName;
                         data.IncreamentVersion();
                         connection.Update(data);
