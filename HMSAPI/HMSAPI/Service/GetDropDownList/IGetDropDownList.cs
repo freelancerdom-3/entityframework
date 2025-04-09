@@ -27,5 +27,7 @@ namespace HMSAPI.Service.GetDropDownList
         Task<APIResponseModel> FillDocterName();
 
         Task <APIResponseModel>FillPaymentMethod ();
+
+        Task<APIResponseModel> FillTreatmentCode();
     }
 }

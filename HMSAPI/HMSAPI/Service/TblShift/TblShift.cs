@@ -5,6 +5,7 @@ using HMSAPI.Model.GenericModel;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using HMSAPI.Service.TblEmployeeshiftMapping;
+using HMSAPI.Service.TokenData;
 namespace HMSAPI.Service.TblShift
 
 {
@@ -13,13 +14,19 @@ namespace HMSAPI.Service.TblShift
 
         private readonly HSMDBContext _hsmDbContext;
         private readonly ITblEmployeeshiftMapping _tblEmployeeshiftMapping;
+        private readonly ITokenData _tokenData;
         //private object connection;
 
-        public TblShift(HSMDBContext hSMDBContext, ITblEmployeeshiftMapping tblEmployeeshiftMapping)
+        public TblShift(HSMDBContext hSMDBContext, ITblEmployeeshiftMapping tblEmployeeshiftMapping, ITokenData tokenData)
         {
             _hsmDbContext = hSMDBContext;
             _tblEmployeeshiftMapping = tblEmployeeshiftMapping;
+            _tokenData = tokenData;
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
+
 
         public async Task<APIResponseModel> Add(TblShiftModel Shift)
         {
@@ -36,8 +43,8 @@ namespace HMSAPI.Service.TblShift
 
                     if (!DuplicateShift)
                     {
-                        Shift.CreatedBy = 1;
-                        Shift.CreatedOn = DateTime.Now;
+                        Shift.CreatedBy = UserId;
+                        Shift.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         Shift.VersionNo = 1;
                         connection.TblShifts.Add(Shift);
                         connection.SaveChanges();
@@ -193,13 +200,13 @@ namespace HMSAPI.Service.TblShift
 
                     if (data != null)
                     {
+                        model.UpdatedBy = UserId;
+                        model.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.Shiftname = model.Shiftname;
                         data.UpdatedBy = model.UpdatedBy;
                         data.UpdatedOn = model.UpdatedOn;
                         data.StartTime = model.StartTime;
                         data.EndTime = model.EndTime;
-                        model.UpdatedBy = 2;
-                        model.UpdatedOn = DateTime.Now;
                         data.IncreamentVersion();
                         connection.TblShifts.Update(data);
                         connection.SaveChanges();

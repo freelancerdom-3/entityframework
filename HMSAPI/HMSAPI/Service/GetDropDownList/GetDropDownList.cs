@@ -10,6 +10,7 @@ using HMSAPI.Model.TblMedicineType;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblShift;
+using HMSAPI.Model.TblTreatmentDetails;
 using HMSAPI.Model.TblUser;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -377,6 +378,37 @@ namespace HMSAPI.Service.GetDropDownList
                 {
                     lstRolles = connection.TblBills.ToList();
                     responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.BillId, name = x.PaymentMethod }).ToList();
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Get List Successfully";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+
+        }
+        public async Task<APIResponseModel> FillTreatmentCode()
+        {
+            APIResponseModel responseModel = new();
+
+            List<TblTreatmentDetailsModel> lsttreatmentdetails = new();
+            List<GetDropDownListModel> lstRolles1 = new();
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    lsttreatmentdetails = connection.TblTreatmentDetails.ToList();
+
+                    //responseModel.Data = lstRolles;
+                    responseModel.Data = lsttreatmentdetails.Select(x => new GetDropDownListModel() { id = x.TreatmentDetailsId, name = x.TreatmentCode }).ToList();
+
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }

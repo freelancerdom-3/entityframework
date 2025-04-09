@@ -28,7 +28,7 @@ namespace HMSAPI.Service.TblUser
     {
         private readonly HSMDBContext _hsmDbContext;
         
-        private readonly HttpContextAccessor _contextAccessor;
+        //private readonly HttpContextAccessor _contextAccessor;
 
         private readonly ITokenData _tokenData;
 
@@ -222,27 +222,21 @@ namespace HMSAPI.Service.TblUser
 
 
 
-                    //var token = GenerateJSONWebToken(duplicateEmail);
+                    
 
                     if (duplicateEmail != null)
                     {
                         var token = GenerateJSONWebToken(duplicateEmail, _lstRoleMenumapping);
 
-                        responseModel.Data = token;
+                        responseModel.Data = new
+                        {
+                            data = token,
+                            userId = duplicateEmail.UserId,
+                            useName = duplicateEmail.FullName
+                        };
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Login Successfully";
 
-                        //UserId = duplicateEmail.UserId,
-                        //FullName = duplicateEmail.FullName,
-                        //RoleId = duplicateEmail.RoleId,
-                        //Email = duplicateEmail.Email,
-                        //MobileNumber = duplicateEmail.MobileNumber,
-                        //RoleName = duplicateEmail.RoleName
-
-
-
-                        // List<TblMenuRoleMapping> permition = await connection.tblMenuRoleMappingsView
-                        //.Where(x => x.RoleId == duplicateEmail.RoleId).ToListAsync(); 
                     }
                     else
                     {
@@ -431,9 +425,6 @@ namespace HMSAPI.Service.TblUser
                 new Claim(JwtRegisteredClaimNames.Sub,user.FullName),
                 new Claim("UserId",Convert.ToBase64String(Encoding.UTF8.GetBytes(user.UserId.ToString()))),
                 new Claim("Roleid",Convert.ToBase64String(Encoding.UTF8.GetBytes(user.RoleId.ToString()))),
-              //new Claim("UserId",user.UserId.ToString()),
-                //new Claim("Roleid",user.RoleId.ToString()),
-                //new Claim("Permission",Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tblMenuRoles)))),
                 new Claim("Permission",JsonConvert.SerializeObject(tblMenuRoles)),
 
             };
