@@ -9,5 +9,13 @@ namespace HMSAPI.Model.TblDiseaseType
         [Key]
         public int DieseaseTypeID { get; set; }
         public string? DieseaseName { get; set; }
+
+    }
+    public class getdiseasetypeviewmodel:ListViewModel
+    {
+        [Key]
+        public int DieseaseTypeID { get; set; }
+        public string? DieseaseName { get; set; }
+
     }
 }

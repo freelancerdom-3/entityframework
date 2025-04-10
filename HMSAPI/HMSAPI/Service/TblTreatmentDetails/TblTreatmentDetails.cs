@@ -1,19 +1,27 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Model.TblTreatmentDetails;
 using HMSAPI.Model.TblTreatmentDetails.ViewModel;
+using HMSAPI.Service.TokenData;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace HMSAPI.Service.TblTreatmentDetails
 {
     public class TblTreatmentDetails : ITblTreatmentDetails
+
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblTreatmentDetails(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+        public TblTreatmentDetails(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
         }
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
         public async Task<APIResponseModel> Add(TblTreatmentDetailsModel deptModel)
         {
 
@@ -30,8 +38,10 @@ namespace HMSAPI.Service.TblTreatmentDetails
                     //{
                         //#1
                         deptModel.VersionNo = 1;
-                        
-                        _ = await connection.TblTreatmentDetails.AddAsync(deptModel);
+                    deptModel.CreatedBy=UserId;
+                    deptModel.CreatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                    _ = await connection.TblTreatmentDetails.AddAsync(deptModel);
                         connection.SaveChanges();
                         //#3
                         responseModel.Data = true;
@@ -68,12 +78,13 @@ namespace HMSAPI.Service.TblTreatmentDetails
                     //update
                     if (data != null)
                     {
-
-                        data.DieseaseTypeID = departmentModel.TreatmentDetailsId;
-                        data.PatientId = departmentModel.TreatmentDetailsId;
+                        data.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        data.UpdatedBy=UserId;
+                        data.DieseaseTypeID = departmentModel.DieseaseTypeID;
+                        data.PatientId = departmentModel.PatientId;
                         data.TreatmentDate=departmentModel.TreatmentDate;
-                        data.UpdatedBy = departmentModel.UpdatedBy;
-                        data.UpdatedOn = departmentModel.UpdatedOn;
+                        //data.UpdatedBy = departmentModel.UpdatedBy;
+                        //data.UpdatedOn = departmentModel.UpdatedOn;
                         data.IsActive = departmentModel.IsActive;
                         data.IncreamentVersion();
                         connection.TblTreatmentDetails.Update(data);
@@ -234,15 +245,18 @@ namespace HMSAPI.Service.TblTreatmentDetails
         {
             APIResponseModel responseModel = new();
 
-            List<GetTblTreatmentDetailsViewModel> lstUsers = new();
+            List<Gettbltreatmentmodel> lstUsers = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.GetTblTreatmentDetailsViewModel.FromSqlRaw($@"SELECT tt.TreatmentDetailsId,td.DieseaseName,tuser.FullName FROM TblTreatmentDetails tt
+                    lstUsers = await connection.gettbltreatmentmodels.FromSqlRaw($@"SELECT tt.TreatmentDetailsId,td.DieseaseName,tuser.FullName as PatientName,tu.FullName as CreatedBy,tt.CreatedOn,tt.TreatmentCode,tb.FullName as UpdatedBy,tt.UpdatedOn,tt.IsActive,
+                    tt.TreatmentDate,tt.VersionNo FROM TblTreatmentDetails tt
+					inner join TblUser tu on tu.UserId = tt.CreatedBy
+					left join TblUser tb on tb.UserId = tt.UpdatedBy
                      inner join TblDiseaseType Td on td.DieseaseTypeID = tt.DieseaseTypeID
                      inner join TblPatient tp on tp.PatientId = tt.PatientId
-                     inner join TblUser tuser on tuser.UserId = tp.UserId where FullName like '%{searchBy}%'").ToListAsync();
+                     inner join TblUser tuser on tuser.UserId = tp.UserId  where tuser.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get Record Successfully";
@@ -261,8 +275,33 @@ namespace HMSAPI.Service.TblTreatmentDetails
 
 
         }
+        public async Task<APIResponseModel> DeletebyDiseaseTypeID(HSMDBContext connection, int id)
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            try
+            {
+                List<TblTreatmentDetailsModel> disease = connection.TblTreatmentDetails.Where(x => x.DieseaseTypeID == id).ToList();
 
-       
-     
+                if (disease != null)
+                {
+                    foreach (TblTreatmentDetailsModel diseases in disease)
+                    {
+                        connection.TblTreatmentDetails.Remove(diseases);
+                    }
+                }
+                responseModel.StatusCode = HttpStatusCode.OK;
+                responseModel.Message = "Deleted Successfully";
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
+
+
     }
 }

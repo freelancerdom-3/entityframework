@@ -1,6 +1,9 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblDiseaseType;
+using HMSAPI.Service.TblMedicineDiseaseMapping;
+using HMSAPI.Service.TblTreatmentDetails;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 namespace HMSAPI.Service.TblDiseaseType
@@ -8,12 +11,19 @@ namespace HMSAPI.Service.TblDiseaseType
     public class TblDiseaseType : ITblDiseaseType
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblDiseaseType(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+        private readonly ITblMedicineDiseaseMapping _medicineDiseaseMapping;
+        private readonly ITblTreatmentDetails _treatmentDetails;
+        public TblDiseaseType(HSMDBContext hSMDBContext,ITblMedicineDiseaseMapping medicineDiseaseMapping,ITblTreatmentDetails treatmentDetails, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
+           _medicineDiseaseMapping = medicineDiseaseMapping;
+            _treatmentDetails=treatmentDetails;
         }
 
-        // ADD DIEASES 
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
         public async Task<APIResponseModel> Add(TblDiseaseTypeModel tblDiseaseType)
         {
@@ -27,6 +37,8 @@ namespace HMSAPI.Service.TblDiseaseType
                     if (!DuplicateDieases)
                     {
                         tblDiseaseType.VersionNo = 1;
+                        tblDiseaseType.CreatedBy=UserId;
+                        tblDiseaseType.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         _ = await connection.TblDiseaseType.AddAsync(tblDiseaseType);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -53,19 +65,22 @@ namespace HMSAPI.Service.TblDiseaseType
             return responseModel;
         }
 
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> Update(TblDiseaseTypeModel model)
         {
             APIResponseModel responseModel = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblDiseaseTypeModel? data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id).FirstOrDefaultAsync();
+                    TblDiseaseTypeModel? data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == model.DieseaseTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.UpdatedOn = data.UpdatedOn;
-                        data.UpdatedBy = data.UpdatedBy;
-                        data.IsActive = data.IsActive;
+                        data.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); ;
+                        data.UpdatedBy = UserId;
+                        data.IsActive = model.IsActive;
+                        data.DieseaseName = model.DieseaseName;
+                        data.DieseaseTypeID = model.DieseaseTypeID;
+                       
                         data.IncreamentVersion();
                         connection.TblDiseaseType.Update(data);
                         connection.SaveChanges();
@@ -104,6 +119,9 @@ namespace HMSAPI.Service.TblDiseaseType
                    .FirstOrDefaultAsync();
                     if (data != null)
                     {
+
+                        _medicineDiseaseMapping?.DeletebyDiseaseTypeID(connection, id);
+                        _treatmentDetails?.DeletebyDiseaseTypeID(connection, id);
                         connection.TblDiseaseType.Remove(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -167,13 +185,17 @@ namespace HMSAPI.Service.TblDiseaseType
         public async Task<APIResponseModel> GetAll(string? searchby = null)
         {
             APIResponseModel responseModel = new();
-            List<TblDiseaseTypeModel> lstDisease = new();
+            List<getdiseasetypeviewmodel> lstDisease = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstDisease = string.IsNullOrEmpty(searchby) ? await connection.TblDiseaseType.ToListAsync() :
-                        await connection.TblDiseaseType.Where(x => x.DieseaseName.ToLower() == searchby.ToLower()).ToListAsync();
+                    lstDisease = connection.getdiseasetypeviewmodels.FromSqlRaw($@"
+                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.DieseaseTypeID, 
+                     tr.DieseaseName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                       FROM TblDiseaseType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
+                      left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
+                    where tu.fullName LIKE  '%{searchby}%'").ToList();
 
                 }
                 if (lstDisease != null)
