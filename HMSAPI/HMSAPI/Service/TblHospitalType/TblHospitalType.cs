@@ -12,12 +12,16 @@ namespace HMSAPI.Service.TblHospitalTyp
     {
         private readonly HSMDBContext _hsmDbContext;
         private readonly ITokenData _tokenData;
-        public TblHospitalType(HSMDBContext hSMDBContext)//, ITokenData tokendata)
+        public TblHospitalType(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
-          //  _tokenData = tokendata;
+            _tokenData = tokendata;
 
         }
+
+        //private int UserId => Convert.ToInt32(_tokenData.UserID);
+        //private int RoleId => Convert.ToInt32(_tokenData.RoleId);
+        private int UserID => Convert.ToInt32(_tokenData.UserID);
 
         public async Task<APIResponseModel> Add(TblHospitalTypeModel hospitalTypModel)
         {
@@ -35,6 +39,13 @@ namespace HMSAPI.Service.TblHospitalTyp
                         //_hsmDbContext.TblHospitalTypes.Add(hospitalTypModel);
 
                         //_hsmDbContext.SaveChanges();
+                        hospitalTypModel.IsActive = true;
+                        hospitalTypModel.UpdatedBy = '0';
+                        
+
+                        hospitalTypModel.CreatedBy = UserID;
+                        hospitalTypModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        hospitalTypModel.CreatedOn = DateTime.Now;
                         _ = await connection.TblHospitalTypes.AddAsync(hospitalTypModel);
                         connection.SaveChanges();
 
@@ -71,7 +82,13 @@ namespace HMSAPI.Service.TblHospitalTyp
                     TblHospitalTypeModel? data =  await  connection.TblHospitalTypes.Where(x => x.HospitalTypeID == HospitalType.HospitalTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        //HospitalType.UpdatedBy = Convert.ToInt32(_tokenData.UserID);
+                        HospitalType.UpdatedOn =Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+
+                        HospitalType.UpdatedBy = UserID;
                         data.HospitalType = HospitalType.HospitalType;
+                        data.UpdatedOn = HospitalType.UpdatedOn;
                         connection.TblHospitalTypes.Update(data);
                         data.IncreamentVersion();
                         connection.SaveChanges();
@@ -181,10 +198,18 @@ namespace HMSAPI.Service.TblHospitalTyp
                     
                     using (var connection = _hsmDbContext)
                     {
-                        lstHospitalType = connection.getTblHospitalTypeModels.FromSqlRaw($@"SELECT TU.FullName AS CreatedBy,UT.FullName
-                         AS UpdatedBy,HT.HospitalTypeID,HT.HospitalType,HT.CreatedOn,HT.UpdatedOn,HT.IsActive,HT.VersionNo
-                         FROM TblHospitalType HT INNER JOIN TblUser TU ON TU.UserId=HT.CreatedBy INNER JOIN TblUser UT 
-                         ON UT.UserId=HT.UpdatedBy where TU.FullName like '%{searchBy}%'").ToList();
+                        lstHospitalType = connection.getTblHospitalTypeModels.FromSqlRaw($@"SELECT 
+    TU.FullName AS CreatedBy,
+	UT.FullName AS UpdatedBy,
+		HT.HospitalTypeID,
+		HT.HospitalType,
+		HT.CreatedOn,
+		HT.UpdatedOn,
+		HT.IsActive,
+		HT.VersionNo
+FROM TblHospitalType HT 
+	 INNER JOIN TblUser TU ON TU.UserId=HT.CreatedBy 
+	 LEFT JOIN TblUser UT ON UT.UserId=HT.UpdatedBy where TU.FullName like '%{searchBy}%'").ToList();
                         responseModel.Data = lstHospitalType;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = null;

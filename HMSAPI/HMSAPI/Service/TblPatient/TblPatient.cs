@@ -150,7 +150,7 @@ namespace HMSAPI.Service.TblPatient
                                 Email = patient.Email,
                                 Password = patient.Password,
                                 FullName = patient.FullName,
-                                RoleId = patient.RoleId,
+                                RoleId = (int)Enums.Roles.Patient,
                                 MobileNumber = patient.MobilNumber,
                                 CreatedBy = patient.CreatedBy,
                                 CreatedOn = patient.CreatedOn,
@@ -163,8 +163,8 @@ namespace HMSAPI.Service.TblPatient
                             await connection.SaveChangesAsync();
 
 
-                            if (patient.RoleId == 9)
-                            {
+                            //if (patient.RoleId == 9)
+                            //{
                                 patient.VersionNo = 1;
                                 await connection.TblPatients.AddAsync(new TblPatientModel()
                                 {
@@ -185,7 +185,7 @@ namespace HMSAPI.Service.TblPatient
                                 await connection.SaveChangesAsync();
                                 connection.Database.CommitTransaction();
 
-                            }
+                          //  }
 
                             responseModel.Data = true;
                             responseModel.StatusCode = HttpStatusCode.OK;
