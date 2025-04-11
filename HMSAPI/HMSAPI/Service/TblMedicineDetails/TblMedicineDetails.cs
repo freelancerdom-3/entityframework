@@ -206,10 +206,13 @@ namespace HMSAPI.Service.TblMedicineDetails
                 using(var connection = _hsmDbContext)
                 {
                     lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
-                                         TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime from TblMedicineDetails TblMe
-                                         inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
-                                         inner join TblTreatmentDetails on TblTreatmentDetails.TreatmentDetailsId = TblMe.TreatmentDetailsId
-                                         inner join TblDiseaseType TDies on TDies.DieseaseTypeID = TblTreatmentDetails.DieseaseTypeID where TypeName like '%{searchby}%'")
+                   TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime,tu.FullName as CreatedBy,TblMe.CreatedOn,
+            TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,TblMe.IsActive,TblMe.VersionNo from TblMedicineDetails TblMe
+              inner join TblUser tu on tu.UserId = TblMe.CreatedBy
+            left join TblUser on TblUser.UserId = TblMe.UpdatedBy
+           inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
+                 inner join TblTreatmentDetails on TblTreatmentDetails.TreatmentDetailsId = TblMe.TreatmentDetailsId
+            inner join TblDiseaseType TDies on TDies.DieseaseTypeID = TblTreatmentDetails.DieseaseTypeID where TypeName like '%{searchby}%'")
                                          .ToListAsync();
                     responseModel.Data = lstMedicineDetails;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
