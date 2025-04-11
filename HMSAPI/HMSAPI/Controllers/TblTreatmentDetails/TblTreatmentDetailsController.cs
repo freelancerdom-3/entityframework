@@ -33,6 +33,7 @@ namespace HMSAPI.Controllers.TblTreatmentDetails
             return await _servicetblTreatmentDetails.Delete(id);
         }
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> GetByID(int id)
         {
             return await _servicetblTreatmentDetails.GetByID(id);

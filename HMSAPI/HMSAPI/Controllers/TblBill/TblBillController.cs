@@ -31,6 +31,7 @@ namespace HMSAPI.Controllers.TblBill
         }
 
         [HttpPost("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> Add(TblBillModel bill)
         {
             return await _serviceTblBill.Add(bill);

@@ -86,6 +86,7 @@ namespace HMSAPI.Controllers.GetDropDownList
             return await _getDropDownList.FillPaymentMethod();
         }
         [HttpGet("[action]")]
+        [AllowAnonymous]
         public async Task<APIResponseModel> FillTreatmentCode()
         {
             return await _getDropDownList.FillTreatmentCode();
