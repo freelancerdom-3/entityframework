@@ -67,10 +67,12 @@ b.TotalAmount,  b.PaymentMethod, b.BillDate
                 using (var connection = _hsmDbContext)
                 {
                     lstbills = await connection.billPatientViewModels.FromSql($@"
-                     SELECT   b.Billid,   u.FullName, b.TotalAmount,  b.PaymentMethod, b.BillDate
+                    SELECT b.Billid, u.FullName, b.TotalAmount, b.PaymentMethod, b.BillDate
                      FROM TblBill b
                      INNER JOIN TblPatient p ON b.PatientId = p.PatientId
-                     INNER JOIN TblUser u ON p.UserId = u.UserId where Billid like '%{id}%'").ToListAsync();
+                     INNER JOIN TblUser u ON p.UserId = u.UserId
+                     WHERE b.BillId = {id}")
+                    .ToListAsync();
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "Get All Record Successfully";
                     responseModel.Data = lstbills;

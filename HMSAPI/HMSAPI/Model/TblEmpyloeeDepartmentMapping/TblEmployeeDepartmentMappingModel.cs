@@ -13,8 +13,5 @@ namespace HMSAPI.Model.TblEmployeeDepartmentMapping
 
         public int HospitalDepartmentId { get; set; }
 
-
-
-
     }
 }

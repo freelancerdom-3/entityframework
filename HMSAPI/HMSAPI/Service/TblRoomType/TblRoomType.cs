@@ -7,6 +7,7 @@ using HMSAPI.Service.TblPatientAdmitionDetails;
 using HMSAPI.Service.TblRoom;
 using HMSAPI.Service.TblRoomLocations;
 using HMSAPI.Service.TblRoomTypeFacilityMapping;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System.Collections.Generic;
@@ -20,13 +21,14 @@ namespace HMSAPI.Service.TblRoomType
     public class TblRoomType : ITblRoomType
     {
         private readonly HSMDBContext _hsmDbContext;
-
+        private readonly ITokenData _tokenData;
         private readonly ITblRoomTypeFacilityMapping _tblRoomTypeFacilityMapping;
         private readonly ITblRoomLocations _tblRoomLocations;
         private readonly ITblRoom _tblRoom;
         private readonly ITblPatientAdmitionDetails _tblPatientAdmitionDetails;
-        public TblRoomType(HSMDBContext hSMDBContext, ITblRoomTypeFacilityMapping RoomTypeFacilityMapping, ITblRoomLocations tblRoomLocations, ITblRoom tblRoom, ITblPatientAdmitionDetails tblPatientAdmitionDetails)
+        public TblRoomType(HSMDBContext hSMDBContext, ITokenData tokendata, ITblRoomTypeFacilityMapping RoomTypeFacilityMapping, ITblRoomLocations tblRoomLocations, ITblRoom tblRoom, ITblPatientAdmitionDetails tblPatientAdmitionDetails)
         {
+            _tokenData = tokendata;
             _hsmDbContext = hSMDBContext;
             _tblRoomTypeFacilityMapping = RoomTypeFacilityMapping;
             _tblRoomLocations = tblRoomLocations;
@@ -34,6 +36,9 @@ namespace HMSAPI.Service.TblRoomType
             _tblPatientAdmitionDetails = tblPatientAdmitionDetails;
 
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
 
         public async Task<APIResponseModel> Add(TblRoomTypeModel TblRoomTyp)
@@ -47,6 +52,8 @@ namespace HMSAPI.Service.TblRoomType
                         .Any(x => x.RoomType.ToLower() == TblRoomTyp.RoomType.ToLower());
                     if (!DuplicateRoomType)
                     {
+                        TblRoomTyp.CreatedBy = UserId;
+                        TblRoomTyp.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         TblRoomTyp.VersionNo = 1;
                         TblRoomTyp.CreatedBy = 1;
                         TblRoomTyp.UpdatedBy = 1;
@@ -144,6 +151,10 @@ namespace HMSAPI.Service.TblRoomType
                     TblRoomTypeModel? Data = await connection.tblRoomTypes.Where(x => x.RoomTypeId == id.RoomTypeId).FirstOrDefaultAsync();
                     if (Data != null)   
                     {
+                        id.UpdatedBy = UserId;
+                        id.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        Data.UpdatedBy = id.UpdatedBy;
+                        Data.UpdatedOn = id.UpdatedOn;
                         Data.RoomType = id.RoomType;
                         connection.tblRoomTypes.Update(Data);
                         Data.IncreamentVersion();

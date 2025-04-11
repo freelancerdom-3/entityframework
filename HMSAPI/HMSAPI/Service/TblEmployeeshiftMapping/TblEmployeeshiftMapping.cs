@@ -2,6 +2,7 @@
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblEmployeeshiftMapping;
 using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -10,10 +11,16 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
     public class TblEmployeeshiftMapping : ITblEmployeeshiftMapping
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblEmployeeshiftMapping(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+
+        public TblEmployeeshiftMapping(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
         public async Task<APIResponseModel> Add(TblEmployeeshiftMappingModel objModel)
         {
@@ -45,7 +52,8 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                         }
                         else
                         {
-
+                            objModel.CreatedBy = UserId;
+                            objModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             objModel.VersionNo = 1;
                             _ = await connection.TblEmployeeshifts.AddAsync(objModel);
 
@@ -138,17 +146,21 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
         {
             APIResponseModel responseModel = new APIResponseModel();
 
-            List<GetTblEmployeeshiftMappingViewModel> lstEmployeeshiftMapping = new();
+            List<GetEmployeeMapping> lstEmployeeshiftMapping = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
 
-                   lstEmployeeshiftMapping = await connection.getTblEmployeeshiftMappingViewModel.FromSqlRaw($@"
-                   select TblEmployeeshiftMapping.*,TblUser.FullName,TblShift.Shiftname from TblEmployeeshiftMapping 
-                   inner join TblShift on TblShift.ShiftId=TblEmployeeshiftMapping.ShiftId
-                   inner join TblUser on TblUser.UserId=TblEmployeeshiftMapping.UserId
-                   where FullName like '%{searchBy}%'").ToListAsync();
+                   lstEmployeeshiftMapping = await connection.getEmployeeMappings.FromSqlRaw($@"
+                    select TblUser.FullName,TblShift.Shiftname,te.EmployeeshiftMappingId,te.EmployeeshiftMappingStartingDate,
+                    te.EmployeeshiftMappingEndingDate,tu.FullName as CreatedBy,te.CreatedOn,tt.FullName as UpdatedBy,te.UpdatedOn,
+                    te.IsActive,te.VersionNo from TblEmployeeshiftMapping te
+                    inner join TblUser tu on tu.UserId = te.CreatedBy
+                    left join  TblUser tt on tt.UserId = te.UpdatedBy
+                    inner join TblShift on TblShift.ShiftId=te.ShiftId
+                    inner join TblUser on TblUser.UserId=te.UserId
+                    where TblUser.FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstEmployeeshiftMapping;
                     responseModel.StatusCode = HttpStatusCode.OK;
@@ -223,13 +235,14 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
 
                     if (data != null)
                     {
-
+                        employeeshiftmapping.UpdatedBy = UserId;
+                        employeeshiftmapping.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.EmployeeshiftMappingStartingDate = employeeshiftmapping.EmployeeshiftMappingStartingDate;
                         data.EmployeeshiftMappingEndingDate = employeeshiftmapping.EmployeeshiftMappingEndingDate;
                         data.UserId = employeeshiftmapping.UserId;
                         data.ShiftId = employeeshiftmapping.ShiftId;
-                        data.UpdatedBy = data.UpdatedBy;
-                        data.UpdatedOn  = data.UpdatedOn;
+                        data.UpdatedBy = employeeshiftmapping.UpdatedBy;
+                        data.UpdatedOn  = employeeshiftmapping.UpdatedOn;
                         data.IsActive = data.IsActive;
                         data.IncreamentVersion();
                         connection.TblEmployeeshifts.Update(data);
