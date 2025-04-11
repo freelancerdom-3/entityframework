@@ -2,6 +2,7 @@
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMedicineDetails;
 using HMSAPI.Model.TblMedicineDetails.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -10,11 +11,14 @@ namespace HMSAPI.Service.TblMedicineDetails
     public class TblMedicineDetails : ITblMedicineDetails
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblMedicineDetails(HSMDBContext hsmDbContext)
+        private readonly ITokenData _tokenData;
+        public TblMedicineDetails(HSMDBContext hsmDbContext, ITokenData tokenData)
         {
             _hsmDbContext = hsmDbContext;
+            _tokenData=tokenData;
         }
-
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
         public async Task<APIResponseModel> Add(TblMedicineDetailsModel model)
         {
             APIResponseModel responseModel = new APIResponseModel();
@@ -31,8 +35,8 @@ namespace HMSAPI.Service.TblMedicineDetails
                         if (!DuplicateTreatmentID)
                         {
                             model.VersionNo = 1;
-                            model.CreatedBy = 1;
-                            model.CreatedOn = DateTime.Now;
+                            model.CreatedBy = UserId;
+                            model.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); 
                             model.IssueDateTime= DateTime.Now;
                             
                             _ = await connection.TblMedicineDetails.AddAsync(model);
@@ -83,8 +87,8 @@ namespace HMSAPI.Service.TblMedicineDetails
                         data.Frequency = TblMedicineDetails.Frequency;
                         data.Duration = TblMedicineDetails.Duration;
                         data.Instruction = TblMedicineDetails.Instruction;
-                        data.UpdatedBy = 1;
-                        data.UpdatedOn = DateTime.Now;
+                        data.UpdatedBy = UserId;
+                        data.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); ;
                         data.IsActive = TblMedicineDetails.IsActive;
                         data.IncreamentVersion();
                         connection.Update(data);
