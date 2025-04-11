@@ -192,14 +192,15 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     lstPatientAdmitionDetails = await connection.getTblPatientAdmition.FromSqlRaw($@"
                     
                     
-select tp.PatientAdmitionDetailsId,tu.FullName as PatientName,tp.AdmisionDate,tr.RoomNumber,
+				select tp.PatientAdmitionDetailsId,tu.FullName as PatientName,tp.AdmisionDate,tr.RoomNumber,
 tt.TreatmentCode,tp.DischargeDate,tk.FullName as CreatedBy,tp.CreatedOn,TblUser.FullName as UpdatedBy,
 tp.UpdatedOn,tp.IsActive,tp.VersionNo from TblPatientAdmitionDetails tp
 inner join TblUser tk on tk.UserId = tp.CreatedBy
 left join TblUser on TblUser.UserId = tp.UpdatedBy
-inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
+inner join TblTreatmentDetails tt on tt.TreatmentDetailsId=tp.TreatmentDetailsId
+inner join TblPatient pa on pa.PatientId=tt.PatientId
+inner join  TblUser tu on tu.UserId=pa.UserId
 inner join TblRoom tr on tr.RoomID = tp.RoomID
-inner join TblUser tu on tu.UserId = tp.UserId
                     where tu.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstPatientAdmitionDetails;
                     responseModel.StatusCode = HttpStatusCode.OK;

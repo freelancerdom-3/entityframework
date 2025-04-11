@@ -404,7 +404,9 @@ namespace HMSAPI.Service.GetDropDownList
                     string query = $@"select td.TreatmentDetailsId as id,concat(td.TreatmentDetailsId,'-',u.FullName) as name 
                     from TblTreatmentDetails td
                     inner join TblPatient p on td.PatientId=p.PatientId
-                     inner join TblUser u on u.UserId=p.UserId";
+                     inner join TblUser u on u.UserId=p.UserId   WHERE td.TreatmentDetailsId NOT IN (
+                    SELECT treatmentDetailsId FROM TblPatientAdmitionDetails
+                )";
                     lstRolles1 = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
                     responseModel.Data = lstRolles1;
 
