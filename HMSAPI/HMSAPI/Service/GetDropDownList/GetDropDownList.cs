@@ -277,7 +277,7 @@ namespace HMSAPI.Service.GetDropDownList
             return responseModel;
 
         }
-        public async Task<APIResponseModel> FillPatientName ()
+        public async Task<APIResponseModel> FillPatientName()
         {
             APIResponseModel responseModel = new ();
 
@@ -288,10 +288,8 @@ namespace HMSAPI.Service.GetDropDownList
             {
                 using (var connection = _hsmDbContext)
                 {
-                      string query = $@" 
-                                       select tp.PatientId as id,tu.FullName as name from TblTreatmentDetails tr 
-                                          inner join TblPatient tp on tp.PatientId = tr.PatientId
-                                                  inner join TblUser tu on tu.UserId = tp.UserId";
+                      string query = $@" select tp.PatientId as id,tu.FullName as name from TblUser tu
+                                    inner join  TblPatient tp on tp.UserId = tu.UserId where RoleId = 2";
                    lstRolles1  = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
                     responseModel.Data = lstRolles1;
                      responseModel.StatusCode = HttpStatusCode.OK;
@@ -347,8 +345,7 @@ namespace HMSAPI.Service.GetDropDownList
             {
                 using (var connection = _hsmDbContext)
                 {
-                    string query = $@"select tu.UserId as id,tu.FullName as name from TblPateintDoctormapping tp
-                                      inner join tbluser tu on tu.UserId=tp.UserId";                                                                                   
+                    string query = $@"select UserId as id, FullName as name from TblUser where RoleId != 2";                                                                                   
                     lstRolles1 = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
                     responseModel.Data = lstRolles1;
                     responseModel.StatusCode = HttpStatusCode.OK;
@@ -404,10 +401,12 @@ namespace HMSAPI.Service.GetDropDownList
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lsttreatmentdetails = connection.TblTreatmentDetails.ToList();
-
-                    //responseModel.Data = lstRolles;
-                    responseModel.Data = lsttreatmentdetails.Select(x => new GetDropDownListModel() { id = x.TreatmentDetailsId, name = x.TreatmentCode }).ToList();
+                    string query = $@"select td.TreatmentDetailsId as id,concat(td.TreatmentDetailsId,'-',u.FullName) as name 
+                    from TblTreatmentDetails td
+                    inner join TblPatient p on td.PatientId=p.PatientId
+                     inner join TblUser u on u.UserId=p.UserId";
+                    lstRolles1 = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
+                    responseModel.Data = lstRolles1;
 
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";

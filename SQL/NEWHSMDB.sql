@@ -1,6 +1,6 @@
 USE [HSMDB]
 GO
-/****** Object:  Table [dbo].[TblBill]    Script Date: 4/4/2025 10:20:56 AM ******/
+/****** Object:  Table [dbo].[TblBill]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -24,7 +24,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblDiseaseType]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblDiseaseType]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -44,7 +44,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblEmployeeDepartmentMapping]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblEmployeeDepartmentMapping]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -65,7 +65,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblEmployeeshiftMapping]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblEmployeeshiftMapping]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -88,7 +88,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblFacility]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblFacility]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,7 +109,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblFacilityType]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblFacilityType]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -129,7 +129,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblFeedback]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblFeedback]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -154,7 +154,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblHospitalDepartment]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblHospitalDepartment]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -174,7 +174,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblHospitalType]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblHospitalType]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -194,7 +194,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblMedicineDetails]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblMedicineDetails]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -214,13 +214,14 @@ CREATE TABLE [dbo].[TblMedicineDetails](
 	[UpdatedOn] [datetime] NULL,
 	[IsActive] [bit] NULL,
 	[VersionNo] [int] NULL,
+	[AllotedQuantity] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[MedicineDetailsID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblMedicineDiseaseMapping]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblMedicineDiseaseMapping]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +242,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblMedicineType]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblMedicineType]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -255,13 +256,14 @@ CREATE TABLE [dbo].[TblMedicineType](
 	[UpdatedOn] [datetime] NULL,
 	[IsActive] [bit] NULL,
 	[VersionNo] [int] NULL,
+	[QuantityAvailable] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[MedicineTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblMenu]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblMenu]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -284,7 +286,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblMenuRoleMapping]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblMenuRoleMapping]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -309,7 +311,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblPateintDoctormapping]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblPateintDoctormapping]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -331,7 +333,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblPatient]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblPatient]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -357,7 +359,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblPatientAdmitionDetails]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblPatientAdmitionDetails]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -381,7 +383,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblRole]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblRole]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -401,7 +403,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblRoom]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblRoom]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -422,7 +424,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblRoomLocations]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblRoomLocations]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -443,7 +445,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblRoomType]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblRoomType]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -463,7 +465,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblRoomTypeFacilityMapping]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblRoomTypeFacilityMapping]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -484,7 +486,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblShift]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblShift]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -506,7 +508,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblTreatmentDetails]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblTreatmentDetails]    Script Date: 10-04-2025 12.48.43 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -529,7 +531,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TblUser]    Script Date: 4/4/2025 10:20:57 AM ******/
+/****** Object:  Table [dbo].[TblUser]    Script Date: 10-04-2025 12.48.44 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -703,13 +705,13 @@ SET IDENTITY_INSERT [dbo].[TblHospitalType] OFF
 GO
 SET IDENTITY_INSERT [dbo].[TblMedicineDetails] ON 
 GO
-INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (1, 1, 2, 1, N'100gm', N'2days', N'Take After MEAL', CAST(N'2025-03-09T11:57:48.710' AS DateTime), 1, CAST(N'2025-03-11T17:46:57.290' AS DateTime), 2, CAST(N'2025-03-11T17:46:57.290' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [AllotedQuantity]) VALUES (1, 1, 2, 1, N'100gm', N'2days', N'Take After MEAL', CAST(N'2025-03-09T11:57:48.710' AS DateTime), 1, CAST(N'2025-03-11T17:46:57.290' AS DateTime), 2, CAST(N'2025-03-11T17:46:57.290' AS DateTime), 1, 2, 10)
 GO
-INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (2, 2, 11, 2, N'200gm', N'1days', N'Heavy Doase', CAST(N'2025-03-10T11:57:48.710' AS DateTime), 3, CAST(N'2025-03-11T17:47:05.793' AS DateTime), 4, CAST(N'2025-03-11T17:47:05.793' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [AllotedQuantity]) VALUES (2, 2, 11, 2, N'200gm', N'1days', N'Heavy Doase', CAST(N'2025-03-10T11:57:48.710' AS DateTime), 3, CAST(N'2025-03-11T17:47:05.793' AS DateTime), 4, CAST(N'2025-03-11T17:47:05.793' AS DateTime), 1, 2, 10)
 GO
-INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (3, 8, 2, 2, N'Per day 3 Times', N'5', N'After Meal', CAST(N'2025-03-11T05:20:36.653' AS DateTime), 5, CAST(N'2025-03-11T17:47:13.827' AS DateTime), 6, CAST(N'2025-03-11T17:47:13.827' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [AllotedQuantity]) VALUES (3, 8, 2, 2, N'Per day 3 Times', N'5', N'After Meal', CAST(N'2025-03-11T05:20:36.653' AS DateTime), 5, CAST(N'2025-03-11T17:47:13.827' AS DateTime), 6, CAST(N'2025-03-11T17:47:13.827' AS DateTime), 1, 2, 10)
 GO
-INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (4, 8, 2, 2, N'Per day 3 Times', N'5', N'After Meal', CAST(N'2025-03-11T05:20:36.653' AS DateTime), 7, CAST(N'2025-03-11T17:47:24.460' AS DateTime), 8, CAST(N'2025-03-11T17:47:24.460' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineDetails] ([MedicineDetailsID], [TreatmentDetailsId], [MedicineTypeID], [Dosage], [Frequency], [Duration], [Instruction], [IssueDateTime], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [AllotedQuantity]) VALUES (4, 8, 2, 2, N'Per day 3 Times', N'5', N'After Meal', CAST(N'2025-03-11T05:20:36.653' AS DateTime), 7, CAST(N'2025-03-11T17:47:24.460' AS DateTime), 8, CAST(N'2025-03-11T17:47:24.460' AS DateTime), 1, 2, 10)
 GO
 SET IDENTITY_INSERT [dbo].[TblMedicineDetails] OFF
 GO
@@ -725,27 +727,27 @@ SET IDENTITY_INSERT [dbo].[TblMedicineDiseaseMapping] OFF
 GO
 SET IDENTITY_INSERT [dbo].[TblMedicineType] ON 
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (1, N'Dolo 650', 1, CAST(N'2025-03-12T14:20:37.860' AS DateTime), 2, CAST(N'2025-03-12T14:20:37.860' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (1, N'Dolo 650', 1, CAST(N'2025-03-12T14:20:37.860' AS DateTime), 2, CAST(N'2025-03-12T14:20:37.860' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (2, N'Painkillers', 3, CAST(N'2025-03-11T17:50:12.217' AS DateTime), 4, CAST(N'2025-03-11T17:50:12.217' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (2, N'Painkillers', 3, CAST(N'2025-03-11T17:50:12.217' AS DateTime), 4, CAST(N'2025-03-11T17:50:12.217' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (3, N'Antipyretics', 5, CAST(N'2025-03-11T17:50:22.480' AS DateTime), 6, CAST(N'2025-03-11T17:50:22.480' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (3, N'Antipyretics', 5, CAST(N'2025-03-11T17:50:22.480' AS DateTime), 6, CAST(N'2025-03-11T17:50:22.480' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (4, N'Tamsulosin', 7, CAST(N'2025-03-11T17:50:34.703' AS DateTime), 8, CAST(N'2025-03-11T17:50:34.703' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (4, N'Tamsulosin', 7, CAST(N'2025-03-11T17:50:34.703' AS DateTime), 8, CAST(N'2025-03-11T17:50:34.703' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (5, N'Sobisis', 9, CAST(N'2025-03-11T17:50:56.137' AS DateTime), 10, CAST(N'2025-03-11T17:50:56.137' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (5, N'Sobisis', 9, CAST(N'2025-03-11T17:50:56.137' AS DateTime), 10, CAST(N'2025-03-11T17:50:56.137' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (6, N'J Fol', 11, CAST(N'2025-03-11T17:51:07.797' AS DateTime), 12, CAST(N'2025-03-11T17:51:07.797' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (6, N'J Fol', 11, CAST(N'2025-03-11T17:51:07.797' AS DateTime), 12, CAST(N'2025-03-11T17:51:07.797' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (7, N'MPROL', 13, CAST(N'2025-03-11T17:51:21.467' AS DateTime), 14, CAST(N'2025-03-11T17:51:21.467' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (7, N'MPROL', 13, CAST(N'2025-03-11T17:51:21.467' AS DateTime), 14, CAST(N'2025-03-11T17:51:21.467' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (8, N'Metformin', 15, CAST(N'2025-03-11T17:51:32.063' AS DateTime), 16, CAST(N'2025-03-11T17:51:32.063' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (8, N'Metformin', 15, CAST(N'2025-03-11T17:51:32.063' AS DateTime), 16, CAST(N'2025-03-11T17:51:32.063' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (9, N'Finerenone', 17, CAST(N'2025-03-11T17:51:41.550' AS DateTime), 18, CAST(N'2025-03-11T17:51:41.550' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (9, N'Finerenone', 17, CAST(N'2025-03-11T17:51:41.550' AS DateTime), 18, CAST(N'2025-03-11T17:51:41.550' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (10, N'Beta Blockers', 19, CAST(N'2025-03-11T17:51:55.510' AS DateTime), 20, CAST(N'2025-03-11T17:51:55.510' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (10, N'Beta Blockers', 19, CAST(N'2025-03-11T17:51:55.510' AS DateTime), 20, CAST(N'2025-03-11T17:51:55.510' AS DateTime), 1, 2, 300)
 GO
-INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (11, N'Anastrozole', 21, CAST(N'2025-03-11T17:52:07.910' AS DateTime), 22, CAST(N'2025-03-11T17:52:07.910' AS DateTime), 1, 2)
+INSERT [dbo].[TblMedicineType] ([MedicineTypeID], [TypeName], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo], [QuantityAvailable]) VALUES (11, N'Anastrozole', 21, CAST(N'2025-03-11T17:52:07.910' AS DateTime), 22, CAST(N'2025-03-11T17:52:07.910' AS DateTime), 1, 2, 300)
 GO
 SET IDENTITY_INSERT [dbo].[TblMedicineType] OFF
 GO
@@ -901,6 +903,24 @@ INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [Pat
 GO
 INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (3, 1, 3, 3, 5, CAST(N'2025-03-11T17:56:24.620' AS DateTime), 6, CAST(N'2025-03-11T17:56:24.620' AS DateTime), 1, 2)
 GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (4, 27, 17, 1, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (5, 28, 18, 2, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (6, 29, 19, 3, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (7, 30, 20, 8, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (8, 31, 21, 1, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (9, 32, 22, 2, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (10, 33, 23, 3, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (11, 34, 24, 8, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[TblPateintDoctormapping] ([PateintDoctormappingId], [UserId], [PatientId], [TreatmentDetailsId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (12, 35, 25, 1, 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 0, CAST(N'2025-04-10T05:15:27.000' AS DateTime), 1, 1)
+GO
 SET IDENTITY_INSERT [dbo].[TblPateintDoctormapping] OFF
 GO
 SET IDENTITY_INSERT [dbo].[TblPatient] ON 
@@ -913,6 +933,34 @@ INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group
 GO
 INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (11, CAST(N'2025-03-11' AS Date), N'M', N'Ahmedabad', N'B+', N'5698545896', N'Headack', 20, 7, CAST(N'2025-03-11T17:58:33.263' AS DateTime), 8, CAST(N'2025-03-11T17:58:33.263' AS DateTime), 1, 2)
 GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (12, CAST(N'2025-04-09' AS Date), N'M', N'Ahmedabad', N'B', N'7894561230', N'fever', 22, 0, CAST(N'2025-04-09T10:36:47.960' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (13, CAST(N'2025-04-09' AS Date), N'M', N'UnitedKingdom', N'AB-', N'1122334455', N'acidity', 23, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (14, CAST(N'2025-04-09' AS Date), N'M', N'Jordan', N'AB+', N'1122334455', N'indigestion', 24, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (15, CAST(N'2025-04-09' AS Date), N'M', N'USA', N'A-', N'1122334455', N'indigestion', 25, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (16, CAST(N'2025-04-09' AS Date), N'M', N'Mumbai', N'B-', N'1122334455', N'jondice', 26, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (17, CAST(N'2025-04-09' AS Date), N'M', N'USA', N'A+', N'9991119991', N'piles', 27, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (18, CAST(N'1968-04-11' AS Date), N'M', N'USA', N'O+', N'9991119991', N'thelesimia', 28, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (19, CAST(N'1968-04-11' AS Date), N'M', N'USA', N'O-', N'1475896378', N'thyroid', 29, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (20, CAST(N'1968-04-11' AS Date), N'M', N'USA', N'O-', N'1475896378', N'diabetes', 30, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (21, CAST(N'1968-04-11' AS Date), N'M', N'USA', N'O-', N'9191911814', N'myopia', 31, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (22, CAST(N'1958-04-11' AS Date), N'M', N'USA', N'O-', N'9191911814', N'arthrities', 32, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (23, CAST(N'1958-04-11' AS Date), N'M', N'Uttar Pradesh', N'B-', N'1001001001', N'cancer', 33, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (24, CAST(N'1958-04-11' AS Date), N'M', N'Italy', N'A-', N'5151515125', N'malaria', 34, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblPatient] ([PatientId], [DOB], [Gender], [Address], [Blood_Group], [Emergency_Contact], [Medical_History], [UserId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (25, CAST(N'1958-04-11' AS Date), N'M', N'Karnataka', N'A-', N'5151515125', N'dengue', 35, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
 SET IDENTITY_INSERT [dbo].[TblPatient] OFF
 GO
 SET IDENTITY_INSERT [dbo].[TblPatientAdmitionDetails] ON 
@@ -920,6 +968,16 @@ GO
 INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (1, 12, CAST(N'2025-03-08T11:05:57.220' AS DateTime), 1, 1, CAST(N'2025-03-09T11:05:57.220' AS DateTime), 1, CAST(N'2025-03-11T17:59:22.480' AS DateTime), 2, CAST(N'2025-03-11T17:59:22.480' AS DateTime), 1, 2)
 GO
 INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (2, 17, CAST(N'2025-03-09T11:05:57.220' AS DateTime), 2, 3, CAST(N'2025-03-10T11:05:57.220' AS DateTime), 3, CAST(N'2025-03-11T17:59:39.680' AS DateTime), 4, CAST(N'2025-03-11T17:59:39.680' AS DateTime), 1, 2)
+GO
+INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (3, 13, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 1, 1, CAST(N'2025-05-10T05:06:33.847' AS DateTime), 0, CAST(N'2025-04-09T12:16:19.437' AS DateTime), 0, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 1, 2)
+GO
+INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (4, 23, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 2, 1, CAST(N'2025-05-10T05:06:33.847' AS DateTime), 0, CAST(N'2025-04-10T04:42:24.040' AS DateTime), 0, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 1, 2)
+GO
+INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (5, 24, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 3, 2, CAST(N'2025-05-10T05:06:33.847' AS DateTime), 0, CAST(N'2025-04-10T04:42:24.040' AS DateTime), 0, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 1, 2)
+GO
+INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (6, 25, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 4, 3, CAST(N'2025-05-10T05:06:33.847' AS DateTime), 0, CAST(N'2025-04-10T04:42:24.040' AS DateTime), 0, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 1, 2)
+GO
+INSERT [dbo].[TblPatientAdmitionDetails] ([PatientAdmitionDetailsId], [UserId], [AdmisionDate], [RoomID], [TreatmentDetailsId], [DischargeDate], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (7, 26, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 5, 8, CAST(N'2025-05-10T05:06:33.847' AS DateTime), 0, CAST(N'2025-04-10T04:42:24.040' AS DateTime), 0, CAST(N'2025-04-10T05:06:33.847' AS DateTime), 1, 2)
 GO
 SET IDENTITY_INSERT [dbo].[TblPatientAdmitionDetails] OFF
 GO
@@ -1066,6 +1124,34 @@ GO
 INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (17, N'Naina Patel', N'nainapatel42@gmail.com', N'Naina@123', N'9634853742', 2, 33, CAST(N'2025-03-11T18:25:24.840' AS DateTime), 34, CAST(N'2025-03-11T18:25:24.840' AS DateTime), 1, 2)
 GO
 INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (20, N'Naitik Gondaliya1', N'NaitikGondaliya12@gmail.com', N'admin@1234', NULL, 2, 39, CAST(N'2025-03-11T18:25:59.140' AS DateTime), 40, CAST(N'2025-03-11T18:25:59.140' AS DateTime), 1, 2)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (22, N'Hemil', N'hemil@gmail.com', N'hemil123', N'7894561230', 2, 0, CAST(N'2025-04-09T10:36:47.960' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (23, N'Prince Charles', N'charles@unitekingdom.com', N'charles123', N'4455667788', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (24, N'Micheal Jordan', N'micheal@gmail.com', N'micheal123', N'1234567890', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (25, N'Tom Cruise', N'tommy@gmail.com', N'tom123', N'7000077007', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (26, N'Varun Dhawan', N'varun@gmail.com', N'varun123', N'7000077007', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (27, N'Elon Musk', N'elon@spacex.com', N'XAEA12', N'9119119112', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (28, N'Bill Gates', N'bill@microsoft.com', N'billwindowy2k', N'0101010101', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (29, N'Mark Zuckeberg', N'mark@meta.com', N'markllama', N'1121415852', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (30, N'Satya Nadella', N'satya@micrsosoft.com', N'satya123', N'1121415852', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (31, N'James Bond', N'james@mi6.com', N'james007', N'0077000077', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (32, N'Joe Biden', N'jow@biden.com', N'joebiden', N'5798461230', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (33, N'Akhilesh Yadav', N'akhilesh@sapa.com', N'akhileshsapa', N'5798461230', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (34, N'Rahul Gandhi', N'rahul@con.com', N'ragacon', N'4204204204', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TblUser] ([UserId], [FullName], [Email], [Password], [MobileNumber], [RoleId], [CreatedBy], [CreatedOn], [UpdatedBy], [UpdatedOn], [IsActive], [VersionNo]) VALUES (35, N'Mallika ArjunKarge', N'kahrge@con.com', N'khargecon', N'4204204204', 2, 0, CAST(N'2025-04-09T11:32:39.147' AS DateTime), NULL, NULL, 1, 1)
 GO
 SET IDENTITY_INSERT [dbo].[TblUser] OFF
 GO

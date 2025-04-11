@@ -5,6 +5,7 @@ using HMSAPI.Model.TblPatientAdmitionDetails.ViewModel;
 using HMSAPI.Model.TblRole;
 using HMSAPI.Model.TblRoom;
 using HMSAPI.Model.TblUser.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Security.Cryptography;
@@ -14,11 +15,14 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
     public class TblPatientAdmitionDetails : ITblPatientAdmitionDetails
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblPatientAdmitionDetails (HSMDBContext hSMDBContext)
+
+        private readonly ITokenData _tokenData;
+        public TblPatientAdmitionDetails (HSMDBContext hSMDBContext , ITokenData tokenData)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokenData;
         }
-
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
         public async Task<APIResponseModel> Add(TblPatientAdmitionDetailsModel objadd)
         {
             APIResponseModel responseModel = new();
@@ -40,6 +44,9 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     else
                     {
                         objadd.VersionNo = 1;
+                        objadd.CreatedBy = UserId;
+                        objadd.CreatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
                         _ = connection.tblPatientAdmitionDetails.Add(objadd);
                         
                         connection.SaveChanges();
@@ -174,7 +181,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
-            List<GetTblPatientAdmitionDetailsViewModel> lstPatientAdmitionDetails = new();
+            List<GetTblPatientAdmitionViewModel> lstPatientAdmitionDetails = new();
             try
             {
 
@@ -182,13 +189,18 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
 
                 using (var connection = _hsmDbContext)
                 {
-                    lstPatientAdmitionDetails = await connection.GetTblPatientAdmitionDetailsViewModel.FromSqlRaw($@"
+                    lstPatientAdmitionDetails = await connection.getTblPatientAdmition.FromSqlRaw($@"
                     
                     
-                    select TblPatientAdmitionDetails.PatientAdmitionDetailsId,TblRoom.RoomID,TblUser.UserId,TblPatientAdmitionDetails.AdmisionDate,TblRoom.RoomNumber,TblUser.FullName from TblPatientAdmitionDetails 
-                    inner join TblRoom on TblRoom.RoomID = TblPatientAdmitionDetails.RoomID
-                    inner join TblUser on TblUser.UserId = TblPatientAdmitionDetails.UserId 
-                    where FullName like '%{searchBy}%'").ToListAsync();
+select tp.PatientAdmitionDetailsId,tu.FullName as PatientName,tp.AdmisionDate,tr.RoomNumber,
+tt.TreatmentCode,tp.DischargeDate,tk.FullName as CreatedBy,tp.CreatedOn,TblUser.FullName as UpdatedBy,
+tp.UpdatedOn,tp.IsActive,tp.VersionNo from TblPatientAdmitionDetails tp
+inner join TblUser tk on tk.UserId = tp.CreatedBy
+left join TblUser on TblUser.UserId = tp.UpdatedBy
+inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
+inner join TblRoom tr on tr.RoomID = tp.RoomID
+inner join TblUser tu on tu.UserId = tp.UserId
+                    where tu.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstPatientAdmitionDetails;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Your Data";
@@ -253,12 +265,17 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
 
                     if (data != null)
                     {
+                        ObjUpdate.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        ObjUpdate.UpdatedBy = UserId;
+
                         data.UserId= ObjUpdate.UserId;
                         data.AdmisionDate= ObjUpdate.AdmisionDate;
                         data.RoomID= ObjUpdate.RoomID;
                         data.TreatmentDetailsId= ObjUpdate.TreatmentDetailsId;
-                        data.DischargeDate= ObjUpdate.DischargeDate;
-                        data.UpdatedBy  = ObjUpdate.UpdatedBy;
+                        data.DischargeDate = ObjUpdate.DischargeDate;
+
+                        data.UpdatedBy = ObjUpdate.UpdatedBy;
+
                         data.UpdatedOn = ObjUpdate.UpdatedOn;
                         data.IsActive = ObjUpdate.IsActive;
                         data.IncreamentVersion();
