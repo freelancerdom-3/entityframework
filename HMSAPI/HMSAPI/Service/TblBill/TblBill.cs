@@ -35,16 +35,13 @@ namespace HMSAPI.Service.TblBill
                 using (var connection = _hsmDbContext)
                 {
                     lstbills = await connection.billPatientViewModels.FromSqlRaw($@"
-                     SELECT   
-u.FullName AS CreatedBy, 
-u.FullName AS UpdatedBy, 
-b.CreatedOn, 
-b.UpdatedOn,
-b.Billid,   u.FullName, 
-b.TotalAmount,  b.PaymentMethod, b.BillDate
- FROM TblBill b
- INNER JOIN TblPatient p ON b.PatientId = p.PatientId
- INNER JOIN TblUser u ON p.UserId = u.UserId  where FullName like '%{searchBy}%'").ToListAsync();
+                      select tb.BillId,tu.FullName as PatientName,tb.TotalAmount,tb.PaymentMethod,tb.BillDate,tb.TreatmentDetailsId,
+us.FullName as CreatedBy,tb.CreatedOn,pr.FullName as UpdatedBy,tb.UpdatedOn,tb.IsActive,tb.VersionNo from TblBill tb 
+ inner join TblUser us on us.UserId = tb.CreatedBy
+left join TblUser pr on pr.UserId = tb.UpdatedBy
+ inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tb.TreatmentDetailsId
+ inner join TblPatient tp on tp.PatientId = tt.PatientId
+ inner join TblUser tu on tu.UserId = tp.UserId  where tu.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstbills;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
