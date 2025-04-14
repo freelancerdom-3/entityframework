@@ -180,7 +180,7 @@ namespace HMSAPI.Service.TblFacilityTypes
                 using (var connection = _hsmDbContext)
                 {
                     lstFacility = connection.gettblfacilitytypemodels.FromSqlRaw($@"
-                   SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.FacilityTypeID, 
+                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.FacilityTypeID, 
                     tr.FacilityName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
                     FROM TblFacilityType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
                     left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
