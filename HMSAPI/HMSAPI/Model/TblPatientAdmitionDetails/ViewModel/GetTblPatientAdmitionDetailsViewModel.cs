@@ -31,6 +31,8 @@ namespace HMSAPI.Model.TblPatientAdmitionDetails.ViewModel
 
         //public int RoomID { get; set; }
 
+        public int TreatmentDetailsId { get; set; }
+
 
         public string? PatientName { get; set; }
         public int RoomNumber { get; set; }

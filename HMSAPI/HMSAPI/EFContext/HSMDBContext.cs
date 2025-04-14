@@ -142,7 +142,7 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblTreatmentDetailsViewModel> GetTblTreatmentDetailsViewModel { get; set; }
 
         public DbSet<TblMedicineDetailsModel> TblMedicineDetails { get; set; }
-        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; } 
+        public DbSet<TblPatientAdmitionDetailsModel> tblPatientAdmitionDetails { get; set; }
         public DbSet<GetPateintDoctorMappingViewModel> getPateintDoctorMappingViewModels { get; set; }
 
         public DbSet<GetTblPatientAdmitionDetailsViewModel> GetTblPatientAdmitionDetailsViewModel { get; set; }
@@ -172,11 +172,11 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblFeedbackViewModel> GetTblFeedbackViewModel { get; set; }
 
         public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel { get; set; }
-        public DbSet<TblMenuRoleMapping> TblMenuRolemapping {  get; set; }
+        public DbSet<TblMenuRoleMapping> TblMenuRolemapping { get; set; }
         public DbSet<GetTblRoomTypeViewModel> GetTblRoomTypeViewModel { get; set; }
         public DbSet<TblHospitalDepartmentViewModel> TblHospitalDepartmentViewModel { get; set; }
 
-        public DbSet<GetTblMedicineTypeViewModel>GetTblMedicineTypeViewModels { get; set; }
+        public DbSet<GetTblMedicineTypeViewModel> GetTblMedicineTypeViewModels { get; set; }
 
         public DbSet<GetTblRoleViewModel> getTblRoleViewModels { get; set; }
 
@@ -191,9 +191,10 @@ namespace HMSAPI.EFContext
 
         public DbSet<Gettbltreatmentmodel> gettbltreatmentmodels { get; set; }
 
-        public DbSet<getdiseasetypeviewmodel>getdiseasetypeviewmodels { get; set; }
+        public DbSet<getdiseasetypeviewmodel> getdiseasetypeviewmodels { get; set; }
 
-        public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition {  get; set; }
+        public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition { get; set; }
+
         public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
     }
 }

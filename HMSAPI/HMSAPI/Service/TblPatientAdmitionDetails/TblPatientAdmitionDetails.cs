@@ -192,8 +192,8 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     lstPatientAdmitionDetails = await connection.getTblPatientAdmition.FromSqlRaw($@"
                     
                     
-				select tp.PatientAdmitionDetailsId,tu.FullName as PatientName,tp.AdmisionDate,tr.RoomNumber,
-tt.TreatmentCode,tp.DischargeDate,tk.FullName as CreatedBy,tp.CreatedOn,TblUser.FullName as UpdatedBy,
+ select tp.PatientAdmitionDetailsId,tu.FullName as PatientName,tp.AdmisionDate,tr.RoomNumber,
+tt.TreatmentCode,tt.TreatmentDetailsId,tp.DischargeDate,tk.FullName as CreatedBy,tp.CreatedOn,TblUser.FullName as UpdatedBy,
 tp.UpdatedOn,tp.IsActive,tp.VersionNo from TblPatientAdmitionDetails tp
 inner join TblUser tk on tk.UserId = tp.CreatedBy
 left join TblUser on TblUser.UserId = tp.UpdatedBy
