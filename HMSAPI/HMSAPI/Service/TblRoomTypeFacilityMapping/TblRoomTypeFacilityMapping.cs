@@ -1,11 +1,8 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblFacilityTypes;
-using HMSAPI.Model.TblMedicineDiseaseMapping;
-using HMSAPI.Model.TblPatientAdmitionDetails;
 using HMSAPI.Model.TblRoomTypeFacilityMapping;
 using HMSAPI.Model.TblRoomTypeFacilityMapping.View_Model;
-using HMSAPI.Model.TblUser;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -14,11 +11,14 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
     public class TblRoomTypeFacilityMapping : ITblRoomTypeFacilityMapping
     {
         private readonly HSMDBContext _hsmDbContext;
+        private readonly ITokenData _tokenData;
 
-        public TblRoomTypeFacilityMapping(HSMDBContext hSMDBContext)
+        public TblRoomTypeFacilityMapping(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
         }
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
 
         public async Task<APIResponseModel> Add(TblRoomTypeFacilityMappingModel facilitymodel)
         {
@@ -31,6 +31,8 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
 
                     if (!DuplicateRoomTypeFacilityMapping)
                     {
+                        facilitymodel.CreatedBy = UserId;
+                        facilitymodel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         facilitymodel.VersionNo = 1;
                         _ = await connection.TblRoomTypeFacilityMapping.AddAsync(facilitymodel);
                         connection.SaveChanges();
@@ -68,20 +70,22 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                         .Where(X => X.RoomTypeFacilityMappingID == facilitymodel.RoomTypeFacilityMappingID).FirstOrDefaultAsync();
                     if (Data != null)
                     {
-                        Data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
+                        facilitymodel.UpdatedBy = UserId;
+                        facilitymodel.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         Data.UpdatedBy = Data.UpdatedBy;
                         Data.UpdatedOn = Data.UpdatedOn;
+                        Data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
                         Data.IsActive = Data.IsActive;
+                        connection.TblRoomTypeFacilityMapping.Update(Data);
                         Data.IncreamentVersion();
-                        connection.Update(Data);
                         connection.SaveChanges();
-                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                        responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Data = true;
                         responseModel.Message = "Record Updated Successfully";
                     }
                     else
                     {
-                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                        responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Data = false;
                         responseModel.Message = "Not Updated";
                     }
@@ -130,33 +134,6 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
             return responseModel;
         }
 
-        //public async Task<APIResponseModel> Deletebyroomid(int id)
-        //{
-        //    APIResponseModel responseModel = new();
-        //    try
-        //    {
-        //        using (var connection = _hsmDbContext)
-        //        {
-        //            TblRoomTypeFacilityMappingModel roomid = await connection.TblRoomTypeFacilityMapping.FindAsync(id);
-
-        //            if (roomid != null)
-        //            {
-        //                connection.TblRoomTypeFacilityMapping.Remove(roomid);
-        //                await connection.SaveChangesAsync();
-        //            }
-        //            responseModel.StatusCode = HttpStatusCode.OK;
-        //            responseModel.Message = "Deleted Successfully";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
-        //        responseModel.Message = ex.InnerException.Message;
-        //        responseModel.Data = null;
-        //    }
-
-        //    return responseModel;
-        //}
 
 
         public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context, int id)
@@ -228,18 +205,30 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
-            List<GetTblRoomTypeFacilityMappingModel> lsttblRoomTypeFacilityMappings = new();
+            List<GetTblRoomTypeFacilityMapping> lsttblRoomTypeFacilityMappings = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lsttblRoomTypeFacilityMappings = await connection.GetTblRoomTypeFacilityMappingModel.FromSqlRaw($@"
-                    select TblRoomTypeFacilityMapping.RoomTypeFacilityMappingID , TblRoom.RoomNumber , TblFacility.FacilityName,TblRoomType.RoomType  from TblRoomTypeFacilityMapping
-                    inner join TblRoom  on TblRoom.RoomID = TblRoomTypeFacilityMapping.RoomId
-                    inner join TblFacility on tblfacility.FacilityName = tblfacility.FacilityName
-					inner join TblRoomType on TblRoomType.RoomType = TblRoomType.RoomType
-                    where FacilityName
-                    like '%{searchBy}%'").ToListAsync();
+                    lsttblRoomTypeFacilityMappings = await connection.gettblroomtypefacilitymapping.FromSqlRaw($@"
+    SELECT 
+        tblmapping.RoomTypeFacilityMappingID,
+        trt.RoomType AS RoomType,
+        tf.FacilityName AS FacilityName,
+        tu.FullName AS CreatedBy,
+        tuu.FullName AS UpdatedBy,
+        tblmapping.CreatedOn,
+        tblmapping.UpdatedOn,
+        tblmapping.IsActive,
+        tblmapping.VersionNo
+    FROM TblRoomTypeFacilityMapping tblmapping
+    INNER JOIN TblRoom troom ON troom.RoomID = tblmapping.RoomID
+    INNER JOIN TblRoomType trt ON troom.RoomTypeID = trt.RoomTypeId
+    INNER JOIN TblFacility tf ON tf.FacilityID = tblmapping.FacilityID
+    LEFT JOIN TblUser tu ON tu.UserId = tblmapping.CreatedBy
+    LEFT JOIN TblUser tuu ON tuu.UserId = tblmapping.UpdatedBy
+    WHERE tu.FullName LIKE '%{searchBy}%'").ToListAsync();
+
                     responseModel.Data = lsttblRoomTypeFacilityMappings;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";

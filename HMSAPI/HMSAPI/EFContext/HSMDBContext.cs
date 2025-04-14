@@ -183,6 +183,7 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblShiftViewModel> GetTblShiftViewModel { get; set; }
         public DbSet<GetTblHospitalTypeModel> getTblHospitalTypeModels { get; set; }
         public DbSet<GetPatientMappingViewModel> getPatientMappingViewModels { get; set; }
+        public DbSet<GetTblRoomTypeFacilityMapping> gettblroomtypefacilitymapping { get; set; }
 
         public DbSet<GetEmployeeMapping> getEmployeeMappings { get; set; }
 
@@ -193,6 +194,7 @@ namespace HMSAPI.EFContext
         public DbSet<getdiseasetypeviewmodel>getdiseasetypeviewmodels { get; set; }
 
         public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition {  get; set; }
+        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
     }
 }
 

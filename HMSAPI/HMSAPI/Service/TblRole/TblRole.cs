@@ -12,11 +12,13 @@ namespace HMSAPI.Service.TblRole
     {
         private readonly HSMDBContext _hsmDbContext;
         private readonly ITokenData _tokenData;
-        public TblRole(HSMDBContext hSMDBContext)//, ITokenData tokendata)
+        public TblRole(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
-            //_tokenData = tokendata;
+            _tokenData = tokendata;
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
         public async Task<APIResponseModel> Add(TblRoleModel roleModel)
         {
             APIResponseModel responseModel = new();
@@ -30,9 +32,8 @@ namespace HMSAPI.Service.TblRole
                     if (!duplicateRoleName)
                     {
                         roleModel.VersionNo = 1;
-                        roleModel.CreatedBy = 1;
-                        roleModel.CreatedOn = DateTime.Now;
-                        //roleModel.CreateBy = Convert.ToInt32(_tokenData.UserID);
+                        roleModel.CreatedBy = UserId;
+                        roleModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         _ = connection.TblRoles.Add(roleModel);
                         connection.SaveChanges();
                         responseModel.Data = true;
