@@ -10,8 +10,6 @@ namespace HMSAPI.Model.TblPateintDoctormapping
 
         public int UserId { get; set; }
 
-        public int PatientId { get; set; }
-
         public int TreatmentDetailsId { get; set; }
     }
 }

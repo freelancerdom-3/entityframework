@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HMSAPI.Model.GenericModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HMSAPI.Model.TblMedicineDetails.ViewModel
 {
-    public class GetMedicineDetailsViewModel
+    public class GetMedicineDetailsViewModel : ListViewModel
     {
         [Key]
         public int MedicineDetailsID { get; set; }

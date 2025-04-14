@@ -1,6 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblFacilityTypes;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -9,10 +10,14 @@ namespace HMSAPI.Service.TblFacilityTypes
     public class TblFacilityTypes : ITblFacilityTypes
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblFacilityTypes(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+
+        public TblFacilityTypes(HSMDBContext hSMDBContext, ITokenData tokenData)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokenData;
         }
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
 
         public async Task<APIResponseModel> Add(TblFacilityTypeModels tblFacilityType)
         {
@@ -25,8 +30,12 @@ namespace HMSAPI.Service.TblFacilityTypes
                         .Any(x => x.FacilityName.ToLower() == tblFacilityType.FacilityName.ToLower());
                     if (!duplicatefacility)
                     {
+                       
+                        //_ = await connection.TblFacilityTypes.AddAsync(tblFacilityType);
+                        tblFacilityType.CreatedBy = UserId;
+                        tblFacilityType.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         tblFacilityType.VersionNo = 1;
-                        _ = await connection.TblFacilityTypes.AddAsync(tblFacilityType);
+                        connection.TblFacilityTypes.Add(tblFacilityType);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -64,8 +73,14 @@ namespace HMSAPI.Service.TblFacilityTypes
                     TblFacilityTypeModels? data = await connection.TblFacilityTypes.Where(x => x.FacilityTypeID == tblFacilityType.FacilityTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblFacilityTypes.Update(data);
+                        tblFacilityType.UpdatedBy = UserId;
+                        tblFacilityType.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        data.FacilityName = tblFacilityType.FacilityName;
+                        data.UpdatedBy = tblFacilityType.UpdatedBy;
+                        data.UpdatedOn = tblFacilityType.UpdatedOn;
+                        data.IsActive = data.IsActive;
                         data.IncreamentVersion();
+                        connection.TblFacilityTypes.Update(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Update Facility Successfully:";
@@ -159,16 +174,23 @@ namespace HMSAPI.Service.TblFacilityTypes
         public async Task<APIResponseModel> GetAll(string? searchby = null)
         {
             APIResponseModel responseModel = new();
-            List<TblFacilityTypeModels> lstFacility = new();
+            List<GetTblFacilityTypeModels> lstFacility = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstFacility = string.IsNullOrEmpty(searchby) ? await connection.TblFacilityTypes.ToListAsync() :
-                        await connection.TblFacilityTypes.Where(x => x.FacilityName.ToLower() == searchby.ToLower()).ToListAsync();
+                    lstFacility = connection.gettblfacilitytypemodels.FromSqlRaw($@"
+                   SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.FacilityTypeID, 
+                    tr.FacilityName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                    FROM TblFacilityType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
+                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
+                    where tu.fullName LIKE  '%{searchby}%'").ToList();
+
+                    //lstFacility = string.IsNullOrEmpty(searchby) ? await connection.TblFacilityTypes.ToListAsync() :
+                    //    await connection.TblFacilityTypes.Where(x => x.FacilityName.ToLower() == searchby.ToLower()).ToListAsync();
 
                 }
-                if (lstFacility != null)
+                    if (lstFacility != null)
                 {
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get All Recode Successfull";

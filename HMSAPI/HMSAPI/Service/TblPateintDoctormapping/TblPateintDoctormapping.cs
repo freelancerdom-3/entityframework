@@ -3,6 +3,7 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblPateintDoctormapping;
 using HMSAPI.Model.TblPateintDoctormapping.ViewModel;
 using HMSAPI.Model.TblTreatmentDetails.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -11,10 +12,17 @@ namespace HMSAPI.Service.TblPateintDoctormapping
     public class TblPateintDoctormapping : ITblPateintDoctormapping
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblPateintDoctormapping(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+
+        public TblPateintDoctormapping(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
+
         public async Task<APIResponseModel> Add(TblPateintDoctormappingModel deptModel)
         {
             APIResponseModel responseModel = new();
@@ -29,6 +37,8 @@ namespace HMSAPI.Service.TblPateintDoctormapping
                     //if (!duplicateUserId)
                     //{
                     //#1
+                    deptModel.CreatedBy = UserId;
+                    deptModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     deptModel.VersionNo = 1;
                     _ = await connection.TblPateintDoctormappingModels.AddAsync(deptModel);
                     connection.SaveChanges();
@@ -67,9 +77,11 @@ namespace HMSAPI.Service.TblPateintDoctormapping
                     //update
                     if (data != null)
                     {
-
+                        departmentModel.UpdatedBy = UserId;
+                        departmentModel.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.UserId = departmentModel.UserId;
-                        data.PatientId = departmentModel.PatientId;
+                        //data.PatientId = departmentModel.PatientId;
+                        data.TreatmentDetailsId = departmentModel.TreatmentDetailsId;
                         data.UpdatedBy = departmentModel.UpdatedBy;
                         data.UpdatedOn = departmentModel.UpdatedOn;
                         data.IsActive = departmentModel.IsActive;
@@ -187,16 +199,17 @@ namespace HMSAPI.Service.TblPateintDoctormapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.getPatientMappingViewModels.FromSqlRaw($@"SELECT tp.PateintDoctormappingId,tu.FullName as DocterName,pu.FullName as PatientName,tt.TreatmentCode,
-                               us.FullName as CreatedBy,tp.CreatedOn,pr.FullName as UpdatedBy,tp.UpdatedOn,tp.IsActive,tp.VersionNo
-                               FROM TblPateintDoctormapping tp
-			                   inner join TblUser us on us.UserId = tp.CreatedBy
-			                   left join TblUser pr on pr.UserId = tp.UpdatedBy
-			                   inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
-                               inner join TblPatient Td on td.PatientId =tp.PatientId
-                               inner join TblUser Tu on tu.UserId= tp.UserId
-                               inner join TblUser pu  on pu.UserId=td.UserId
-                               where  pu.FullName like '%{searchBy}%'").ToListAsync();
+                    lstUsers = await connection.getPatientMappingViewModels.FromSqlRaw($@"select tp.PateintDoctormappingId,tuu.FullName as DocterName,tu.FullName as PatientName,
+tt.TreatmentDetailsId,us.FullName as CreatedBy,tp.CreatedOn,pr.FullName as UpdatedBy,tp.UpdatedOn,
+tp.IsActive,tp.VersionNo
+from TblPateintDoctormapping tp 
+inner join TblUser us on us.UserId = tp.CreatedBy
+left join TblUser pr on pr.UserId = tp.UpdatedBy
+inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
+inner join TblPatient tpa on tpa.PatientId = tt.PatientId
+inner join TblUser tu on tu.UserId = tpa.UserId
+inner join TblUser tuu on tuu.UserId = tp.UserId
+                               where  tuu.FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;

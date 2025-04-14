@@ -8,10 +8,10 @@ namespace HMSAPI.Model.TblPateintDoctormapping.ViewModel
         [Key]
         public int PateintDoctormappingId { get; set; }
 
-        public string DocterName { get; set; }
+        public string? DocterName { get; set; }
 
-        public string PatientName { get; set; }
-        public string TreatmentCode { get; set; }
+        public string? PatientName { get; set; }
+        public int TreatmentDetailsId { get; set; }
 
     }
     public class GetPatientMappingViewModel : ListViewModel
@@ -19,9 +19,9 @@ namespace HMSAPI.Model.TblPateintDoctormapping.ViewModel
         [Key]
         public int PateintDoctormappingId { get; set; }
 
-        public string DocterName { get; set; }
+        public string? DocterName { get; set; }
 
-        public string PatientName { get; set; }
-        public string TreatmentCode { get; set; }
+        public string? PatientName { get; set; }
+        public int TreatmentDetailsId { get; set; }
     }
 }

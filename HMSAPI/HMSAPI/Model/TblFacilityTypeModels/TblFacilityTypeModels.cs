@@ -10,4 +10,10 @@ namespace HMSAPI.Model.TblFacilityTypes
         public int FacilityTypeID { get; set; }
         public string? FacilityName { get; set; }
     }
+    public class GetTblFacilityTypeModels : ListViewModel
+    {
+        [Key]
+        public int FacilityTypeID { get; set; }
+        public string? FacilityName { get; set; }
+    }
 }
