@@ -1,6 +1,7 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblHospitalDepartment;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -10,10 +11,16 @@ namespace HMSAPI.Service.TblHospitalDept
     public class TblHospitalDepartment : ITblHospitalDepartment
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblHospitalDepartment(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+
+        public TblHospitalDepartment(HSMDBContext hSMDBContext, ITokenData tokendata)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokendata;
         }
+
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
         public async Task<APIResponseModel> Add(TblHospitalDepartmentModel deptModel)
         {
@@ -27,6 +34,8 @@ namespace HMSAPI.Service.TblHospitalDept
 
                     if (!duplicateDepartment)
                     {
+                        deptModel.CreatedBy = UserId;
+                        deptModel.CreatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         deptModel.VersionNo = 1;
                         _ = await connection.TbLHospitalDepartment.AddAsync(deptModel);
                         connection.SaveChanges();
@@ -66,8 +75,12 @@ namespace HMSAPI.Service.TblHospitalDept
                     TblHospitalDepartmentModel? data = await connection.TbLHospitalDepartment.Where(x => x.HospitalDepartmentId == departmentModel.HospitalDepartmentId).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        departmentModel.UpdatedBy = UserId;
+                        departmentModel.UpdatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.DepartmentName = departmentModel.DepartmentName;
                         connection.TbLHospitalDepartment.Update(data);
+                        data.UpdatedBy = departmentModel.UpdatedBy;
+                        data.UpdatedOn = departmentModel.UpdatedOn;
                         data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.Data = true;

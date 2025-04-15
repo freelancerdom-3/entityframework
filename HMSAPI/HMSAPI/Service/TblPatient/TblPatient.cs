@@ -222,17 +222,13 @@ namespace HMSAPI.Service.TblPatient
                 List<GetTblPatientViewModel2> lstUsers = new();
                 using (var connection = _hSMDBContext)
                 {
-                    lstUsers = await connection.GetTblPatientViewModel2.FromSqlRaw($@"SELECT 
-    tp.*, 
-    u.FullName AS FullName, 
-    u.MobileNumber, 
-    u.Email,
-    tu.FullName AS CreatedByName,
-    uu.FullName AS UpdatedByName
-FROM TblPatient tp
-INNER JOIN TblUser u ON tp.UserId = u.UserId
-LEFT JOIN TblUser tu ON tp.CreatedBy = tu.UserId
-LEFT JOIN TblUser uu ON tp.UpdatedBy = uu.UserId").ToListAsync();
+                    lstUsers = await connection.GetTblPatientViewModel2.FromSqlRaw($@"
+select pt.PatientId,pt.DOB,pt.Gender,pt.Address,pt.Blood_Group,pt.Emergency_Contact,
+pt.Medical_History,ttuser.Email,ttuser.MobileNumber,ttuser.FullName,tu.FullName as CreatedBy,pt.CreatedOn,tuser.FullName as UpdatedBy,pt.UpdatedOn,
+pt.IsActive,pt.VersionNo from TblPatient pt 
+inner join TblUser tu on tu.UserId = pt.CreatedBy
+left join TblUser tuser on tuser.UserId = pt.UpdatedBy
+inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";

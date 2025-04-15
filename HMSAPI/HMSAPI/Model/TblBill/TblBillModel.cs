@@ -7,7 +7,7 @@ namespace HMSAPI.Model.TblBill
     {
         [Key]
         public int BillId { get; set; }
-        public int PatientId { get; set; }
+      //  public int PatientId { get; set; }
         public decimal TotalAmount { get; set; }
         public string? PaymentMethod { get; set; }
         public DateOnly BillDate { get; set; }
