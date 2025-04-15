@@ -231,7 +231,14 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                 {
 
 
-                    TblEmployeeshiftMappingModel? data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == employeeshiftmapping.EmployeeshiftMappingId && x.UserId!=employeeshiftmapping.UserId && x.ShiftId!=employeeshiftmapping.ShiftId).FirstOrDefaultAsync();
+                    TblEmployeeshiftMappingModel? data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == employeeshiftmapping.EmployeeshiftMappingId 
+                    && x.UserId == employeeshiftmapping.UserId &&
+                    x.ShiftId != employeeshiftmapping.ShiftId
+                    && (
+                             x.EmployeeshiftMappingStartingDate.Value.Date <= employeeshiftmapping.EmployeeshiftMappingEndingDate.Value.Date &&
+                             x.EmployeeshiftMappingEndingDate.Value.Date >= employeeshiftmapping.EmployeeshiftMappingEndingDate.Value.Date)
+                    ).FirstOrDefaultAsync();
+
 
                     if (data != null)
                     {
