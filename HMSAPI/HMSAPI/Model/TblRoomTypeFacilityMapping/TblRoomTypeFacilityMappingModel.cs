@@ -9,6 +9,6 @@ namespace HMSAPI.Model.TblRoomTypeFacilityMapping
         public int RoomTypeFacilityMappingID { get; set; }
         public int RoomID { get; set; }
         public int FacilityID { get; set; }
-        public string? FacilityName { get; set; }
+        //public string? FacilityName { get; set; }
     }
 }

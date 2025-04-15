@@ -8,7 +8,7 @@ using System.Net;
 namespace HMSAPI.Service.TblRole
 {
     public class TblRole : ITblRole
-        
+
     {
         private readonly HSMDBContext _hsmDbContext;
         private readonly ITokenData _tokenData;
@@ -22,7 +22,7 @@ namespace HMSAPI.Service.TblRole
         public async Task<APIResponseModel> Add(TblRoleModel roleModel)
         {
             APIResponseModel responseModel = new();
-            try 
+            try
             {
                 using (var connection = _hsmDbContext)
                 {
@@ -47,7 +47,7 @@ namespace HMSAPI.Service.TblRole
                         responseModel.Message = "Duplicate Name Found";
                         responseModel.Data = false;
                     }
-                   
+
                 }
             }
             catch (Exception ex)
@@ -62,11 +62,11 @@ namespace HMSAPI.Service.TblRole
         public async Task<APIResponseModel> delete(int id)
         {
             APIResponseModel responseModel = new();
-            try 
+            try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    
+
                     TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == id).FirstOrDefault();
                     if (data != null)
                     {
@@ -118,7 +118,7 @@ namespace HMSAPI.Service.TblRole
                     responseModel.Message = "Inserted Successfully";
                 }
 
-               
+
             }
             catch (Exception ex)
             {
@@ -132,10 +132,10 @@ namespace HMSAPI.Service.TblRole
 
         }
 
-        public async Task<APIResponseModel> GetById (int id)
+        public async Task<APIResponseModel> GetById(int id)
         {
             APIResponseModel responseModel = new();
-            try 
+            try
             {
                 using (var connection = _hsmDbContext)
                 {
@@ -159,51 +159,100 @@ namespace HMSAPI.Service.TblRole
 
         }
 
-        public async Task <APIResponseModel>  Update(TblRoleModel roleModel)
+        //    public async Task <APIResponseModel>  Update(TblRoleModel roleModel)
+        //    {
+        //        APIResponseModel responseModel = new();
+
+        //        try
+        //        {
+
+        //            using (var connection = _hsmDbContext)
+        //            {
+
+        //                TblRoleModel? data = await connection.TblRoles.Where(x => x.RoleId == roleModel.RoleId).FirstOrDefaultAsync();
+
+        //                if (data != null)
+        //                {
+        //                    roleModel.UpdatedBy = UserId;
+        //                    roleModel.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                    data.UpdatedBy = data.UpdatedBy;
+        //                    data.UpdatedOn = data.UpdatedOn;
+        //                    data.RoleId = data.RoleId;
+        //                    data.RoleName = data.RoleName;
+        //                    data.IsActive = data.IsActive;
+        //                    data.IncreamentVersion();
+        //                    connection.TblRoles.Update(data);
+        //                    connection.SaveChanges();
+        //                    responseModel.Data = true;
+        //                    responseModel.StatusCode = HttpStatusCode.OK;
+        //                    responseModel.Message = "Role Updated Successfully";
+
+        //                }
+        //                else
+        //                {
+        //                    responseModel.StatusCode = HttpStatusCode.BadRequest;
+        //                    responseModel.Message = "Duplicate Name Found";
+        //                    responseModel.Data = false;
+        //                }
+        //            }
+
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //            responseModel.Message = ex.InnerException.Message;
+        //            responseModel.Data = null;
+        //        }
+        //        return responseModel;
+
+        //    }
+
+
+        //}
+        public async Task<APIResponseModel> Update(TblRoleModel roleModel)
         {
             APIResponseModel responseModel = new();
 
             try
             {
-
                 using (var connection = _hsmDbContext)
                 {
-
-                    TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == roleModel.RoleId).FirstOrDefault();
+                    TblRoleModel? data = await connection.TblRoles
+                        .Where(x => x.RoleId == roleModel.RoleId)
+                        .FirstOrDefaultAsync();
 
                     if (data != null)
                     {
-                        data.RoleName = data.RoleName;
-                        data.UpdatedBy = data.UpdatedBy;
-                        data.UpdatedOn = data.UpdatedOn;
-                        data.IsActive = data.IsActive;
+                        data.RoleName = roleModel.RoleName;
+                        data.IsActive = roleModel.IsActive;
+                        data.UpdatedBy = UserId;
+                        data.UpdatedOn = DateTime.Now;
                         data.IncreamentVersion();
+
                         connection.TblRoles.Update(data);
-                        connection.SaveChanges();
+                        await connection.SaveChangesAsync();
+
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Inserted Successfully";
-
+                        responseModel.Message = "Role Updated Successfully";
                     }
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Duplicate Name Found";
+                        responseModel.Message = "Role Not Found";
                         responseModel.Data = false;
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
                 responseModel.Data = null;
             }
+
             return responseModel;
-
         }
-
 
     }
 }

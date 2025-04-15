@@ -57,7 +57,6 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
             }
             return responseModel;
         }
-       
 
         public async Task<APIResponseModel> Update(TblRoomTypeFacilityMappingModel facilitymodel)
         {
@@ -66,36 +65,38 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblRoomTypeFacilityMappingModel? Data = await connection.TblRoomTypeFacilityMapping
-                        .Where(X => X.RoomTypeFacilityMappingID == facilitymodel.RoomTypeFacilityMappingID).FirstOrDefaultAsync();
-                    if (Data != null)
+                    TblRoomTypeFacilityMappingModel? data = await connection.TblRoomTypeFacilityMapping.Where(x => x.RoomTypeFacilityMappingID == facilitymodel.RoomTypeFacilityMappingID).FirstOrDefaultAsync();
+                    if (data != null)
                     {
                         facilitymodel.UpdatedBy = UserId;
                         facilitymodel.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                        Data.UpdatedBy = Data.UpdatedBy;
-                        Data.UpdatedOn = Data.UpdatedOn;
-                        Data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
-                        Data.IsActive = Data.IsActive;
-                        connection.TblRoomTypeFacilityMapping.Update(Data);
-                        Data.IncreamentVersion();
+                       // data.FacilityName = facilitymodel.FacilityName;
+                        data.UpdatedBy = facilitymodel.UpdatedBy;
+                        data.UpdatedOn = facilitymodel.UpdatedOn;
+                        data.RoomTypeFacilityMappingID = facilitymodel.RoomTypeFacilityMappingID;
+                        data.RoomID = facilitymodel.RoomID;
+                        data.FacilityID = facilitymodel.FacilityID;
+                        data.IsActive = data.IsActive;
+                        connection.TblRoomTypeFacilityMapping.Update(data);
+                        data.IncreamentVersion();
                         connection.SaveChanges();
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Data = true;
-                        responseModel.Message = "Record Updated Successfully";
+                        responseModel.Message = "Record Updated Successfully:";
                     }
                     else
                     {
-                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "AllReady Add";
                         responseModel.Data = false;
-                        responseModel.Message = "Not Updated";
                     }
                 }
             }
             catch (Exception ex)
             {
-                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.StatusCode = HttpStatusCode.BadRequest;
                 responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+                responseModel.Data = false;
             }
             return responseModel;
         }
