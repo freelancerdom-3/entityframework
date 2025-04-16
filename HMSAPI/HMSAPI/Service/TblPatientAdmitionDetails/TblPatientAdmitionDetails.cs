@@ -33,7 +33,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     
 
                 
-                    bool duplicateRoleName = connection.tblPatientAdmitionDetails.Any(x => x.UserId == objadd.UserId && x.AdmisionDate.Date == objadd.AdmisionDate.Date);
+                    bool duplicateRoleName = connection.tblPatientAdmitionDetails.Any(x => x.TreatmentDetailsId == objadd.TreatmentDetailsId && x.AdmisionDate.Date == objadd.AdmisionDate.Date);
                     if (duplicateRoleName)
                     {
                         
@@ -44,7 +44,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     else
                     {
                         objadd.VersionNo = 1;
-                        objadd.CreatedBy = UserId;
+                       objadd.CreatedBy = UserId;
                         objadd.CreatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                         _ = connection.tblPatientAdmitionDetails.Add(objadd);
@@ -230,7 +230,7 @@ inner join TblRoom tr on tr.RoomID = tp.RoomID
                     responseModel.Data = new
                     {
                         data.PatientAdmitionDetailsId,
-                        data.UserId,
+                       // data.UserId,
                         data.AdmisionDate,
                         data.RoomID,
                         data.TreatmentDetailsId,
@@ -269,7 +269,7 @@ inner join TblRoom tr on tr.RoomID = tp.RoomID
                         ObjUpdate.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         ObjUpdate.UpdatedBy = UserId;
 
-                        data.UserId= ObjUpdate.UserId;
+                       // data.UserId= ObjUpdate.UserId;
                         data.AdmisionDate= ObjUpdate.AdmisionDate;
                         data.RoomID= ObjUpdate.RoomID;
                         data.TreatmentDetailsId= ObjUpdate.TreatmentDetailsId;
