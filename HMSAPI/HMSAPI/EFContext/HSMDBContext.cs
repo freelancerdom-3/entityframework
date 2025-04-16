@@ -38,6 +38,7 @@ using HMSAPI.Model.TblFeedback.ViewModel;
 using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMenuRoleMapping;
+using HMSAPI.Model.DashboardCardDetail;
 
 
 
@@ -197,6 +198,9 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
         
+        public DbSet<getdiseasetypeviewmodel>getdiseasetypeviewmodels { get; set; }
+
+        public DbSet<DashboardCardDetailViewModel> dashboardcarddetailviewmodel { get; set; }
     }
 }
 
