@@ -153,46 +153,47 @@ namespace HMSAPI.Service.TblTreatmentDetails
 
         }
 
-        public async Task<APIResponseModel> Deletebyid(HSMDBContext context, int id)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-               // using (var connection = _hsmDbContext)
-                {
-                    TblTreatmentDetailsModel? data = await context.TblTreatmentDetails.Where(x => x.PatientId == id).FirstOrDefaultAsync();
+        //public async Task<APIResponseModel> Deletebyid(int id)
+        //{
+        //    APIResponseModel responseModel = new();
 
-                    //delete
-                    if (data != null)
-                    {
+        //    try
+        //    {
+        //        using (var connection = _hsmDbContext)
+        //        {
+        //            TblTreatmentDetailsModel? data = await connection.TblTreatmentDetails.Where(x => x.PatientId == id).FirstOrDefaultAsync();
 
-                        context.TblTreatmentDetails.Remove(data);
-                        context.SaveChanges();
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Deleted Successfully";
+        //            //delete
+        //            if (data != null)
+        //            {
 
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Department ID Not Found";
-                        responseModel.Data = false;
+        //                connection.TblTreatmentDetails.Remove(data);
+        //                connection.SaveChanges();
+        //                responseModel.Data = true;
+        //                responseModel.StatusCode = HttpStatusCode.OK;
+        //                responseModel.Message = "Deleted Successfully";
 
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
+        //            }
+        //            else
+        //            {
+        //                responseModel.StatusCode = HttpStatusCode.BadRequest;
+        //                responseModel.Message = "Department ID Not Found";
+        //                responseModel.Data = false;
 
-            }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        //        responseModel.Message = ex.InnerException.Message;
+        //        responseModel.Data = null;
 
-            return responseModel;
+        //    }
 
-        }
+        //    return responseModel;
+
+        //}
         public async  Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
@@ -251,7 +252,7 @@ namespace HMSAPI.Service.TblTreatmentDetails
                 using (var connection = _hsmDbContext)
                 {
                     lstUsers = await connection.gettbltreatmentmodels.FromSqlRaw($@"SELECT tt.TreatmentDetailsId,td.DieseaseName,tuser.FullName as PatientName,tu.FullName as CreatedBy,tt.CreatedOn,tt.TreatmentCode,tb.FullName as UpdatedBy,tt.UpdatedOn,tt.IsActive,
-                    tt.TreatmentDate,tt.VersionNo FROM TblTreatmentDetails tt
+                    tt.TreatmentDate,tt.VersionNo ,tp.PatientId,td.DieseaseTypeID FROM TblTreatmentDetails tt
 					inner join TblUser tu on tu.UserId = tt.CreatedBy
 					left join TblUser tb on tb.UserId = tt.UpdatedBy
                      inner join TblDiseaseType Td on td.DieseaseTypeID = tt.DieseaseTypeID

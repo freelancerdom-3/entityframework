@@ -17,5 +17,7 @@ namespace HMSAPI.Model.TblMedicineDetails.ViewModel
 
         public int TreatmentDetailsId { get; set; }
 
+        public int MedicineTypeID { get; set; }
+
     }
 }
