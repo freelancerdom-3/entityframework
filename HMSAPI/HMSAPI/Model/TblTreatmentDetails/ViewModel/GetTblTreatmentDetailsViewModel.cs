@@ -28,6 +28,8 @@ namespace HMSAPI.Model.TblTreatmentDetails.ViewModel
 
         public DateTime TreatmentDate { get; set; }
         public string? TreatmentCode { get; set; }
+        public int PatientId { get; set; }
+        public int DieseaseTypeID { get; set; }
 
     }
 }

@@ -15,8 +15,11 @@ namespace HMSAPI.Service.TblTreatmentDetails
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
 
-        Task<APIResponseModel> Deletebyid(HSMDBContext context, int  id);
-      
+        //Task<APIResponseModel> Deletebyid(HSMDBContext context, int  id);
+
+
+        ///Task<APIResponseModel> Deletebyid(int id);
+
         Task<APIResponseModel> DeletebyDiseaseTypeID(HSMDBContext connection, int id);
     }
 }

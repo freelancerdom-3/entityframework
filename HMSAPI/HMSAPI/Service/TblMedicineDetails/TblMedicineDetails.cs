@@ -211,7 +211,9 @@ namespace HMSAPI.Service.TblMedicineDetails
                 {
                     lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
                    TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime,tu.FullName as CreatedBy,TblMe.CreatedOn,
-            TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,tq.TreatmentDetailsId,TblMe.IsActive,TblMe.VersionNo from TblMedicineDetails TblMe
+            TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,tq.TreatmentDetailsId,TblMe.IsActive,TblMe.VersionNo,
+			TMedi.MedicineTypeID
+			from TblMedicineDetails TblMe
               inner join TblUser tu on tu.UserId = TblMe.CreatedBy
             left join TblUser on TblUser.UserId = TblMe.UpdatedBy
            inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
