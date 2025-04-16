@@ -7,7 +7,7 @@ namespace HMSAPI.Model.TblPatientAdmitionDetails
     {
         [Key]
         public int PatientAdmitionDetailsId {  get; set; }
-        public int UserId { get; set; }
+      //  public int UserId { get; set; }
         public DateTime AdmisionDate {  get; set; }
 
         public int RoomID { get; set; }

@@ -89,6 +89,7 @@ namespace HMSAPI.Service.TblHospitalTyp
                         HospitalType.UpdatedBy = UserID;
                         data.HospitalType = HospitalType.HospitalType;
                         data.UpdatedOn = HospitalType.UpdatedOn;
+                        data.UpdatedBy = HospitalType.UpdatedBy;
                         connection.TblHospitalTypes.Update(data);
                         data.IncreamentVersion();
                         connection.SaveChanges();
