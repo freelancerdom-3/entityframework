@@ -19,7 +19,7 @@ namespace HMSAPI.Model.TblPatient.ViewModel
         public string? Address { get; set; }
         public string? Emergency_Contact { get; set; }
         public string? Medical_History { get; set; }
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
 
 
     }

@@ -151,7 +151,7 @@ namespace HMSAPI.Service.TblPatient
                                 Password = patient.Password,
                                 FullName = patient.FullName,
                                 RoleId = (int)Enums.Roles.Patient,
-                                MobileNumber = patient.MobileNumber,
+                                MobileNumber = patient.MobilNumber,
                                 CreatedBy = patient.CreatedBy,
                                 CreatedOn = patient.CreatedOn,
                                 IsActive = patient.IsActive,
@@ -225,9 +225,7 @@ namespace HMSAPI.Service.TblPatient
                     lstUsers = await connection.GetTblPatientViewModel2.FromSqlRaw($@"
 select pt.PatientId,pt.DOB,pt.Gender,pt.Address,pt.Blood_Group,pt.Emergency_Contact,
 pt.Medical_History,ttuser.Email,ttuser.MobileNumber,ttuser.FullName,tu.FullName as CreatedBy,pt.CreatedOn,tuser.FullName as UpdatedBy,pt.UpdatedOn,
-pt.IsActive,pt.VersionNo ,
-pt.UserId
-from TblPatient pt 
+pt.IsActive,pt.VersionNo from TblPatient pt 
 inner join TblUser tu on tu.UserId = pt.CreatedBy
 left join TblUser tuser on tuser.UserId = pt.UpdatedBy
 inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
@@ -300,20 +298,17 @@ inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
                             existingUser.Email = update.Email;
                             existingUser.Password = update.Password;
                             existingUser.FullName = update.FullName;
-                            existingUser.MobileNumber = update.MobileNumber;
                             existingUser.RoleId = (int)Enums.Roles.Patient;
                             existingUser.UpdatedBy = update.UpdatedBy;
                             existingUser.UpdatedOn = update.UpdatedOn;
                             existingUser.IsActive = update.IsActive;
                             existingUser.VersionNo += 1;
-
-                            connection.TblUsers.Update(existingUser);
-                            await connection.SaveChangesAsync();
-
                         }
+                        connection.TblUsers.Update(existingUser);
+                        await connection.SaveChangesAsync();
 
-                        //if (update.RoleId == 9)
-                        //{
+                        if (update.RoleId == 9)
+                        {
 
                             TblPatientModel? existingPatient = await connection.TblPatients
                                 .FirstOrDefaultAsync(p => p.PatientId == update.PatientId);
@@ -331,12 +326,10 @@ inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
                                 existingPatient.UpdatedOn = update.UpdatedOn;
                                 existingPatient.IsActive = update.IsActive;
                                 existingPatient.VersionNo += 1;
-
-                                connection.TblPatients.Update(existingPatient);
-                                await connection.SaveChangesAsync();
                             }
-                            
-                       // }
+                            connection.TblPatients.Update(existingPatient);
+                            await connection.SaveChangesAsync();
+                        }
 
                         await transaction.CommitAsync();
 
