@@ -226,7 +226,7 @@ namespace HMSAPI.Service.TblRole
                         data.RoleName = roleModel.RoleName;
                         data.IsActive = roleModel.IsActive;
                         data.UpdatedBy = UserId;
-                        data.UpdatedOn = DateTime.Now;
+                        roleModel.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.IncreamentVersion();
 
                         connection.TblRoles.Update(data);
