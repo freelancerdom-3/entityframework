@@ -11,6 +11,7 @@ using HMSAPI.Service.TblMedicineDetails;
 using HMSAPI.Service.TblPateintDoctormapping;
 using HMSAPI.Service.TblPatientAdmitionDetails;
 using HMSAPI.Service.TblTreatmentDetails;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblPatient
@@ -24,8 +25,9 @@ namespace HMSAPI.Service.TblPatient
         private readonly ITblMedicineDetails _ITblMedicineDetails;
         private readonly ITblPateintDoctormapping _ITblPateintDoctormapping;
         private readonly ITblPatientAdmitionDetails _ITblPatientAdmitionDetails;
+        private readonly ITokenData _tokenData;
 
-        public TblPatient (HSMDBContext hSMDBContext, ITblTreatmentDetails iTblTreatmentDetails, ITblFeedback iTblFeedback, ITblBill iTblBill, ITblMedicineDetails iTblMedicineDetails, ITblPateintDoctormapping iTblPateintDoctormapping, ITblPatientAdmitionDetails iTblPatientAdmitionDetails)
+        public TblPatient(HSMDBContext hSMDBContext, ITblTreatmentDetails iTblTreatmentDetails, ITblFeedback iTblFeedback, ITblBill iTblBill, ITblMedicineDetails iTblMedicineDetails, ITblPateintDoctormapping iTblPateintDoctormapping, ITblPatientAdmitionDetails iTblPatientAdmitionDetails, ITokenData tokendata)
         {
             _hSMDBContext = hSMDBContext;
             _ITblTreatmentDetails = iTblTreatmentDetails;
@@ -34,7 +36,9 @@ namespace HMSAPI.Service.TblPatient
             _ITblMedicineDetails = iTblMedicineDetails;
             _ITblPateintDoctormapping = iTblPateintDoctormapping;
             _ITblPatientAdmitionDetails = iTblPatientAdmitionDetails;
+            _tokenData = tokendata;
         }
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
 
         public async Task<APIResponseModel> Delete(int userId)
         {
@@ -142,11 +146,13 @@ namespace HMSAPI.Service.TblPatient
 
                     try
                     {
+                       // patient.CreatedBy=UserId;
                         if (!duplicateEmail)
                         {
                             patient.VersionNo = 1;
                             TblUserModel user = new TblUserModel()
-                            {
+                            { 
+                                
                                 Email = patient.Email,
                                 Password = patient.Password,
                                 FullName = patient.FullName,
@@ -158,16 +164,18 @@ namespace HMSAPI.Service.TblPatient
                                 VersionNo = 1,
                                 
                             };
-
+                          
                             await connection.TblUsers.AddAsync(user);
                             await connection.SaveChangesAsync();
 
-
-                            //if (patient.RoleId == 9)
-                            //{
-                                patient.VersionNo = 1;
+                            user.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                            user.CreatedBy = user.UserId;
+                            connection.TblUsers.Update(user);
+                            await connection.SaveChangesAsync();
+                          //  patient.VersionNo = 1;
                                 await connection.TblPatients.AddAsync(new TblPatientModel()
                                 {
+                                   
                                     DOB = patient.DOB,
                                     Gender = patient.Gender,
                                     Address = patient.Address,
