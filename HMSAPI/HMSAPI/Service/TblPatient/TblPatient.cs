@@ -27,8 +27,7 @@ namespace HMSAPI.Service.TblPatient
         private readonly ITblPatientAdmitionDetails _ITblPatientAdmitionDetails;
         private readonly ITokenData _tokenData;
 
-
-        public TblPatient (HSMDBContext hSMDBContext, ITokenData tokendata, ITblTreatmentDetails iTblTreatmentDetails, ITblFeedback iTblFeedback, ITblBill iTblBill, ITblMedicineDetails iTblMedicineDetails, ITblPateintDoctormapping iTblPateintDoctormapping, ITblPatientAdmitionDetails iTblPatientAdmitionDetails)
+        public TblPatient(HSMDBContext hSMDBContext, ITblTreatmentDetails iTblTreatmentDetails, ITblFeedback iTblFeedback, ITblBill iTblBill, ITblMedicineDetails iTblMedicineDetails, ITblPateintDoctormapping iTblPateintDoctormapping, ITblPatientAdmitionDetails iTblPatientAdmitionDetails, ITokenData tokendata)
         {
             _hSMDBContext = hSMDBContext;
             _ITblTreatmentDetails = iTblTreatmentDetails;
@@ -40,6 +39,7 @@ namespace HMSAPI.Service.TblPatient
             _tokenData = tokendata;
         }
         private int UserId => Convert.ToInt32(_tokenData.UserID);
+
         public async Task<APIResponseModel> Delete(int userId)
         {
             APIResponseModel responseModel = new APIResponseModel();
@@ -172,6 +172,7 @@ namespace HMSAPI.Service.TblPatient
                                 patient.VersionNo = 1;
                                 await connection.TblPatients.AddAsync(new TblPatientModel()
                                 {
+                                   
                                     DOB = patient.DOB,
                                     Gender = patient.Gender,
                                     Address = patient.Address,

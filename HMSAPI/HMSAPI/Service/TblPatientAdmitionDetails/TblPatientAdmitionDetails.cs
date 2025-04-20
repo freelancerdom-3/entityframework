@@ -193,11 +193,12 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                     
                     
  select tp.PatientAdmitionDetailsId,tu.FullName as PatientName,tp.AdmisionDate,tr.RoomNumber,
-tt.TreatmentCode,tt.TreatmentDetailsId,tp.DischargeDate,tk.FullName as CreatedBy,tp.CreatedOn,TblUser.FullName as UpdatedBy,
+tt.TreatmentCode,tt.TreatmentDetailsId,dt.DieseaseName,tp.DischargeDate,tk.FullName as CreatedBy,tp.CreatedOn,TblUser.FullName as UpdatedBy,
 tp.UpdatedOn,tp.IsActive,tp.VersionNo from TblPatientAdmitionDetails tp
 inner join TblUser tk on tk.UserId = tp.CreatedBy
 left join TblUser on TblUser.UserId = tp.UpdatedBy
 inner join TblTreatmentDetails tt on tt.TreatmentDetailsId=tp.TreatmentDetailsId
+inner join TblDiseaseType dt on dt.DieseaseTypeID=tt.DieseaseTypeID
 inner join TblPatient pa on pa.PatientId=tt.PatientId
 inner join  TblUser tu on tu.UserId=pa.UserId
 inner join TblRoom tr on tr.RoomID = tp.RoomID
