@@ -11,6 +11,7 @@ using HMSAPI.Service.TblMedicineDetails;
 using HMSAPI.Service.TblPateintDoctormapping;
 using HMSAPI.Service.TblPatientAdmitionDetails;
 using HMSAPI.Service.TblTreatmentDetails;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblPatient
@@ -24,8 +25,10 @@ namespace HMSAPI.Service.TblPatient
         private readonly ITblMedicineDetails _ITblMedicineDetails;
         private readonly ITblPateintDoctormapping _ITblPateintDoctormapping;
         private readonly ITblPatientAdmitionDetails _ITblPatientAdmitionDetails;
+        private readonly ITokenData _tokenData;
 
-        public TblPatient (HSMDBContext hSMDBContext, ITblTreatmentDetails iTblTreatmentDetails, ITblFeedback iTblFeedback, ITblBill iTblBill, ITblMedicineDetails iTblMedicineDetails, ITblPateintDoctormapping iTblPateintDoctormapping, ITblPatientAdmitionDetails iTblPatientAdmitionDetails)
+
+        public TblPatient (HSMDBContext hSMDBContext, ITokenData tokendata, ITblTreatmentDetails iTblTreatmentDetails, ITblFeedback iTblFeedback, ITblBill iTblBill, ITblMedicineDetails iTblMedicineDetails, ITblPateintDoctormapping iTblPateintDoctormapping, ITblPatientAdmitionDetails iTblPatientAdmitionDetails)
         {
             _hSMDBContext = hSMDBContext;
             _ITblTreatmentDetails = iTblTreatmentDetails;
@@ -34,8 +37,9 @@ namespace HMSAPI.Service.TblPatient
             _ITblMedicineDetails = iTblMedicineDetails;
             _ITblPateintDoctormapping = iTblPateintDoctormapping;
             _ITblPatientAdmitionDetails = iTblPatientAdmitionDetails;
+            _tokenData = tokendata;
         }
-
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
         public async Task<APIResponseModel> Delete(int userId)
         {
             APIResponseModel responseModel = new APIResponseModel();
@@ -55,7 +59,7 @@ namespace HMSAPI.Service.TblPatient
                         _ITblMedicineDetails?.Deletebyid(connection, userId);    
                         _ITblFeedback?.Deletebyid(connection, userId);
                         _ITblBill.Deletebyid(connection, userId);
-                        _ITblTreatmentDetails?.Deletebyid(connection, userId);
+                       //_ITblTreatmentDetails?.Deletebyid(connection, userId);
                        
 
 
@@ -296,13 +300,14 @@ inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
 
                         if (existingUser != null)
                         {
+                            update.UpdatedBy = UserId;
                             existingUser.Email = update.Email;
                             existingUser.Password = update.Password;
                             existingUser.FullName = update.FullName;
                             existingUser.MobileNumber = update.MobileNumber;
                             existingUser.RoleId = (int)Enums.Roles.Patient;
                             existingUser.UpdatedBy = update.UpdatedBy;
-                            existingUser.UpdatedOn = update.UpdatedOn;
+                            existingUser.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             existingUser.IsActive = update.IsActive;
                             existingUser.VersionNo += 1;
 
@@ -319,6 +324,7 @@ inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
 
                         if (existingPatient != null)
                         {
+                            update.UpdatedBy = UserId;
                             existingPatient.DOB = update.DOB;
                             existingPatient.Gender = update.Gender;
                             existingPatient.Address = update.Address;
@@ -327,7 +333,7 @@ inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
                             existingPatient.Medical_History = update.Medical_History;
                             existingPatient.UserId = update.UserId;
                             existingPatient.UpdatedBy = update.UpdatedBy;
-                            existingPatient.UpdatedOn = update.UpdatedOn;
+                            existingPatient.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             existingPatient.IsActive = update.IsActive;
                             existingPatient.VersionNo += 1;
 

@@ -37,6 +37,7 @@ namespace HMSAPI.Service.TblHospitalDept
                         deptModel.CreatedBy = UserId;
                         deptModel.CreatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         deptModel.VersionNo = 1;
+                        deptModel.IsActive = true;
                         _ = await connection.TbLHospitalDepartment.AddAsync(deptModel);
                         connection.SaveChanges();
                         responseModel.Data = true;

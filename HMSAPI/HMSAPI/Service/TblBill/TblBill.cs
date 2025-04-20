@@ -98,6 +98,8 @@ left join TblUser pr on pr.UserId = tb.UpdatedBy
 
                     if (!duplicatetreatment)
                     {
+                        bill.CreatedBy = UserId;
+                        bill.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         _ = await connection.TblBills.AddAsync(bill);
                         
                         connection.SaveChanges();
@@ -133,6 +135,8 @@ left join TblUser pr on pr.UserId = tb.UpdatedBy
                     if (data != null)
 
                     {
+                        bill.UpdatedBy = UserId;
+                        bill.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.BillDate = bill.BillDate;
                         data.TotalAmount = bill.TotalAmount;
                         data.PaymentMethod = bill.PaymentMethod;
