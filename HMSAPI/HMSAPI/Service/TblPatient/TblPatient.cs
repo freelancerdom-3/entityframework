@@ -54,21 +54,23 @@ namespace HMSAPI.Service.TblPatient
 
                     if (patient != null || user != null) 
                     {
-                        _ITblPatientAdmitionDetails?.deletebyid(connection, userId);
-                        _ITblPateintDoctormapping?.Deletebyid(connection, userId);
-                        _ITblMedicineDetails?.Deletebyid(connection, userId);    
-                        _ITblFeedback?.Deletebyid(connection, userId);
-                        _ITblBill.Deletebyid(connection, userId);
+                        //_ITblPatientAdmitionDetails?.deletebyid(connection, userId);
+                        //_ITblPateintDoctormapping?.Deletebyid(connection, userId);
+                        //_ITblMedicineDetails?.Deletebyid(connection, userId);    
+                        //_ITblFeedback?.Deletebyid(connection, userId);
+                        //_ITblBill.Deletebyid(connection, userId);
+                      //  _ITblTreatmentDetails?.Deletebyid(connection, userId);
                        //_ITblTreatmentDetails?.Deletebyid(connection, userId);
                        
 
 
 
+                        patient.IsActive= false;
+                        user.IsActive= false;
 
 
-
-                        connection.TblPatients.Remove(patient);
-                        connection.TblUsers.Remove(user);
+                        connection.TblPatients.Update(patient);
+                        connection.TblUsers.Update(user);
 
                         await _hSMDBContext.SaveChangesAsync(); 
 
@@ -234,7 +236,9 @@ pt.IsActive,pt.VersionNo, pt.UserId
 from TblPatient pt 
 inner join TblUser tu on tu.UserId = pt.CreatedBy
 left join TblUser tuser on tuser.UserId = pt.UpdatedBy
-inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
+inner join TblUser ttuser on ttuser.UserId = pt.UserId
+and tu.IsActive = 1
+where pt.IsActive = 1").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
@@ -258,7 +262,7 @@ inner join TblUser ttuser on ttuser.UserId = pt.UserId").ToListAsync();
 
                 using (var connection = _hSMDBContext)
                 {
-                    TblPatientModel? data = connection.TblPatients.Where(x => x.PatientId == id).FirstOrDefault();
+                    TblPatientModel? data = connection.TblPatients.Where(x => x.PatientId == id && x.IsActive==true).FirstOrDefault();
                     
                     responseModel.Data = new
                     {

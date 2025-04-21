@@ -64,7 +64,8 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                         .Where(x => x.MedicineDiseaseMappingID == ID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblMedicineDiseaseMappings.Remove(data);
+                        data.IsActive = false;
+                        connection.TblMedicineDiseaseMappings.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -87,31 +88,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             return responseModel;
         }
 
-        public async  Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id)
-        {
-            APIResponseModel responseModel = new APIResponseModel();
-            try
-            {
-                List<TblMedicineDiseaseMappingModel> medicineid = connection.TblMedicineDiseaseMappings.Where(x => x.MedicineTypeID == id).ToList();
 
-                if (medicineid != null)
-                {
-                    foreach (TblMedicineDiseaseMappingModel medicine in medicineid)
-                    {
-                        connection.TblMedicineDiseaseMappings.Remove(medicine);
-                    }
-                }
-                responseModel.StatusCode = HttpStatusCode.OK;
-                responseModel.Message = "Deleted Successfully";
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-        }
 
         public async Task<APIResponseModel> GetAll(string? searchby = null)
         {
@@ -121,10 +98,15 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             {
                 using(var connection = _hsmDbContext)
                 {
-                    lstmapping = await connection.GetTblMedicineDiseaseMappingViewModels.FromSqlRaw($@"select Tblmapping.MedicineDiseaseMappingID,dis.DieseaseName,tblmedi.TypeName from TblMedicineDiseaseMapping Tblmapping
-                                  inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID
-                                  inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID 
-                                  where DieseaseName like '%{searchby}%'").ToListAsync();
+                    lstmapping = await connection.GetTblMedicineDiseaseMappingViewModels.FromSqlRaw($@"
+                        select Tblmapping.MedicineDiseaseMappingID,dis.DieseaseName,tblmedi.TypeName
+                        from TblMedicineDiseaseMapping Tblmapping
+                        inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID
+                        inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID 
+                        and dis.IsActive = 1
+                        and tblmedi.IsActive = 1 
+                        where Tblmapping.IsActive = 1
+                        and  DieseaseName like '%{searchby}%'").ToListAsync();
                     responseModel.Data = lstmapping;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "GetAll Record Successfully";
@@ -148,7 +130,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             {
                 using(var connection = _hsmDbContext)
                 {
-                    data = await connection.TblMedicineDiseaseMappings.Where(X => X.MedicineDiseaseMappingID == ID).FirstOrDefaultAsync();
+                    data = await connection.TblMedicineDiseaseMappings.Where(X => X.MedicineDiseaseMappingID == ID && X.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = data;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                 }
@@ -197,31 +179,6 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             }
             return responseModel;
         }
-        public async Task<APIResponseModel> DeletebyDiseaseTypeID(HSMDBContext connection, int id)
-        {
-            APIResponseModel responseModel = new APIResponseModel();
-            try
-            {
-                List<TblMedicineDiseaseMappingModel> medicineid = connection.TblMedicineDiseaseMappings.Where(x => x.DieseaseTypeID == id).ToList();
-
-                if (medicineid != null)
-                {
-                    foreach (TblMedicineDiseaseMappingModel disease in medicineid)
-                    {
-                        connection.TblMedicineDiseaseMappings.Remove(disease);
-                    }
-                }
-                responseModel.StatusCode = HttpStatusCode.OK;
-                responseModel.Message = "Deleted Successfully";
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-
-            return responseModel;
-        }
+      
     }
 }

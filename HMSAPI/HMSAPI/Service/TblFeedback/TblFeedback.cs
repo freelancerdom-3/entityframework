@@ -96,7 +96,8 @@ namespace HMSAPI.Service.TblFeedback
                     TblFeedbackModel? data = await connection.TblFeedbacks.Where(x => x.FeedbackId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblFeedbacks.Remove(data);
+                        data.IsActive = false;
+                        connection.TblFeedbacks.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;

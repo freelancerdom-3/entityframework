@@ -12,7 +12,6 @@ namespace HMSAPI.Service.TblRoom
         Task<APIResponseModel> Delete(int id);
         Task<APIResponseModel> GetAll(string? searchBy = null);
          Task<APIResponseModel> GetByID(int id);
-        Task<APIResponseModel> Deletebyroomid(HSMDBContext connection, int id);
 
 
     }

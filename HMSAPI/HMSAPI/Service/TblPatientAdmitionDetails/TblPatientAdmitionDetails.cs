@@ -74,10 +74,11 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
                 using (var connection = _hsmDbContext)
                 {
 
-                    TblPatientAdmitionDetailsModel? data = connection.tblPatientAdmitionDetails.Where(x => x.PatientAdmitionDetailsId == objDelete).FirstOrDefault();
+                    TblPatientAdmitionDetailsModel? data = await  connection.tblPatientAdmitionDetails.Where(x => x.PatientAdmitionDetailsId == objDelete).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.tblPatientAdmitionDetails.Remove(data);
+                        data.IsActive = false;
+                        connection.tblPatientAdmitionDetails.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -103,78 +104,7 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
             return responseModel;
         
         }
-        public async Task<APIResponseModel> deletebyid(HSMDBContext context, int objDelete)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                //using (var connection = _hsmDbContext)
-                {
-
-                    TblPatientAdmitionDetailsModel? data = context.tblPatientAdmitionDetails.Where(x => x.TreatmentDetailsId == objDelete).FirstOrDefault();
-                    if (data != null)
-                    {
-                        context.tblPatientAdmitionDetails.Remove(data);
-                        context.SaveChanges();
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Delete Successfully";
-
-                    }
-
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Id Not Found";
-                        responseModel.Data = false;
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-
-        }
-
-        public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                //using (var connection = _hsmDbContext)
-                //{
-                //TblPatientAdmitionDetailsModel patientAdmission = await context.tblPatientAdmitionDetails.FindAsync(id);
-                //List<TblRoomModel> roomid = context.TblRoom.Where(x => x.RoomTypeID == id).ToList();
-                List<TblPatientAdmitionDetailsModel> patientAdmission = context.tblPatientAdmitionDetails.Where(x => x.RoomID == id).ToList();
-
-
-                if (patientAdmission != null)
-                    {
-                    foreach(TblPatientAdmitionDetailsModel room in patientAdmission)
-                    {
-                    context.tblPatientAdmitionDetails.Remove(room);
-
-                    }
-                        await context.SaveChangesAsync();
-                }
-                    responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = "Deleted Successfully";
-                //}
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
-                responseModel.Data = null;
-            }
-
-            return responseModel;
-        }
+       
 
 
 
@@ -184,8 +114,6 @@ namespace HMSAPI.Service.TblPatientAdmitionDetails
             List<GetTblPatientAdmitionViewModel> lstPatientAdmitionDetails = new();
             try
             {
-
-                
 
                 using (var connection = _hsmDbContext)
                 {
@@ -226,8 +154,8 @@ inner join TblRoom tr on tr.RoomID = tp.RoomID
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblPatientAdmitionDetailsModel? data = connection.tblPatientAdmitionDetails.
-                     Where(x => x.PatientAdmitionDetailsId == objGetById).FirstOrDefault();
+                    TblPatientAdmitionDetailsModel? data = await  connection.tblPatientAdmitionDetails.
+                     Where(x => x.PatientAdmitionDetailsId == objGetById && x.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = new
                     {
                         data.PatientAdmitionDetailsId,

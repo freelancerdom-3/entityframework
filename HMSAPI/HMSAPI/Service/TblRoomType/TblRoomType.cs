@@ -94,22 +94,15 @@ namespace HMSAPI.Service.TblRoomType
                 using (var connection = _hsmDbContext)
                 {
                     TblRoomTypeModel? data = await connection.tblRoomTypes
-                        .Where(x => x.RoomTypeId == id). FirstOrDefaultAsync();
+                        .Where(x => x.RoomTypeId == id).FirstOrDefaultAsync();
 
                     if (data != null)
                     {
                         //connection.Database.BeginTransaction();
-                        _tblRoomTypeFacilityMapping?.Deletebyroomid(connection,id);
+                       
 
-                        _tblRoom?.Deletebyroomid(connection,id);
-
-                        _tblRoomLocations?.Deletebyroomid(connection,id);
-
-                        _tblPatientAdmitionDetails?.Deletebyroomid(connection,id);
-                        
-
-
-                        connection.tblRoomTypes.Remove(data);
+                        data.IsActive = false;
+                        connection.tblRoomTypes.Update(data);
                         connection.SaveChanges();
                         //connection.Database.CommitTransaction();
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -119,7 +112,7 @@ namespace HMSAPI.Service.TblRoomType
                     {
                         //connection.Database.RollbackTransaction();
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "DieasesName Is Not Found";
+                        responseModel.Message = "RoomType  Not Found";
                         responseModel.Data = false;
                     }
                 }
@@ -165,7 +158,7 @@ namespace HMSAPI.Service.TblRoomType
                     else
                     {
                         responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Dieases AllReady Add";
+                        responseModel.Message = "Room AllReady Add";
                         responseModel.Data = false;
                     }
                 }
@@ -183,13 +176,12 @@ namespace HMSAPI.Service.TblRoomType
         public async Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
-            TblRoomTypeModel data = new TblRoomTypeModel();
+            TblRoomTypeModel? data = new TblRoomTypeModel();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    data = await connection.tblRoomTypes.Where(x => x.RoomTypeId == id)
-                        .FirstAsync();
+                    data = await connection.tblRoomTypes.Where(x => x.RoomTypeId == id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -222,15 +214,17 @@ namespace HMSAPI.Service.TblRoomType
                 using (var connection = _hsmDbContext)
                 {
                     lstRoomType = connection.GetTblRoomTypeViewModel.FromSqlRaw($@"
-                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoomTypeId, 
-                    tr.RoomType,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
-                    FROM TblRoomType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
-                    INNER JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
-                    where tu.fullName LIKE  '%{searchBy}%'").ToList();
+                    
+                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoomTypeId, 
+                     tr.RoomType,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                     FROM TblRoomType tr 
+                     INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
+                     INNER JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
+                     where tr.IsActive = 1 
+                     and tu.fullName LIKE  '%{searchBy}%'").ToList();
                     responseModel.Data = lstRoomType;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
-
                 }
             }
             catch (Exception ex)

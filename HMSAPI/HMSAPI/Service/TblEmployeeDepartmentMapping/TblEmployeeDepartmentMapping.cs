@@ -40,6 +40,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                         deptModel.CreatedBy = UserId;
                         deptModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         deptModel.VersionNo = 1;
+                        deptModel.IsActive = true;
                         _ = await connection.TblEmployeeDepartmentMappings.AddAsync(deptModel);
                         connection.SaveChanges();
                         //#3
@@ -71,7 +72,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
               try
                 {
 
-                using (var connection = _hsmDbContext)
+                  using (var connection = _hsmDbContext)
                 {
                     TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.UserId == departmentModel.UserId).FirstOrDefaultAsync();
                     if (data != null)
@@ -115,11 +116,12 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id).FirstOrDefaultAsync();
+                    TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
 
-                        connection.TblEmployeeDepartmentMappings.Remove(data);
+                        data.IsActive = false;
+                        connection.TblEmployeeDepartmentMappings.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -156,7 +158,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.tblEmployeeDepartments.FromSqlRaw($@"SELECT 
+                    lstUsers = await connection.tblEmployeeDepartments.FromSqlRaw($@" SELECT 
                     tblmapping.EmployeeDepartmentMappingID,
                     Tuser.FullName,
                     th.DepartmentName,
@@ -165,13 +167,15 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                     tblmapping.CreatedOn,
                     tblmapping.UpdatedOn,
                     tblmapping.VersionNo,
-                    tblmapping.IsActive
+                    tblmapping.IsActive,
+                    Tuser.UserId,
+					th.HospitalDepartmentID
                     FROM TblEmployeeDepartmentMapping tblmapping 
                     INNER JOIN TblUser Tuser ON Tuser.UserId = tblmapping.UserId
                     INNER JOIN TbLHospitalDepartment th ON th.HospitalDepartmentID = tblmapping.HospitalDepartmentID
                     LEFT JOIN TblUser tu ON tu.UserId = tblmapping.CreatedBy
                     LEFT JOIN TblUser tuu ON tuu.UserId = tblmapping.UpdatedBy
-                    where Tuser.FullName like '%{searchBy}%'").ToListAsync();
+                    where tblmapping.IsActive = 1 and Tuser.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get Record Successfully";
@@ -193,13 +197,13 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
         public async Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
-            TblEmployeeDepartmentMappingModel data = new();
+            TblEmployeeDepartmentMappingModel? data = new();
             try
             {
 
                 using (var connection = _hsmDbContext)
                 {
-                     data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id).FirstOrDefaultAsync();
+                     data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
                         responseModel.StatusCode = HttpStatusCode.OK;

@@ -11,8 +11,6 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
         Task<APIResponseModel> GetAll(string? searchby = null);
         Task<APIResponseModel> GetByID(int ID);
         Task<APIResponseModel> DeleteByID(int ID);
-        Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id);
 
-        Task<APIResponseModel> DeletebyDiseaseTypeID(HSMDBContext connection, int id);
     }
 }

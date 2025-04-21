@@ -18,6 +18,6 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
 
         Task<APIResponseModel> GetAll(string? searchBy = null);
 
-        Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id);
+       
     }
 }

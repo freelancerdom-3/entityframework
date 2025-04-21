@@ -87,13 +87,12 @@ namespace HMSAPI.Service.TblShift
 
                     if (data != null)
                     {
-                        _tblEmployeeshiftMapping?.DeleteByShiftId(connection, id);
-                        connection.TblShifts.Remove(data);
+                        data.IsActive = false;
+                        connection.TblShifts.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete Successfully";
-
                     }
 
                     else
@@ -128,10 +127,11 @@ namespace HMSAPI.Service.TblShift
                 using (var connection = _hsmDbContext)
                 {
                     list = connection.GetTblShiftViewModel.FromSqlRaw($@"
-                           select tu.FullName as Createdby, uu.FullName as UpdatedBy, tr.ShiftId,
-                           tr.StartTime,tr.EndTime,tr.Shiftname,tr.CreatedOn,tr.UpdatedOn,tr.IsActive,tr.VersionNo 
-                           from TblShift tr inner join TblUser tu on tu.UserId = tr.CreatedBy
-                           left join TblUser uu on uu.UserId = tr.UpdatedBy where tu.FullName like '%{searchBy}%'").ToList();
+                select tu.FullName as Createdby, uu.FullName as UpdatedBy, tr.ShiftId,
+                tr.StartTime,tr.EndTime,tr.Shiftname,tr.CreatedOn,tr.UpdatedOn,tr.IsActive,tr.VersionNo 
+                from TblShift tr inner join TblUser tu on tu.UserId = tr.CreatedBy
+                left join TblUser uu on uu.UserId = tr.UpdatedBy 
+                where tr.IsActive = 1 and tu.FullName like  '%{searchBy}%'").ToList();
                     responseModel.Data = list;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Inserted Successfully";
@@ -161,7 +161,7 @@ namespace HMSAPI.Service.TblShift
             {
                 using (var connection = _hsmDbContext)
                 {
-                   TblShiftModel? data= connection.TblShifts.Where(x=>x.ShiftId == id).FirstOrDefault();
+                    TblShiftModel? data = await connection.TblShifts.Where(x => x.ShiftId == id && x.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = new
                     {
                       data.ShiftId,

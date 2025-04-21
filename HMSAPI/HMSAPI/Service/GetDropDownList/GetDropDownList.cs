@@ -37,7 +37,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblRoles.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.RoleId, name = x.RoleName }).ToList(); 
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true). Select(x => new GetDropDownListModel() { id = x.RoleId, name = x.RoleName }).ToList(); 
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get list Successfully";
                 }
@@ -65,7 +65,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblShifts.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.ShiftId, name = x.Shiftname}).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.ShiftId, name = x.Shiftname}).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -93,7 +93,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblUsers.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.UserId, name = x.FullName }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.UserId, name = x.FullName }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -121,7 +121,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TbLHospitalDepartment.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.HospitalDepartmentId, name = x.DepartmentName}).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.HospitalDepartmentId, name = x.DepartmentName}).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -149,7 +149,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblDiseaseType.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.DieseaseTypeID, name = x.DieseaseName }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.DieseaseTypeID, name = x.DieseaseName }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -177,7 +177,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblMedicineTypes.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.MedicineTypeID, name = x.TypeName }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.MedicineTypeID, name = x.TypeName }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -205,7 +205,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.tblRoomTypes.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.RoomTypeId, name = x.RoomType}).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.RoomTypeId, name = x.RoomType}).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -233,7 +233,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblFacility.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.FacilityID, name = x.FacilityName }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.FacilityID, name = x.FacilityName }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -261,7 +261,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblFacilityTypes.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.FacilityTypeID, name = x.FacilityName }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.FacilityTypeID, name = x.FacilityName }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -288,8 +288,9 @@ namespace HMSAPI.Service.GetDropDownList
             {
                 using (var connection = _hsmDbContext)
                 {
-                      string query = $@" select tp.PatientId as id,tu.FullName as name from TblUser tu
-                                    inner join  TblPatient tp on tp.UserId = tu.UserId where RoleId = 2";
+                      string query = $@" select tp.PatientId as id,tu.FullName as [name] from TblUser tu
+                                    inner join  TblPatient tp on tp.UserId = tu.UserId  
+									where RoleId = 2 and tp.IsActive =1 and  tu.IsActive =1";
                    lstRolles1  = await connection.GetDropDownListModel.FromSqlRaw(query).ToListAsync();
                     responseModel.Data = lstRolles1;
                      responseModel.StatusCode = HttpStatusCode.OK;
@@ -318,7 +319,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblRoom.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.RoomID, name = x.RoomNumber.ToString() }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.RoomID, name = x.RoomNumber.ToString() }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }
@@ -374,7 +375,7 @@ namespace HMSAPI.Service.GetDropDownList
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.TblBills.ToList();
-                    responseModel.Data = lstRolles.Select(x => new GetDropDownListModel() { id = x.BillId, name = x.PaymentMethod }).ToList();
+                    responseModel.Data = lstRolles.Where(x => x.IsActive == true).Select(x => new GetDropDownListModel() { id = x.BillId, name = x.PaymentMethod }).ToList();
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get List Successfully";
                 }

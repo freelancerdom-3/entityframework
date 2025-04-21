@@ -81,9 +81,8 @@ namespace HMSAPI.Service.TblMedicineType
                     if (data != null)
 
                     {
-                        _TblMedicineDetails?.DeletebyMedicineTypeID(connection, Id);
-                        _TblMedicineDiseaseMapping?.DeletebyMedicineTypeID(connection, Id);
-                        connection.TblMedicineTypes.Remove(data);
+                        data.IsActive = false;
+                        connection.TblMedicineTypes.Update(data);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                         responseModel.Message = "Deleted Successfully";
@@ -117,11 +116,12 @@ namespace HMSAPI.Service.TblMedicineType
                 using (var connection = _hsmDbContext)
                 {
                     lstmedicine = connection.GetTblMedicineTypeViewModels.FromSqlRaw($@"
-                    SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.MedicineTypeID, 
+                    select tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.MedicineTypeID, 
                     tr.TypeName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
                     FROM TblMedicineType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
-                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
-                    where tu.fullName LIKE  '%{searchBy}%'").ToList();
+                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
+					where tr.IsActive = 1
+                    and tu.fullName LIKE  '%{searchBy}%'").ToList();
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "Get All Record Successfully";
                     responseModel.Data = lstmedicine;
@@ -143,8 +143,8 @@ namespace HMSAPI.Service.TblMedicineType
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblMedicineTypeModel? data =await connection.TblMedicineTypes
-                        .Where(X => X.MedicineTypeID == id).FirstOrDefaultAsync();
+                    TblMedicineTypeModel? data = await connection.TblMedicineTypes
+                        .Where(X => X.MedicineTypeID == id && X.IsActive == true).FirstOrDefaultAsync();
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "Get All Record Successfully";
                     responseModel.Data = data;

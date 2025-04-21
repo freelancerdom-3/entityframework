@@ -127,7 +127,8 @@ namespace HMSAPI.Service.TblHospitalTyp
                     TblHospitalTypeModel? data = await connection.TblHospitalTypes.Where(x => x.HospitalTypeID == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblHospitalTypes.Remove(data);
+                        data.IsActive = false;
+                        connection.TblHospitalTypes.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -159,7 +160,7 @@ namespace HMSAPI.Service.TblHospitalTyp
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblHospitalTypeModel data =  await connection.TblHospitalTypes.Where(x => x.HospitalTypeID == id).FirstOrDefaultAsync();
+                    TblHospitalTypeModel data =  await connection.TblHospitalTypes.Where(x => x.HospitalTypeID == id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
                         responseModel.Data = true;
@@ -199,7 +200,8 @@ namespace HMSAPI.Service.TblHospitalTyp
                     
                     using (var connection = _hsmDbContext)
                     {
-                        lstHospitalType = connection.getTblHospitalTypeModels.FromSqlRaw($@"SELECT 
+                        lstHospitalType = connection.getTblHospitalTypeModels.FromSqlRaw($@"
+      SELECT 
     TU.FullName AS CreatedBy,
 	UT.FullName AS UpdatedBy,
 		HT.HospitalTypeID,
@@ -210,7 +212,7 @@ namespace HMSAPI.Service.TblHospitalTyp
 		HT.VersionNo
 FROM TblHospitalType HT 
 	 INNER JOIN TblUser TU ON TU.UserId=HT.CreatedBy 
-	 LEFT JOIN TblUser UT ON UT.UserId=HT.UpdatedBy where TU.FullName like '%{searchBy}%'").ToList();
+	 LEFT JOIN TblUser UT ON UT.UserId=HT.UpdatedBy where HT.IsActive = 1 and TU.FullName like '%{searchBy}%'").ToList();
                         responseModel.Data = lstHospitalType;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = null;

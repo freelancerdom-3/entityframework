@@ -22,5 +22,8 @@ namespace HMSAPI.Model.TblEmpyloeeDepartmentMapping.ViewModel
         public string? FullName { get; set; }
 
         public string? DepartmentName { get; set; }
+        public int UserId { get; set; }
+
+        public int HospitalDepartmentID { get; set; }
     }
 }
