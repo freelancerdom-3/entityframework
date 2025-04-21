@@ -15,7 +15,7 @@ namespace HMSAPI.Service.TblMedicineDetails
         public TblMedicineDetails(HSMDBContext hsmDbContext, ITokenData tokenData)
         {
             _hsmDbContext = hsmDbContext;
-            _tokenData=tokenData;
+            _tokenData = tokenData;
         }
         private int UserId => Convert.ToInt32(_tokenData.UserID);
         private int RoleId => Convert.ToInt32(_tokenData.RoleId);
@@ -29,16 +29,16 @@ namespace HMSAPI.Service.TblMedicineDetails
                     connection.Database.BeginTransaction();
                     bool DuplicateTreatmentID = connection.TblMedicineDetails.Any(x => x.TreatmentDetailsId == model.TreatmentDetailsId);
                     // && x.IssueDateTime >= model.IssueDateTime.AddSeconds(-10) &&
-                       // x.IssueDateTime <= model.IssueDateTime.AddSeconds(10));
+                    // x.IssueDateTime <= model.IssueDateTime.AddSeconds(10));
                     try
                     {
                         if (!DuplicateTreatmentID)
                         {
                             model.VersionNo = 1;
                             model.CreatedBy = UserId;
-                            model.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); 
-                            model.IssueDateTime= DateTime.Now;
-                            
+                            model.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                            model.IssueDateTime = DateTime.Now;
+
                             _ = await connection.TblMedicineDetails.AddAsync(model);
                             connection.SaveChanges();
                             connection.Database.CommitTransaction();
@@ -118,13 +118,12 @@ namespace HMSAPI.Service.TblMedicineDetails
             APIResponseModel responseModel = new APIResponseModel();
             try
             {
-                using(var connection = _hsmDbContext)
+                using (var connection = _hsmDbContext)
                 {
                     TblMedicineDetailsModel? data = await connection.TblMedicineDetails
                         .Where(x => x.MedicineDetailsID == ID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.IsActive=false;
                         connection.TblMedicineDetails.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -147,14 +146,14 @@ namespace HMSAPI.Service.TblMedicineDetails
             }
             return responseModel;
         }
-      
+
         public async Task<APIResponseModel> GetByID(int ID)
         {
             APIResponseModel responseModel = new();
             TblMedicineDetailsModel? data = new TblMedicineDetailsModel();
             try
             {
-                using(var connection = _hsmDbContext)
+                using (var connection = _hsmDbContext)
                 {
                     data = await connection.TblMedicineDetails.Where(x => x.MedicineDetailsID == ID && x.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = data;
@@ -176,20 +175,23 @@ namespace HMSAPI.Service.TblMedicineDetails
             List<GetMedicineDetailsViewModel> lstMedicineDetails = new List<GetMedicineDetailsViewModel>();
             try
             {
-                using(var connection = _hsmDbContext)
+                using (var connection = _hsmDbContext)
                 {
-                    lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
-                   TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime,tu.FullName as CreatedBy,TblMe.CreatedOn,
-            TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,tq.TreatmentDetailsId,TblMe.IsActive,TblMe.VersionNo,
-			TMedi.MedicineTypeID
-			from TblMedicineDetails TblMe
-            inner join TblUser tu on tu.UserId = TblMe.CreatedBy
-            left join TblUser on TblUser.UserId = TblMe.UpdatedBy
-           inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
-            inner join TblTreatmentDetails tq on tq.TreatmentDetailsId = TblMe.TreatmentDetailsId
-            inner join TblDiseaseType TDies on TDies.DieseaseTypeID = tq.DieseaseTypeID
-			where TblMe.IsActive= 1 and TypeName like '%{searchby}%'")
-                                         .ToListAsync();
+                    lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"
+                     select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
+                     TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime,tu.FullName as CreatedBy,TblMe.CreatedOn,
+                     TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,tq.TreatmentDetailsId,TblMe.IsActive,TblMe.VersionNo,
+			         TMedi.MedicineTypeID
+			         from TblMedicineDetails TblMe
+                     inner join TblUser tu on tu.UserId = TblMe.CreatedBy
+                     left join TblUser on TblUser.UserId = TblMe.UpdatedBy
+                     inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
+                     inner join TblTreatmentDetails tq on tq.TreatmentDetailsId = TblMe.TreatmentDetailsId
+                     inner join TblDiseaseType TDies on TDies.DieseaseTypeID = tq.DieseaseTypeID
+			         and tq.IsActive = 1 
+			         and TMedi.IsActive = 1 
+		        	 where TblMe.IsActive = 1
+                     and TypeName like '%{searchby}%'").ToListAsync();
                     responseModel.Data = lstMedicineDetails;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "GetAll Record Successfully";

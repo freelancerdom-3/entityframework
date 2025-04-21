@@ -40,7 +40,6 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                         deptModel.CreatedBy = UserId;
                         deptModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         deptModel.VersionNo = 1;
-                        deptModel.IsActive = true;
                         _ = await connection.TblEmployeeDepartmentMappings.AddAsync(deptModel);
                         connection.SaveChanges();
                         //#3
@@ -67,17 +66,17 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
         }
 
         public async Task<APIResponseModel> Update(TblEmployeeDepartmentMappingModel departmentModel)
-            {
+        {
             APIResponseModel responseModel = new();
-              try
-                {
+            try
+            {
 
-                  using (var connection = _hsmDbContext)
+                using (var connection = _hsmDbContext)
                 {
                     TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.UserId == departmentModel.UserId).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        departmentModel.UpdatedBy = UserId; 
+                        departmentModel.UpdatedBy = UserId;
                         departmentModel.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.UpdatedBy = departmentModel.UpdatedBy;
                         data.UpdatedOn = departmentModel.UpdatedOn;
@@ -97,13 +96,13 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                         responseModel.Data = false;
                     }
                 }
-              }
-              catch (Exception ex)
-              {
+            }
+            catch (Exception ex)
+            {
                 responseModel.StatusCode = HttpStatusCode.InternalServerError;
                 responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
-               }
+            }
 
             return responseModel;
 
@@ -119,7 +118,6 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                     TblEmployeeDepartmentMappingModel? data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
-
                         data.IsActive = false;
                         connection.TblEmployeeDepartmentMappings.Update(data);
                         connection.SaveChanges();
@@ -158,7 +156,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstUsers = await connection.tblEmployeeDepartments.FromSqlRaw($@" SELECT 
+                    lstUsers = await connection.tblEmployeeDepartments.FromSqlRaw($@"SELECT 
                     tblmapping.EmployeeDepartmentMappingID,
                     Tuser.FullName,
                     th.DepartmentName,
@@ -174,13 +172,16 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                     INNER JOIN TblUser Tuser ON Tuser.UserId = tblmapping.UserId
                     INNER JOIN TbLHospitalDepartment th ON th.HospitalDepartmentID = tblmapping.HospitalDepartmentID
                     LEFT JOIN TblUser tu ON tu.UserId = tblmapping.CreatedBy
-                    LEFT JOIN TblUser tuu ON tuu.UserId = tblmapping.UpdatedBy
-                    where tblmapping.IsActive = 1 and Tuser.FullName like '%{searchBy}%'").ToListAsync();
+                    LEFT JOIN TblUser tuu ON tuu.UserId = tblmapping.UpdatedBy  
+					and Tuser.IsActive = 1 
+					and th.IsActive = 1 
+					where tblmapping.IsActive = 1
+                    and Tuser.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get Record Successfully";
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -203,7 +204,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
 
                 using (var connection = _hsmDbContext)
                 {
-                     data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id && x.IsActive == true).FirstOrDefaultAsync();
+                    data = await connection.TblEmployeeDepartmentMappings.Where(x => x.EmployeeDepartmentMappingId == id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -237,9 +238,9 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
             {
                 using (var connection = _hsmDbContext)
                 {
-                     var childRecord = await connection.TblEmployeeDepartmentMappings
-                        .Where(x => x.EmployeeDepartmentMappingId == employeeDepartmentMappingId)
-                        .FirstOrDefaultAsync();
+                    var childRecord = await connection.TblEmployeeDepartmentMappings
+                       .Where(x => x.EmployeeDepartmentMappingId == employeeDepartmentMappingId)
+                       .FirstOrDefaultAsync();
 
                     if (childRecord != null)
                     {
