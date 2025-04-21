@@ -54,11 +54,11 @@ namespace HMSAPI.Service.TblPatient
 
                     if (patient != null || user != null) 
                     {
-                        _ITblPatientAdmitionDetails?.deletebyid(connection, userId);
-                        _ITblPateintDoctormapping?.Deletebyid(connection, userId);
-                        _ITblMedicineDetails?.Deletebyid(connection, userId);    
-                        _ITblFeedback?.Deletebyid(connection, userId);
-                        _ITblBill.Deletebyid(connection, userId);
+                        //_ITblPatientAdmitionDetails?.deletebyid(connection, userId);
+                        //_ITblPateintDoctormapping?.Deletebyid(connection, userId);
+                        //_ITblMedicineDetails?.Deletebyid(connection, userId);    
+                        //_ITblFeedback?.Deletebyid(connection, userId);
+                        //_ITblBill.Deletebyid(connection, userId);
                       //  _ITblTreatmentDetails?.Deletebyid(connection, userId);
                        //_ITblTreatmentDetails?.Deletebyid(connection, userId);
                        
