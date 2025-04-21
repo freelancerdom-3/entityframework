@@ -124,8 +124,8 @@ namespace HMSAPI.Service.TblPateintDoctormapping
                     //delete
                     if (data != null)
                     {
-
-                        connection.TblPateintDoctormappingModels.Remove(data);
+                        data.IsActive = false;
+                        connection.TblPateintDoctormappingModels.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -151,45 +151,7 @@ namespace HMSAPI.Service.TblPateintDoctormapping
 
             return responseModel;
         }
-        public async Task<APIResponseModel> Deletebyid(HSMDBContext context, int id)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                //using (var connection = _hsmDbContext)
-                {
-                    TblPateintDoctormappingModel? data = await context.TblPateintDoctormappingModels.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
-
-                    //delete
-                    if (data != null)
-                    {
-
-                        context.TblPateintDoctormappingModels.Remove(data);
-                        context.SaveChanges();
-                        responseModel.Data = true;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Deleted Successfully";
-
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "ID Not Found";
-                        responseModel.Data = false;
-
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-
-            }
-
-            return responseModel;
-        }
+        
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();
@@ -200,17 +162,19 @@ namespace HMSAPI.Service.TblPateintDoctormapping
                 using (var connection = _hsmDbContext)
                 {
                     lstUsers = await connection.getPatientMappingViewModels.FromSqlRaw($@"select tp.PateintDoctormappingId,tuu.FullName as DocterName,tu.FullName as PatientName,
-tt.TreatmentDetailsId,us.FullName as CreatedBy,tp.CreatedOn,pr.FullName as UpdatedBy,tp.UpdatedOn,
-tp.IsActive,tp.VersionNo
-from TblPateintDoctormapping tp 
-inner join TblUser us on us.UserId = tp.CreatedBy
-left join TblUser pr on pr.UserId = tp.UpdatedBy
-inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
-inner join TblPatient tpa on tpa.PatientId = tt.PatientId
-inner join TblUser tu on tu.UserId = tpa.UserId
-inner join TblUser tuu on tuu.UserId = tp.UserId
-                               where  tuu.FullName like '%{searchBy}%'").ToListAsync();
-
+                    tt.TreatmentDetailsId,us.FullName as CreatedBy,tp.CreatedOn,pr.FullName as UpdatedBy,tp.UpdatedOn,
+                    tp.IsActive,tp.VersionNo
+                    from TblPateintDoctormapping tp 
+                    inner join TblUser us on us.UserId = tp.CreatedBy
+                    left join TblUser pr on pr.UserId = tp.UpdatedBy
+                    inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tp.TreatmentDetailsId
+                    inner join TblPatient tpa on tpa.PatientId = tt.PatientId
+                    inner join TblUser tu on tu.UserId = tpa.UserId
+                    inner join TblUser tuu on tuu.UserId = tp.UserId
+                    and us.IsActive = 1
+                    and tt.IsActive = 1
+                    where tp.IsActive = 1
+                    and  tuu.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get Record Successfully";
@@ -233,7 +197,7 @@ inner join TblUser tuu on tuu.UserId = tp.UserId
         public async Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
-            TblPateintDoctormappingModel data = new();
+            TblPateintDoctormappingModel? data = new();
             try
             {
 
@@ -241,7 +205,7 @@ inner join TblUser tuu on tuu.UserId = tp.UserId
                 {
 
 
-                    data = await connection.TblPateintDoctormappingModels.Where(x => x.PateintDoctormappingId == id).FirstOrDefaultAsync();
+                    data = await connection.TblPateintDoctormappingModels.Where(x => x.PateintDoctormappingId == id && x.IsActive == true).FirstOrDefaultAsync();
 
 
 

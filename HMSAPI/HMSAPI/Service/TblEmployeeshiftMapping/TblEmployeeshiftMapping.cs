@@ -91,7 +91,8 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     TblEmployeeshiftMappingModel? data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblEmployeeshifts.Remove(data);
+                        data.IsActive = false;
+                        connection.TblEmployeeshifts.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -155,12 +156,16 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                    lstEmployeeshiftMapping = await connection.getEmployeeMappings.FromSqlRaw($@"
                     select TblUser.FullName,TblShift.Shiftname,te.EmployeeshiftMappingId,te.EmployeeshiftMappingStartingDate,
                     te.EmployeeshiftMappingEndingDate,tu.FullName as CreatedBy,te.CreatedOn,tt.FullName as UpdatedBy,te.UpdatedOn,
-                    te.IsActive,te.VersionNo from TblEmployeeshiftMapping te
+                    te.IsActive,te.VersionNo,TblUser.UserId,
+                    TblShift.ShiftId from TblEmployeeshiftMapping te
                     inner join TblUser tu on tu.UserId = te.CreatedBy
                     left join  TblUser tt on tt.UserId = te.UpdatedBy
                     inner join TblShift on TblShift.ShiftId=te.ShiftId
                     inner join TblUser on TblUser.UserId=te.UserId
-                    where TblUser.FullName like '%{searchBy}%'").ToListAsync();
+                    and tu.IsActive = 1
+                    and TblShift.IsActive = 1 
+                    where te.IsActive = 1
+                    and TblUser.FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstEmployeeshiftMapping;
                     responseModel.StatusCode = HttpStatusCode.OK;
@@ -188,7 +193,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                 using (var connection = _hsmDbContext)
 
                 {
-                    data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == id).FirstOrDefaultAsync();
+                    data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == id && x.IsActive == true).FirstOrDefaultAsync();
 
                     if (data != null)
                     {

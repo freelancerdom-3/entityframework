@@ -103,7 +103,8 @@ namespace HMSAPI.Service.TblRoom
 
                         if (data != null)
                         {
-                            connection.TblRoom.Remove(data);
+                            data.IsActive = false;
+                            connection.TblRoom.Update(data);
                             connection.SaveChanges();
                             responseModel.StatusCode = HttpStatusCode.OK;
                             responseModel.Message = "Delete SuccessFully:";
@@ -126,38 +127,7 @@ namespace HMSAPI.Service.TblRoom
                 return responseModel;
             }
 
-
-        public async Task<APIResponseModel> Deletebyroomid(HSMDBContext context,int id)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-                List<TblRoomModel> roomid = context.TblRoom.Where(x=>x.RoomTypeID==id).ToList();
-
-                    if (roomid != null)
-                    {
-                    foreach (TblRoomModel room in roomid)
-                    {
-                        context.TblRoom.Remove(room);
-                    }
-                        //await context.SaveChangesAsync();
-                    }
-                    responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = "Deleted Successfully";
-               
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-
-            return responseModel;
-        }
-
-
-       
+     
 
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
@@ -168,9 +138,11 @@ namespace HMSAPI.Service.TblRoom
                 using (var connection = _hsmDbContext)
                 {
                     lstTblRoomView = await connection.GetTblRoomModel.FromSqlRaw($@"
-                    select TblRoom.RoomID,TblRoomType.RoomType,TblRoom.RoomNumber from TblRoom
-                    inner join TblRoomType on TblRoomType.RoomTypeID = TblRoom.RoomTypeID
-                    WHERE TblRoomType.RoomType LIKE '%{searchBy}%'").ToListAsync();
+                     select TblRoom.RoomID,TblRoomType.RoomType,TblRoom.RoomNumber from TblRoom
+                     inner join TblRoomType on TblRoomType.RoomTypeID = TblRoom.RoomTypeID
+                     and TblRoomType.IsActive = 1 
+                     where TblRoom.IsActive = 1
+                     and TblRoomType.RoomType LIKE '%{searchBy}%'").ToListAsync();
 
                     
                     responseModel.Data = lstTblRoomView;
@@ -181,7 +153,7 @@ namespace HMSAPI.Service.TblRoom
                 {
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get All Recode Successfull";
-                    responseModel.Data = lstTblRoomView;
+                    responseModel.Data = lstTblRoomView;    
 
                 }
                 else
@@ -205,13 +177,12 @@ namespace HMSAPI.Service.TblRoom
         public async Task<APIResponseModel> GetByID(int id)
             {
                 APIResponseModel responseModel = new();
-                TblRoomModel data = new();
+                TblRoomModel? data = new();
                 try
                 {
                     using (var connection = _hsmDbContext)
                     {
-                        data = await connection.TblRoom.Where(x => x.RoomID == id)
-                            .FirstAsync();
+                    data = await connection.TblRoom.Where(x => x.RoomID == id && x.IsActive == true).FirstOrDefaultAsync();
                         if (data != null)
                         {
                             responseModel.StatusCode = HttpStatusCode.OK;

@@ -124,7 +124,7 @@ namespace HMSAPI.Service.TblMedicineDetails
                         .Where(x => x.MedicineDetailsID == ID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblMedicineDetails.Remove(data);
+                        connection.TblMedicineDetails.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -146,39 +146,7 @@ namespace HMSAPI.Service.TblMedicineDetails
             }
             return responseModel;
         }
-        public async Task<APIResponseModel> Deletebyid(HSMDBContext context, int ID)
-        {
-            APIResponseModel responseModel = new APIResponseModel();
-            try
-            {
-                //using (var connection = _hsmDbContext)
-                {
-                    TblMedicineDetailsModel? data = await context.TblMedicineDetails
-                        .Where(x => x.TreatmentDetailsId == ID).FirstOrDefaultAsync();
-                    if (data != null)
-                    {
-                        context.TblMedicineDetails.Remove(data);
-                        context.SaveChanges();
-                        responseModel.Data = true;
-                        responseModel.StatusCode = System.Net.HttpStatusCode.OK;
-                        responseModel.Message = "Deleted Successfully";
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
-                        responseModel.Message = "Delete Not successfully";
-                        responseModel.Data = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-        }
+      
         public async Task<APIResponseModel> GetByID(int ID)
         {
             APIResponseModel responseModel = new();
@@ -187,7 +155,7 @@ namespace HMSAPI.Service.TblMedicineDetails
             {
                 using(var connection = _hsmDbContext)
                 {
-                    data = await connection.TblMedicineDetails.Where(x => x.MedicineDetailsID == ID).FirstOrDefaultAsync();
+                    data = await connection.TblMedicineDetails.Where(x => x.MedicineDetailsID == ID && x.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = data;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                 }
@@ -209,17 +177,21 @@ namespace HMSAPI.Service.TblMedicineDetails
             {
                 using(var connection = _hsmDbContext)
                 {
-                    lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
-                   TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime,tu.FullName as CreatedBy,TblMe.CreatedOn,
-            TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,tq.TreatmentDetailsId,TblMe.IsActive,TblMe.VersionNo,
-			TMedi.MedicineTypeID
-			from TblMedicineDetails TblMe
-              inner join TblUser tu on tu.UserId = TblMe.CreatedBy
-            left join TblUser on TblUser.UserId = TblMe.UpdatedBy
-           inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
-                 inner join TblTreatmentDetails tq on tq.TreatmentDetailsId = TblMe.TreatmentDetailsId
-            inner join TblDiseaseType TDies on TDies.DieseaseTypeID = tq.DieseaseTypeID where TypeName like '%{searchby}%'")
-                                         .ToListAsync();
+                    lstMedicineDetails = await connection.GetMedicineDetailsViewModel.FromSqlRaw($@"
+                     select TblMe.MedicineDetailsID,TMedi.TypeName,TDies.DieseaseName,
+                     TblMe.Dosage,TblMe.Frequency,TblMe.Duration,TblMe.Instruction,TblMe.IssueDateTime,tu.FullName as CreatedBy,TblMe.CreatedOn,
+                     TblUser.FullName as UpdatedBy,TblMe.UpdatedOn,tq.TreatmentDetailsId,TblMe.IsActive,TblMe.VersionNo,
+			         TMedi.MedicineTypeID
+			         from TblMedicineDetails TblMe
+                     inner join TblUser tu on tu.UserId = TblMe.CreatedBy
+                     left join TblUser on TblUser.UserId = TblMe.UpdatedBy
+                     inner join TblMedicineType TMedi on TMedi.MedicineTypeID = TblMe.MedicineTypeID
+                     inner join TblTreatmentDetails tq on tq.TreatmentDetailsId = TblMe.TreatmentDetailsId
+                     inner join TblDiseaseType TDies on TDies.DieseaseTypeID = tq.DieseaseTypeID
+			         and tq.IsActive = 1 
+			         and TMedi.IsActive = 1 
+		        	 where TblMe.IsActive = 1
+                     and TypeName like '%{searchby}%'").ToListAsync();
                     responseModel.Data = lstMedicineDetails;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "GetAll Record Successfully";
@@ -234,31 +206,5 @@ namespace HMSAPI.Service.TblMedicineDetails
             return responseModel;
         }
 
-        public  async Task<APIResponseModel> DeletebyMedicineTypeID(HSMDBContext connection, int id)
-        {
-            APIResponseModel responseModel = new APIResponseModel();
-            try
-            {
-                 List<TblMedicineDetailsModel> medicineid = connection.TblMedicineDetails.Where(x => x.MedicineTypeID == id).ToList();
-
-                if (medicineid != null)
-                {
-                    foreach (TblMedicineDetailsModel medicine in medicineid)
-                    {
-                        connection.TblMedicineDetails.Remove(medicine);
-                    }
-                }
-                responseModel.StatusCode = HttpStatusCode.OK;
-                responseModel.Message = "Deleted Successfully";
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-
-            return responseModel;
-        }
     }
 }

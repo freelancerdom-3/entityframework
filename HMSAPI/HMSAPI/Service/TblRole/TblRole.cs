@@ -67,10 +67,11 @@ namespace HMSAPI.Service.TblRole
                 using (var connection = _hsmDbContext)
                 {
 
-                    TblRoleModel? data = connection.TblRoles.Where(x => x.RoleId == id).FirstOrDefault();
+                    TblRoleModel? data = await  connection.TblRoles.Where(x => x.RoleId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblRoles.Remove(data);
+                        data.IsActive = false;
+                        connection.TblRoles.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -107,11 +108,12 @@ namespace HMSAPI.Service.TblRole
                 using (var connection = _hsmDbContext)
                 {
                     lstRolles = connection.getTblRoleViewModels.FromSqlRaw($@"
-                   SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoleId, 
-                    tr.RoleName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
-                    FROM TblRole tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
-                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
-                    where tu.fullName LIKE  '%{searchBy}%'").ToList();
+                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.RoleId, 
+                     tr.RoleName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                     FROM TblRole tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
+                     left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
+                     where tr.IsActive = 1
+                     and tu.fullName LIKE  '%{searchBy}%'").ToList();
                     //lstRolles = string.IsNullOrEmpty(searchBy) ? connection.TblRoles.ToList() : connection.TblRoles.Where(x => x.RoleName.ToLower() == searchBy.ToLower()).ToList();
                     responseModel.Data = lstRolles;
                     responseModel.StatusCode = HttpStatusCode.OK;
@@ -139,8 +141,8 @@ namespace HMSAPI.Service.TblRole
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblRoleModel? data = connection.TblRoles.
-                     Where(x => x.RoleId == id).FirstOrDefault();
+                    TblRoleModel? data = await connection.TblRoles.
+                     Where(x => x.RoleId == id && x.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = data.RoleName;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Inserted Successfully";

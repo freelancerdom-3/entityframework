@@ -29,5 +29,8 @@ namespace HMSAPI.Model.TblEmployeeshiftMapping.ViewModel
         public DateTime? EmployeeshiftMappingStartingDate { get; set; }
 
         public DateTime? EmployeeshiftMappingEndingDate { get; set; }
+        public int UserId { get; set; }
+
+        public int ShiftId { get; set; }
     }
 }

@@ -125,7 +125,8 @@ namespace HMSAPI.Service.TblTreatmentDetails
                     if (data != null)
                     {
 
-                        connection.TblTreatmentDetails.Remove(data);
+                        data.IsActive = false;
+                        connection.TblTreatmentDetails.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -197,7 +198,7 @@ namespace HMSAPI.Service.TblTreatmentDetails
         public async  Task<APIResponseModel> GetByID(int id)
         {
             APIResponseModel responseModel = new();
-            TblTreatmentDetailsModel data = new();
+            TblTreatmentDetailsModel? data = new();
             try
             {
 
@@ -205,7 +206,7 @@ namespace HMSAPI.Service.TblTreatmentDetails
                 {
 
 
-                    data = await connection.TblTreatmentDetails.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
+                    data = await connection.TblTreatmentDetails.Where(x => x.TreatmentDetailsId == id && x.IsActive == true).FirstOrDefaultAsync();
 
 
 
@@ -257,7 +258,11 @@ namespace HMSAPI.Service.TblTreatmentDetails
 					left join TblUser tb on tb.UserId = tt.UpdatedBy
                      inner join TblDiseaseType Td on td.DieseaseTypeID = tt.DieseaseTypeID
                      inner join TblPatient tp on tp.PatientId = tt.PatientId
-                     inner join TblUser tuser on tuser.UserId = tp.UserId  where tuser.FullName like '%{searchBy}%'").ToListAsync();
+                     inner join TblUser tuser on tuser.UserId = tp.UserId 
+					 and Td.IsActive = 1 
+					 and tp.IsActive = 1 
+					 where tt.IsActive = 1
+                     and tuser.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Get Record Successfully";
@@ -275,32 +280,6 @@ namespace HMSAPI.Service.TblTreatmentDetails
             return responseModel;
 
 
-        }
-        public async Task<APIResponseModel> DeletebyDiseaseTypeID(HSMDBContext connection, int id)
-        {
-            APIResponseModel responseModel = new APIResponseModel();
-            try
-            {
-                List<TblTreatmentDetailsModel> disease = connection.TblTreatmentDetails.Where(x => x.DieseaseTypeID == id).ToList();
-
-                if (disease != null)
-                {
-                    foreach (TblTreatmentDetailsModel diseases in disease)
-                    {
-                        connection.TblTreatmentDetails.Remove(diseases);
-                    }
-                }
-                responseModel.StatusCode = HttpStatusCode.OK;
-                responseModel.Message = "Deleted Successfully";
-            }
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-
-            return responseModel;
         }
 
 
