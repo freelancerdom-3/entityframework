@@ -109,13 +109,14 @@ namespace HMSAPI.Service.TblFacilityTypes
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblFacilityTypeModels? data = await connection.TblFacilityTypes
-                   .Where(x => x.FacilityTypeID == id)
-                   .FirstOrDefaultAsync();
+                    TblFacilityTypeModels? data = await connection.TblFacilityTypes.Where(x => x.FacilityTypeID == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblFacilityTypes.Remove(data);
+
+                        data.IsActive= false;
+                        connection.TblFacilityTypes.Update(data);
                         connection.SaveChanges();
+                        responseModel.Data= true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete SuccessFully:";
                     }
@@ -146,12 +147,12 @@ namespace HMSAPI.Service.TblFacilityTypes
             {
                 using (var connection = _hsmDbContext)
                 {
-                    data = await connection.TblFacilityTypes.Where(x => x.FacilityTypeID == id).FirstAsync();
+                    data = await connection.TblFacilityTypes.Where(x => x.FacilityTypeID == id && x.IsActive == true).FirstAsync();
 
                     if (data != null)
                     {
                         responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Get Shaw Record SuccessFully";
+                        responseModel.Message = "Get Show Record SuccessFully";
                         responseModel.Data = data;
                     }
                     else
@@ -181,10 +182,9 @@ namespace HMSAPI.Service.TblFacilityTypes
                 {
                     lstFacility = connection.gettblfacilitytypemodels.FromSqlRaw($@"
                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.FacilityTypeID, 
-                    tr.FacilityName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
-                    FROM TblFacilityType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
-                    left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy 
-                    where tu.fullName LIKE  '%{searchby}%'").ToList();
+                  tr.FacilityName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+                FROM TblFacilityType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy 
+                      left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy where tr.IsActive = 1 and tu.fullName LIKE  '%{searchby}%'").ToList();
 
                     //lstFacility = string.IsNullOrEmpty(searchby) ? await connection.TblFacilityTypes.ToListAsync() :
                     //    await connection.TblFacilityTypes.Where(x => x.FacilityName.ToLower() == searchby.ToLower()).ToListAsync();

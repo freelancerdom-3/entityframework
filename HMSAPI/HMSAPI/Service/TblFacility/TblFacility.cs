@@ -62,6 +62,9 @@ namespace HMSAPI.Service.TblFacility
                     TblFacilityModel? data = await connection.TblFacility.Where(x => x.FacilityID == Id).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        
+                        data.IsActive = false;
+                        connection.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -93,7 +96,7 @@ namespace HMSAPI.Service.TblFacility
                 using (var connection = _hsmDbContext)
                 {
                     lstfacility = string.IsNullOrEmpty(searchBy) ? connection.TblFacility.ToList() :
-                    connection.TblFacility.Where(x => x.FacilityName.ToLower() == searchBy.ToLower()).ToList();
+                    connection.TblFacility.Where(x => x.IsActive == true && x.FacilityName.ToLower() == searchBy.ToLower()).ToList();
                     responseModel.Data = lstfacility;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = null;
@@ -115,7 +118,7 @@ namespace HMSAPI.Service.TblFacility
             {
                 using (var connection = _hsmDbContext)
                 {
-                    TblFacilityModel data = await connection.TblFacility.Where(x => x.FacilityID == Id).FirstOrDefaultAsync();
+                    TblFacilityModel data = await connection.TblFacility.Where(x => x.FacilityID == Id && x.IsActive == true).FirstOrDefaultAsync();
                     if (data != null)
                     {
                         responseModel.Data = true;

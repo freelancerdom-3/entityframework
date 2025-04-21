@@ -35,13 +35,13 @@ namespace HMSAPI.Service.TblBill
                 using (var connection = _hsmDbContext)
                 {
                     lstbills = await connection.billPatientViewModels.FromSqlRaw($@"
-                      select tb.BillId,tu.FullName as PatientName,tb.TotalAmount,tb.PaymentMethod,tb.BillDate,tb.TreatmentDetailsId,
-us.FullName as CreatedBy,tb.CreatedOn,pr.FullName as UpdatedBy,tb.UpdatedOn,tb.IsActive,tb.VersionNo from TblBill tb 
+                    select tb.BillId,tu.FullName as PatientName,tb.TotalAmount,tb.PaymentMethod,tb.BillDate,tb.TreatmentDetailsId,
+  us.FullName as CreatedBy,tb.CreatedOn,pr.FullName as UpdatedBy,tb.UpdatedOn,tb.IsActive,tb.VersionNo from TblBill tb 
  inner join TblUser us on us.UserId = tb.CreatedBy
 left join TblUser pr on pr.UserId = tb.UpdatedBy
  inner join TblTreatmentDetails tt on tt.TreatmentDetailsId = tb.TreatmentDetailsId
  inner join TblPatient tp on tp.PatientId = tt.PatientId
- inner join TblUser tu on tu.UserId = tp.UserId  where tu.FullName like '%{searchBy}%'").ToListAsync();
+ inner join TblUser tu on tu.UserId = tp.UserId where Tb.IsActive = 1 and tu.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstbills;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
@@ -64,11 +64,11 @@ left join TblUser pr on pr.UserId = tb.UpdatedBy
                 using (var connection = _hsmDbContext)
                 {
                     lstbills = await connection.billPatientViewModels.FromSql($@"
-                    SELECT b.Billid, u.FullName, b.TotalAmount, b.PaymentMethod, b.BillDate
-                     FROM TblBill b
-                     INNER JOIN TblPatient p ON b.PatientId = p.PatientId
-                     INNER JOIN TblUser u ON p.UserId = u.UserId
-                     WHERE b.BillId = {id}")
+                   SELECT b.Billid, u.FullName, b.TotalAmount, b.PaymentMethod, b.BillDate
+                FROM TblBill b
+           INNER JOIN TblPatient p ON b.PatientId = p.PatientId
+            INNER JOIN TblUser u ON p.UserId = u.UserId
+            where b.IsActive = 1  and b.BillId = {id}")
                     .ToListAsync();
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                     responseModel.Message = "Get All Record Successfully";
@@ -178,7 +178,8 @@ left join TblUser pr on pr.UserId = tb.UpdatedBy
                     TblBillModel? data = await connection.TblBills.Where(x => x.BillId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblBills.Remove(data);
+                        data.IsActive = false;
+                        connection.TblBills.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -210,7 +211,8 @@ left join TblUser pr on pr.UserId = tb.UpdatedBy
                     TblBillModel? data = await context.TblBills.Where(x => x.TreatmentDetailsId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        context.TblBills.Remove(data);
+                        data.IsActive = false;
+                        context.TblBills.Update(data);
                         context.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;

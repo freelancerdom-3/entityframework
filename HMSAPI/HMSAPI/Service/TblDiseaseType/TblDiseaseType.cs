@@ -38,6 +38,7 @@ namespace HMSAPI.Service.TblDiseaseType
                     {
                         tblDiseaseType.VersionNo = 1;
                         tblDiseaseType.CreatedBy=UserId;
+                        tblDiseaseType.IsActive = true;
                         tblDiseaseType.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         _ = await connection.TblDiseaseType.AddAsync(tblDiseaseType);
                         connection.SaveChanges();
@@ -120,10 +121,12 @@ namespace HMSAPI.Service.TblDiseaseType
                     if (data != null)
                     {
 
-                        _medicineDiseaseMapping?.DeletebyDiseaseTypeID(connection, id);
-                        _treatmentDetails?.DeletebyDiseaseTypeID(connection, id);
-                        connection.TblDiseaseType.Remove(data);
+                       // _medicineDiseaseMapping?.DeletebyDiseaseTypeID(connection, id);
+                       // _treatmentDetails?.DeletebyDiseaseTypeID(connection, id);
+                        data.IsActive = false;
+                        connection.TblDiseaseType.Update(data);
                         connection.SaveChanges();
+                        responseModel.Data=true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Delete SuccessFully:";
                     }
@@ -156,7 +159,7 @@ namespace HMSAPI.Service.TblDiseaseType
             {
                 using (var connection = _hsmDbContext)
                 {
-                    data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id).FirstAsync();
+                    data = await connection.TblDiseaseType.Where(x => x.DieseaseTypeID == id && x.IsActive==true).FirstAsync();
 
                     if (data != null)
                     {
@@ -191,11 +194,11 @@ namespace HMSAPI.Service.TblDiseaseType
                 using (var connection = _hsmDbContext)
                 {
                     lstDisease = connection.getdiseasetypeviewmodels.FromSqlRaw($@"
-                     SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.DieseaseTypeID, 
-                     tr.DieseaseName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
-                       FROM TblDiseaseType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
-                      left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
-                    where tu.fullName LIKE  '%{searchby}%'").ToList();
+                   SELECT tu.FullName AS CreatedBy, uu.FullName AS UpdatedBy, tr.DieseaseTypeID, 
+   tr.DieseaseName,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
+     FROM TblDiseaseType tr INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
+      left JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
+     where tr.IsActive = 1 and tu.fullName LIKE  '%{searchby}%'").ToList();
 
                 }
                 if (lstDisease != null)

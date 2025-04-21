@@ -116,7 +116,9 @@ namespace HMSAPI.Service.TblHospitalDept
                     if (data != null)
                     {
 
-                        connection.TbLHospitalDepartment.Remove(data);
+                        data.IsActive = false;
+
+                        connection.TbLHospitalDepartment.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
@@ -185,18 +187,17 @@ namespace HMSAPI.Service.TblHospitalDept
                 {
                     lstUsers = connection.TblHospitalDepartmentViewModel.FromSqlRaw(@"
                 SELECT 
-
-                    tu.FullName AS CreatedBy, 
-                    uu.FullName AS UpdatedBy, 
-                    thd.HospitalDepartmentID, 
-                    thd.DepartmentName, 
-                    thd.CreatedOn, 
-                    thd.UpdatedOn, 
-                    thd.IsActive, 
-                    thd.VersionNo
-                FROM TbLHospitalDepartment thd 
-                LEFT JOIN TblUser tu ON tu.UserId = thd.CreatedBy  
-                LEFT JOIN TblUser uu ON uu.UserId = thd.UpdatedBy")  
+      tu.FullName AS CreatedBy, 
+      uu.FullName AS UpdatedBy, 
+      thd.HospitalDepartmentID, 
+      thd.DepartmentName, 
+      thd.CreatedOn, 
+      thd.UpdatedOn, 
+      thd.IsActive, 
+      thd.VersionNo
+  FROM TbLHospitalDepartment thd 
+  LEFT JOIN TblUser tu ON tu.UserId = thd.CreatedBy  
+  LEFT JOIN TblUser uu ON uu.UserId = thd.UpdatedBy where thd.IsActive = 1")  
                     .ToList();
 
                     Console.WriteLine($"Records fetched: {lstUsers.Count}");
@@ -233,6 +234,7 @@ namespace HMSAPI.Service.TblHospitalDept
 
                     if (childRecords.Any())
                     {
+                        
                         connection.TblEmployeeDepartmentMappings.RemoveRange(childRecords);
                         await connection.SaveChangesAsync();
                     }
@@ -243,7 +245,8 @@ namespace HMSAPI.Service.TblHospitalDept
 
                     if (parentRecord != null)
                     {
-                        connection.TbLHospitalDepartment.Remove(parentRecord);
+                        parentRecord.IsActive= false;
+                        connection.TbLHospitalDepartment.Update(parentRecord);
                         await connection.SaveChangesAsync();
 
                         responseModel.StatusCode = HttpStatusCode.OK;

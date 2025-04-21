@@ -100,7 +100,7 @@ namespace HMSAPI.Service.TblUser
 
                     lstUsers = connection.GetTblUserViewModel.FromSqlRaw($@"SELECT tuser.*,trole.rolename 
                     FROM [HSMDB].[dbo].[TblUser] tuser
-                    inner join tblrole trole on trole.roleid=tuser.roleid where RoleName like '%{searchBy}%'").ToList();
+                    inner join tblrole trole on trole.roleid=tuser.roleid where tuser.IsActive=1  and  RoleName like '%{searchBy}%'").ToList();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
@@ -384,7 +384,8 @@ namespace HMSAPI.Service.TblUser
                     TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        connection.TblUsers.Remove(data);
+                        data.IsActive = false;
+                        connection.TblUsers.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
