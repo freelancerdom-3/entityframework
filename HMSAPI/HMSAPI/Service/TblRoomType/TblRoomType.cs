@@ -55,8 +55,6 @@ namespace HMSAPI.Service.TblRoomType
                         TblRoomTyp.CreatedBy = UserId;
                         TblRoomTyp.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         TblRoomTyp.VersionNo = 1;
-                        TblRoomTyp.CreatedBy = 1;
-                        TblRoomTyp.UpdatedBy = 1;
                         TblRoomTyp.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                         TblRoomTyp.IsActive = true;
 
@@ -219,7 +217,7 @@ namespace HMSAPI.Service.TblRoomType
                      tr.RoomType,tr.CreatedOn,tr.UpdatedOn, tr.IsActive,tr.VersionNo
                      FROM TblRoomType tr 
                      INNER JOIN TblUser tu ON tu.UserId = tr.CreatedBy  
-                     INNER JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
+                     LEFT JOIN TblUser uu ON uu.UserId = tr.UpdatedBy
                      where tr.IsActive = 1 
                      and tu.fullName LIKE  '%{searchBy}%'").ToList();
                     responseModel.Data = lstRoomType;

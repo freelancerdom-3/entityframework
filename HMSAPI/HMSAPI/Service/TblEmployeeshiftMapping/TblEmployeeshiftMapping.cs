@@ -158,12 +158,10 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     te.EmployeeshiftMappingEndingDate,tu.FullName as CreatedBy,te.CreatedOn,tt.FullName as UpdatedBy,te.UpdatedOn,
                     te.IsActive,te.VersionNo,TblUser.UserId,
                     TblShift.ShiftId from TblEmployeeshiftMapping te
-                    inner join TblUser tu on tu.UserId = te.CreatedBy
+                    inner join TblUser tu on tu.UserId = te.CreatedBy   and tu.IsActive = 1
                     left join  TblUser tt on tt.UserId = te.UpdatedBy
-                    inner join TblShift on TblShift.ShiftId=te.ShiftId
+                    inner join TblShift on TblShift.ShiftId=te.ShiftId  and TblShift.IsActive = 1 
                     inner join TblUser on TblUser.UserId=te.UserId
-                    and tu.IsActive = 1
-                    and TblShift.IsActive = 1 
                     where te.IsActive = 1
                     and TblUser.FullName like '%{searchBy}%'").ToListAsync();
 

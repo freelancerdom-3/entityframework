@@ -101,10 +101,8 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                     lstmapping = await connection.GetTblMedicineDiseaseMappingViewModels.FromSqlRaw($@"
                         select Tblmapping.MedicineDiseaseMappingID,dis.DieseaseName,tblmedi.TypeName
                         from TblMedicineDiseaseMapping Tblmapping
-                        inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID
-                        inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID 
-                        and dis.IsActive = 1
-                        and tblmedi.IsActive = 1 
+                        inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID  and dis.IsActive = 1
+                        inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID   and tblmedi.IsActive = 1 
                         where Tblmapping.IsActive = 1
                         and  DieseaseName like '%{searchby}%'").ToListAsync();
                     responseModel.Data = lstmapping;

@@ -157,7 +157,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                 using (var connection = _hsmDbContext)
                 {
                     lstUsers = await connection.tblEmployeeDepartments.FromSqlRaw($@"SELECT 
-                    tblmapping.EmployeeDepartmentMappingID,
+                     tblmapping.EmployeeDepartmentMappingID,
                     Tuser.FullName,
                     th.DepartmentName,
                     tu.FullName AS CreatedBy,
@@ -167,15 +167,13 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                     tblmapping.VersionNo,
                     tblmapping.IsActive,
                     Tuser.UserId,
-					th.HospitalDepartmentID
+                    th.HospitalDepartmentID
                     FROM TblEmployeeDepartmentMapping tblmapping 
-                    INNER JOIN TblUser Tuser ON Tuser.UserId = tblmapping.UserId
-                    INNER JOIN TbLHospitalDepartment th ON th.HospitalDepartmentID = tblmapping.HospitalDepartmentID
+                    INNER JOIN TblUser Tuser ON Tuser.UserId = tblmapping.UserId and Tuser.IsActive = 1 
+                    INNER JOIN TbLHospitalDepartment th ON th.HospitalDepartmentID = tblmapping.HospitalDepartmentID  and th.IsActive = 1 
                     LEFT JOIN TblUser tu ON tu.UserId = tblmapping.CreatedBy
                     LEFT JOIN TblUser tuu ON tuu.UserId = tblmapping.UpdatedBy  
-					and Tuser.IsActive = 1 
-					and th.IsActive = 1 
-					where tblmapping.IsActive = 1
+                    where tblmapping.IsActive = 1
                     and Tuser.FullName like '%{searchBy}%'").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
