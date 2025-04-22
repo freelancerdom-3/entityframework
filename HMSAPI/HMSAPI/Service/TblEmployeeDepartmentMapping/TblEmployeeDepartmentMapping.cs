@@ -40,6 +40,7 @@ namespace HMSAPI.Service.TblEmployeeDepartmentMapping
                         deptModel.CreatedBy = UserId;
                         deptModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         deptModel.VersionNo = 1;
+                        deptModel.IsActive = true;
                         _ = await connection.TblEmployeeDepartmentMappings.AddAsync(deptModel);
                         connection.SaveChanges();
                         //#3

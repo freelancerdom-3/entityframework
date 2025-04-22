@@ -55,6 +55,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                             objModel.CreatedBy = UserId;
                             objModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             objModel.VersionNo = 1;
+                            objModel.IsActive = true;
                             _ = await connection.TblEmployeeshifts.AddAsync(objModel);
 
                             connection.SaveChanges();
