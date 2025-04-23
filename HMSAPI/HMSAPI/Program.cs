@@ -38,14 +38,31 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//var config = builder.Configuration;
+//var config = new ConfigurationBuilder()
+//    .SetBasePath(Directory.GetCurrentDirectory())
+//    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//    .Build();
+
+
+//string decryptedConn = AESHelper.Decrypt(config.GetConnectionString("DefaultConnection"));
+//string decryptedJwtKey = AESHelper.Decrypt(config["Jwt:Key"]);
+
 
 
 
 var configdata = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-string? DFConnection = configdata.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<HSMDBContext>(options => options.UseSqlServer("DFConnection"));
+
+string decryptedConn = AESHelper.Decrypt(configdata.GetConnectionString("DefaultConnection"));
+string decryptedJwtKey = AESHelper.Decrypt(configdata["Jwt:Key"]);
+
+builder.Configuration["ConnectionStrings:DefaultConnection"] = decryptedConn;
+builder.Configuration["Jwt:Key"] = decryptedJwtKey;
+
+//string? DFConnection = configdata.GetConnectionString("decryptedConn");
+builder.Services.AddDbContext<HSMDBContext>(options => options.UseSqlServer(decryptedConn));
 
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -67,6 +84,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDataProtection();
+
 
 //JWT Authentication
 

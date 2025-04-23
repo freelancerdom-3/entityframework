@@ -38,6 +38,7 @@ namespace HMSAPI.Service.TblMedicineDetails
                             model.CreatedBy = UserId;
                             model.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                             model.IssueDateTime = DateTime.Now;
+                            model.IsActive = true;
 
                             _ = await connection.TblMedicineDetails.AddAsync(model);
                             connection.SaveChanges();

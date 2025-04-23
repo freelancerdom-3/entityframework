@@ -42,6 +42,7 @@ namespace HMSAPI.Service.TblMedicineType
                         medicineModel.CreatedBy = UserId;
                         medicineModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         medicineModel.VersionNo = 1;
+                        medicineModel.IsActive = true;  
 
                         _ = await connection.TblMedicineTypes.AddAsync(medicineModel);
                         connection.SaveChanges();

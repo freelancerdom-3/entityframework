@@ -61,8 +61,10 @@ namespace HMSAPI.EFContext
             var configdata = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-            string? DFConnection = configdata.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(DFConnection);
+            string decryptedConn = AESHelper.Decrypt(configdata.GetConnectionString("DefaultConnection"));
+
+          //  string? DFConnection = configdata.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(decryptedConn);
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -202,7 +204,11 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition { get; set; }
 
-        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels { get; set; }
+       
+
+        public DbSet<GetTblRoomTypeFacilityMappingModel> GetTblRoomTypeFacilityMappingModels { get; set; }
+        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
+       // public DbSet<GetTblMedicineDiseaseMapping> gettblmedicinediseasemapping {  get; set; }
 
         public DbSet<DashboardCardDetailViewModel> dashboardcarddetailviewmodel { get; set; }
 
