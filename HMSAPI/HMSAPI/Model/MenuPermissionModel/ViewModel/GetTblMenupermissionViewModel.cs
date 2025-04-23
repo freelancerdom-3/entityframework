@@ -13,7 +13,8 @@ namespace HMSAPI.Model.MenuPermissionModel.ViewModel
         public bool IsDelete { get; set; }
         public bool IsView { get; set; }
 
+
+        public string ParentMenuName { get; set; }
         public string MenuName { get; set; }
-         public string ParentMenuName { get; set; }
     }
 }
