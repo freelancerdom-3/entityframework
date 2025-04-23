@@ -31,6 +31,7 @@ using System.Text;
 using HMSAPI.Service.TokenData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HMSAPI.Service.DashboardCardDetail;
+using HMSAPI.Service.TblMenuPermission;
 //using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -123,6 +124,10 @@ builder.Services.AddScoped<IDashboardCardDetail, DashboardCardDetail>();
 
 
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
+
+
+//GetTblMenupermissionViewModel
+//builder.Services.AddScoped<ITblMenuPermission, TblMenuPermission>();
 
 builder.Services.AddSwaggerGen(options =>
 {

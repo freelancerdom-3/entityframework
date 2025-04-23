@@ -39,6 +39,8 @@ using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMenuRoleMapping;
 using HMSAPI.Model.DashboardCardDetail;
+using HMSAPI.Model.MenuPermissionModel;
+using HMSAPI.Model.MenuPermissionModel.ViewModel;
 
 
 
@@ -109,6 +111,10 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblFacilityTypeModels>().ToTable("TblfacilityType");
             modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
             modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");
+
+
+            //new TblMenuRoleMapping
+            modelBuilder.Entity<TblMenuPermissionModel>().ToTable("TblMenuRoleMapping");
 
         }
 
@@ -196,9 +202,15 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition { get; set; }
 
-        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
+        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels { get; set; }
 
         public DbSet<DashboardCardDetailViewModel> dashboardcarddetailviewmodel { get; set; }
+
+
+
+        //TblMenuRoleMapping
+        public DbSet<TblMenuPermissionModel> tblmenupermissionmodel { get; set; }
+        public DbSet<GetTblMenupermissionViewModel> getTblMenupermissionViewModel {  get; set; }
     }
 }
 
