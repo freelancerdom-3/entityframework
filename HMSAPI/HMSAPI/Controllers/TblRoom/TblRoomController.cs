@@ -32,9 +32,9 @@ namespace HMSAPI.Controllers.TblRoom
 
 
         [HttpPut("[action]")]
-        public async Task<APIResponseModel> Update(int id)
+        public async Task<APIResponseModel> Update(TblRoomModel tblRoom)
         {
-            return await _serviceRoom.Update(id);
+            return await _serviceRoom.Update(tblRoom);
         }
 
         [HttpDelete("[action]")]

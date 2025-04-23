@@ -211,6 +211,7 @@ namespace HMSAPI.EFContext
         //TblMenuRoleMapping
         public DbSet<TblMenuPermissionModel> tblmenupermissionmodel { get; set; }
         public DbSet<GetTblMenupermissionViewModel> getTblMenupermissionViewModel {  get; set; }
+        public DbSet<GetTblRoom> gettblroom {  get; set; }
     }
 }
 
