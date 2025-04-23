@@ -146,7 +146,7 @@ builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
 
 
 //GetTblMenupermissionViewModel
-//builder.Services.AddScoped<ITblMenuPermission, TblMenuPermission>();
+builder.Services.AddScoped<ITblMenuPermission, TblMenuPermission>();
 
 builder.Services.AddSwaggerGen(options =>
 {

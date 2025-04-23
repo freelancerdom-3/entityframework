@@ -116,7 +116,7 @@ namespace HMSAPI.EFContext
 
 
             //new TblMenuRoleMapping
-            modelBuilder.Entity<TblMenuPermissionModel>().ToTable("TblMenuRoleMapping");
+           // modelBuilder.Entity<TblMenuPermissionModel>().ToTable("TblMenuRoleMapping");
 
         }
 
