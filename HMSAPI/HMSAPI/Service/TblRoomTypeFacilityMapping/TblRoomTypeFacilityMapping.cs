@@ -57,43 +57,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
             return responseModel;
         }
 
-        //public async Task<APIResponseModel> Add(TblRoomTypeFacilityMappingModel facilitymodel)
-        //{
-        //    APIResponseModel responseModel = new APIResponseModel();
-        //    try
-        //    {
-        //        using (var connection = _hsmDbContext)
-        //        {
-        //            bool DuplicateRoomTypeFacilityMapping = connection.TblRoomTypeFacilityMapping.Any(X => X.RoomTypeFacilityMappingID == facilitymodel.RoomTypeFacilityMappingID);
-
-        //            if (!DuplicateRoomTypeFacilityMapping)
-        //            {
-        //                facilitymodel.CreatedBy = UserId;
-        //                facilitymodel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-        //                facilitymodel.VersionNo = 1;
-        //                _ = await connection.TblRoomTypeFacilityMapping.AddAsync(facilitymodel);
-        //                connection.SaveChanges();
-        //                responseModel.StatusCode = System.Net.HttpStatusCode.OK;
-        //                responseModel.Data = true;
-        //                responseModel.Message = "Record Inserted Sucessfully";
-
-        //            }
-        //            else
-        //            {
-        //                responseModel.StatusCode = System.Net.HttpStatusCode.BadRequest;
-        //                responseModel.Message = "Duplicate Disease Found";
-        //                responseModel.Data = false;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
-        //        responseModel.Message = ex.InnerException.Message;
-        //        responseModel.Data = null;
-        //    }
-        //    return responseModel;
-        //}
+       
 
         public async Task<APIResponseModel> Update(TblRoomTypeFacilityMappingModel facilitymodel)
         {

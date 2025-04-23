@@ -31,7 +31,7 @@ namespace HMSAPI.Service.TblFacilityTypes
                     if (!duplicatefacility)
                     {
                        
-                        //_ = await connection.TblFacilityTypes.AddAsync(tblFacilityType);
+                       
                         tblFacilityType.CreatedBy = UserId;
                         tblFacilityType.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         tblFacilityType.VersionNo = 1;
