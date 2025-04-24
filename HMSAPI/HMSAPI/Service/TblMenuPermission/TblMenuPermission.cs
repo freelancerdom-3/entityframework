@@ -1,5 +1,6 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblDiseaseType;
 //using HMSAPI.Model.MenuPermissionModel.ViewModel;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblMenuRoleMapping;
@@ -7,6 +8,7 @@ using HMSAPI.Model.TblMenuRoleMapping.GetTblMenuPermissionViewModel;
 using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using static HMSAPI.Model.Enums.Enums;
 
 namespace HMSAPI.Service.TblMenuPermission
 {
@@ -14,10 +16,13 @@ namespace HMSAPI.Service.TblMenuPermission
 
     {
         private readonly HSMDBContext _hsmDbContext;
-        public TblMenuPermission(HSMDBContext hSMDBContext)
+        private readonly ITokenData _tokenData;
+        public TblMenuPermission(HSMDBContext hSMDBContext, ITokenData tokenData)
         {
             _hsmDbContext = hSMDBContext;
+            _tokenData = tokenData;
         }
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
 
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
@@ -62,6 +67,50 @@ where TU.FullName like '%{searchBy}%'").ToListAsync();
 
             return responseModel;
         }
+
+
+        public async Task<APIResponseModel> Add(List<TblMenuRoleMapping> newMappings)
+        {
+            APIResponseModel responseModel = new();
+
+            int roleId = newMappings.First().RoleID;
+
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                  
+                    var existingMappings = await connection.TblMenuRolemapping .Where(x => x.RoleID ==  roleId).ToListAsync();
+                    connection.TblMenuRolemapping.RemoveRange(existingMappings);
+
+                  
+                    foreach (var item in newMappings)
+                    {
+                        item.CreatedBy = UserId;
+                        item.IsActive = true;
+                        item.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    }
+
+                    await connection.TblMenuRolemapping.AddRangeAsync(newMappings);
+                  
+                    await connection.SaveChangesAsync();
+
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Menu role mappings replaced successfully.";
+                    responseModel.Data = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Data = false;
+            }
+
+            return responseModel;
+        }
+      
+
     }
 }
 
