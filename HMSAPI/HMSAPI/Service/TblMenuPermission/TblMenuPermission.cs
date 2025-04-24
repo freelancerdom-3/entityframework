@@ -1,14 +1,11 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblDiseaseType;
-//using HMSAPI.Model.MenuPermissionModel.ViewModel;
-using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblMenuRoleMapping;
 using HMSAPI.Model.TblMenuRoleMapping.GetTblMenuPermissionViewModel;
 using HMSAPI.Service.TokenData;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
-using static HMSAPI.Model.Enums.Enums;
 
 namespace HMSAPI.Service.TblMenuPermission
 {
@@ -24,45 +21,54 @@ namespace HMSAPI.Service.TblMenuPermission
         }
         private int UserId => Convert.ToInt32(_tokenData.UserID);
 
-        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+              
+        public async Task<APIResponseModel> GetAll(int? roleId = null, string? searchBy = null)
         {
             APIResponseModel responseModel = new();
-
-            // if (_tokenData.IsPermission((int)Enums.Roles.Patient, "IsView"))
             List<GetTblMenuPermissionViewModel> lstmenupermisson = new();
 
-            if (true)
+            try
             {
-                try
+                using (var connection = _hsmDbContext)
                 {
+                    
+                    var query = @"
+                SELECT 
+                    TMR.MenuRoleMappingID,
+                    TR.RoleID,             
+                    TR.RoleName,          
+                    TM.MenuName,
+                    TMR.MenuID,
+                    TMR.IsAdd,
+                    TMR.IsEdit,
+                    TMR.IsDelete,
+                    TMR.IsView,
+                    TMR.IsActive,
+                    TU.FullName AS CreatedBy,
+                    UT.FullName AS UpdatedBy
+                FROM TblMenuRoleMapping TMR
+                INNER JOIN TblUser TU ON TU.UserId = TMR.CreatedBy
+                LEFT JOIN TblUser UT ON UT.UserId = TMR.UpdatedBy
+                LEFT JOIN TblMenu TM ON TM.MenuID = TMR.MenuID
+                INNER JOIN TblRole TR ON TR.RoleId = TMR.RoleID
+                WHERE TMR.RoleID = @roleId 
+                AND TU.FullName LIKE '%' + @searchBy + '%'";
 
-                    using (var connection = _hsmDbContext)
-                    {
-                        lstmenupermisson = await connection.gettblmenupermissionviewmodel.FromSqlRaw($@"
-select TMR.MenuRoleMappingID,TR.RoleName,TM.MenuName,
-TMR.RoleID,TMR.MenuID,TMR.IsAdd,TMR.IsEdit,TMR.IsDelete,TMR.IsView,TMR.IsActive,
-TU.FullName AS CreatedBy,UT.FullName AS UpdatedBy
- from TblMenuRoleMapping TMR
-inner join TblUser TU ON TU.UserId = TMR.CreatedBy
-left join TblUser UT ON UT.UserId = TMR.UpdatedBy
-LEFT join TblMenu TM ON TM.MenuID = TMR.MenuID
-inner join TblRole TR ON TR.RoleId = TMR.RoleID
-where TU.FullName like '%{searchBy}%'").ToListAsync();
-                        responseModel.Data = lstmenupermisson;
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                    responseModel.Message = ex.InnerException.Message;
-                    responseModel.Data = null;
+                    lstmenupermisson = await connection.gettblmenupermissionviewmodel
+                        .FromSqlRaw(query, new SqlParameter("@roleId", roleId ?? (object)DBNull.Value),
+                                               new SqlParameter("@searchBy", searchBy ?? string.Empty))
+                        .ToListAsync();
+
+                    responseModel.Data = lstmenupermisson;
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = null;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                responseModel.Message = "you dont have permission";
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException?.Message ?? ex.Message;
+                responseModel.Data = null;
             }
 
             return responseModel;

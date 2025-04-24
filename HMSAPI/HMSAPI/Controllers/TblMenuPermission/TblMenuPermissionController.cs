@@ -1,12 +1,8 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMenuRoleMapping;
-using HMSAPI.Model.TblPateintDoctormapping;
-using HMSAPI.Service.TblHospitalType;
 using HMSAPI.Service.TblMenuPermission;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace HMSAPI.Controllers.TblMenuPermission
 {
@@ -23,9 +19,9 @@ namespace HMSAPI.Controllers.TblMenuPermission
         }
 
         [HttpGet("[action]")]
-        public async Task<APIResponseModel> GetAll(string? searchBy = null)
+        public async Task<APIResponseModel> GetAll(int? roleId = null, string? searchBy = null)
         {
-            return await _servicetblMenuPermission.GetAll(searchBy);
+            return await _servicetblMenuPermission.GetAll(roleId, searchBy);
         }
 
         [HttpPost("[action]")]
