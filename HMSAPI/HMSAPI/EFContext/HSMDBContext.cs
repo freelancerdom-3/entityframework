@@ -40,6 +40,7 @@ using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMenuRoleMapping;
 using HMSAPI.Model.DashboardCardDetail;
 using HMSAPI.Model.TblMenuRoleMapping.GetTblMenuPermissionViewModel;
+using HMSAPI.Model.TblOTP;
 
 
 
@@ -113,6 +114,7 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblFacilityTypeModels>().ToTable("TblfacilityType");
             modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
             modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");
+            modelBuilder.Entity<TblOTPModel>().ToTable("Tblotp");
 
 
             //new TblMenuRoleMapping
@@ -219,6 +221,8 @@ namespace HMSAPI.EFContext
         //TblMenuRoleMapping
       
         public DbSet<GetTblRoom> gettblroom {  get; set; }
+
+        public DbSet<TblOTPModel> tblotpmodel { get; set; }
     }
 }
 

@@ -32,6 +32,7 @@ using HMSAPI.Service.TokenData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HMSAPI.Service.DashboardCardDetail;
 using HMSAPI.Service.TblMenuPermission;
+using HMSAPI.Service.TblOTP;
 //using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -140,6 +141,7 @@ builder.Services.AddScoped<ITblFacility, TblFacility>();
 builder.Services.AddScoped<ITblRoom, TblRoom>();
 builder.Services.AddScoped<ITblRoomType, TblRoomType>();
 builder.Services.AddScoped<IDashboardCardDetail, DashboardCardDetail>();
+builder.Services.AddScoped<ITblOTP, TblOTP>();
 
 
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
