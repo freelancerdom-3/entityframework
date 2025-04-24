@@ -33,26 +33,24 @@ namespace HMSAPI.Service.TblMenuPermission
                 {
                     
                     var query = @"
-                SELECT 
-                    TMR.MenuRoleMappingID,
-                    TR.RoleID,             
-                    TR.RoleName,          
-                    TM.MenuName,
-                    TMR.MenuID,
-                    TMR.IsAdd,
-                    TMR.IsEdit,
-                    TMR.IsDelete,
-                    TMR.IsView,
-                    TMR.IsActive,
-                    TU.FullName AS CreatedBy,
-                    UT.FullName AS UpdatedBy
-                FROM TblMenuRoleMapping TMR
-                INNER JOIN TblUser TU ON TU.UserId = TMR.CreatedBy
-                LEFT JOIN TblUser UT ON UT.UserId = TMR.UpdatedBy
-                LEFT JOIN TblMenu TM ON TM.MenuID = TMR.MenuID
-                INNER JOIN TblRole TR ON TR.RoleId = TMR.RoleID
-                WHERE TMR.RoleID = @roleId 
-                AND TU.FullName LIKE '%' + @searchBy + '%'";
+ SELECT 
+     TMR.MenuRoleMappingID,   
+     TR.RoleName,        
+     TM.MenuName,
+     TMR.IsAdd,
+     TMR.IsEdit,
+     TMR.IsDelete,
+     TMR.IsView,
+     TMR.IsActive,
+     TU.FullName AS CreatedBy,
+     UT.FullName AS UpdatedBy
+ FROM TblMenuRoleMapping TMR
+ INNER JOIN TblUser TU ON TU.UserId = TMR.CreatedBy
+ LEFT JOIN TblUser UT ON UT.UserId = TMR.UpdatedBy
+ LEFT JOIN TblMenu TM ON TM.MenuID = TMR.MenuID
+ INNER JOIN TblRole TR ON TR.RoleId = TMR.RoleID
+WHERE (@roleId IS NULL OR TMR.RoleID = @roleId)
+AND (@searchBy IS NULL OR TU.FullName LIKE '%' + @searchBy + '%')";
 
                     lstmenupermisson = await connection.gettblmenupermissionviewmodel
                         .FromSqlRaw(query, new SqlParameter("@roleId", roleId ?? (object)DBNull.Value),
@@ -115,8 +113,6 @@ namespace HMSAPI.Service.TblMenuPermission
 
             return responseModel;
         }
-      
-
     }
 }
 
