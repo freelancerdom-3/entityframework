@@ -1,8 +1,9 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.MenuPermissionModel.ViewModel;
+//using HMSAPI.Model.MenuPermissionModel.ViewModel;
 using HMSAPI.Model.TblHospitalType;
 using HMSAPI.Model.TblMenuRoleMapping;
+using HMSAPI.Model.TblMenuRoleMapping.GetTblMenuPermissionViewModel;
 using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -23,7 +24,7 @@ namespace HMSAPI.Service.TblMenuPermission
             APIResponseModel responseModel = new();
 
             // if (_tokenData.IsPermission((int)Enums.Roles.Patient, "IsView"))
-            List<TblMenuRoleMapping> lstmenupermisson = new();
+            List<GetTblMenuPermissionViewModel> lstmenupermisson = new();
 
             if (true)
             {
@@ -32,7 +33,7 @@ namespace HMSAPI.Service.TblMenuPermission
 
                     using (var connection = _hsmDbContext)
                     {
-                        lstmenupermisson = await connection.TblMenuRolemapping.FromSqlRaw($@"
+                        lstmenupermisson = await connection.gettblmenupermissionviewmodel.FromSqlRaw($@"
 select TMR.MenuRoleMappingID,TR.RoleName,TM.MenuName,
 TMR.RoleID,TMR.MenuID,TMR.IsAdd,TMR.IsEdit,TMR.IsDelete,TMR.IsView,TMR.IsActive,
 TU.FullName AS CreatedBy,UT.FullName AS UpdatedBy
