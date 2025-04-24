@@ -1,4 +1,5 @@
 USE [HSMDB]
+
 GO
 /****** Object:  Table [dbo].[TblOTP]    Script Date: 4/24/2025 11:19:07 AM ******/
 SET ANSI_NULLS ON
@@ -9,7 +10,7 @@ CREATE TABLE [dbo].[TblOTP](
 	[OtpID] [int] IDENTITY(1,1) NOT NULL,
 	[Code] [varchar](10) NOT NULL,
 	[Expiry_time] [datetime] NOT NULL,
-	[IsUser] [bit] NOT NULL,
+	[IsUse] [bit] NOT NULL,
 	[CreatedBy] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
