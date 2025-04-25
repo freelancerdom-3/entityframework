@@ -46,6 +46,7 @@ namespace HMSAPI.Service.TblShift
                         Shift.CreatedBy = UserId;
                         Shift.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         Shift.VersionNo = 1;
+                        Shift.IsActive = true;
                         connection.TblShifts.Add(Shift);
                         connection.SaveChanges();
                         responseModel.Data = true;

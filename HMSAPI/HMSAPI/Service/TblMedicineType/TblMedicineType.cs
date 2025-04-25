@@ -14,11 +14,11 @@ namespace HMSAPI.Service.TblMedicineType
         private readonly ITblMedicineDetails _TblMedicineDetails;
         private readonly ITblMedicineDiseaseMapping _TblMedicineDiseaseMapping;
         private readonly ITokenData _tokenData;
-        public TblMedicineType(HSMDBContext hsmDbContext,ITblMedicineDetails tblMedicineDetails,ITblMedicineDiseaseMapping TblMedicineDiseaseMapping, ITokenData tokendata)
+        public TblMedicineType(HSMDBContext hsmDbContext, ITblMedicineDetails tblMedicineDetails, ITblMedicineDiseaseMapping TblMedicineDiseaseMapping, ITokenData tokendata)
         {
             _hsmDbContext = hsmDbContext;
-            _TblMedicineDetails= tblMedicineDetails;
-            _TblMedicineDiseaseMapping= TblMedicineDiseaseMapping;
+            _TblMedicineDetails = tblMedicineDetails;
+            _TblMedicineDiseaseMapping = TblMedicineDiseaseMapping;
             _tokenData = tokendata;
         }
 
@@ -40,12 +40,13 @@ namespace HMSAPI.Service.TblMedicineType
 
                     {
                         medicineModel.CreatedBy = UserId;
-                        medicineModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); 
+                        medicineModel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         medicineModel.VersionNo = 1;
-                        
-                        _ =await connection.TblMedicineTypes.AddAsync(medicineModel);
+                        medicineModel.IsActive = true;  
+
+                        _ = await connection.TblMedicineTypes.AddAsync(medicineModel);
                         connection.SaveChanges();
-                        
+
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                         responseModel.Message = "Inserted Successfully";
                         responseModel.Data = true;
@@ -57,7 +58,7 @@ namespace HMSAPI.Service.TblMedicineType
                         responseModel.Data = false;
                     }
                 }
-            
+
             }
             catch (Exception ex)
             {
@@ -77,7 +78,7 @@ namespace HMSAPI.Service.TblMedicineType
                 bool result = false;
                 using (var connection = _hsmDbContext)
                 {
-                    TblMedicineTypeModel? data =await connection.TblMedicineTypes.Where(X => X.MedicineTypeID == Id).FirstOrDefaultAsync();
+                    TblMedicineTypeModel? data = await connection.TblMedicineTypes.Where(X => X.MedicineTypeID == Id).FirstOrDefaultAsync();
                     if (data != null)
 
                     {
@@ -94,8 +95,8 @@ namespace HMSAPI.Service.TblMedicineType
                         responseModel.Message = "Medicine ID not found!";
                         responseModel.Data = false;
                     }
-                }   
-                
+                }
+
             }
             catch (Exception ex)
             {
@@ -134,7 +135,7 @@ namespace HMSAPI.Service.TblMedicineType
                 responseModel.Data = null;
             }
             return responseModel;
-         }
+        }
 
         public async Task<APIResponseModel> GetByID(int id)
         {
@@ -171,7 +172,7 @@ namespace HMSAPI.Service.TblMedicineType
                         .Where(X => X.MedicineTypeID == model.MedicineTypeID).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")); 
+                        data.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         data.UpdatedBy = UserId;
                         data.TypeName = model.TypeName;
                         data.IncreamentVersion();

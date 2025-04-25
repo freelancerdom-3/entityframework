@@ -151,7 +151,7 @@ namespace HMSAPI.Service.TblPateintDoctormapping
 
             return responseModel;
         }
-        
+
         public async Task<APIResponseModel> GetAll(string? searchBy = null)
         {
             APIResponseModel responseModel = new();

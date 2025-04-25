@@ -34,7 +34,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                         responseModel.Data = true;
                         responseModel.Message = "Record Inserted Sucessfully";
-                        
+
                     }
                     else
                     {
@@ -96,15 +96,13 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             List<GetTblMedicineDiseaseMappingViewModel> lstmapping = new();
             try
             {
-                using(var connection = _hsmDbContext)
+                using (var connection = _hsmDbContext)
                 {
                     lstmapping = await connection.GetTblMedicineDiseaseMappingViewModels.FromSqlRaw($@"
                         select Tblmapping.MedicineDiseaseMappingID,dis.DieseaseName,tblmedi.TypeName
                         from TblMedicineDiseaseMapping Tblmapping
-                        inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID
-                        inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID 
-                        and dis.IsActive = 1
-                        and tblmedi.IsActive = 1 
+                        inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID  and dis.IsActive = 1
+                        inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID   and tblmedi.IsActive = 1 
                         where Tblmapping.IsActive = 1
                         and  DieseaseName like '%{searchby}%'").ToListAsync();
                     responseModel.Data = lstmapping;
@@ -128,7 +126,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             TblMedicineDiseaseMappingModel? data = new();
             try
             {
-                using(var connection = _hsmDbContext)
+                using (var connection = _hsmDbContext)
                 {
                     data = await connection.TblMedicineDiseaseMappings.Where(X => X.MedicineDiseaseMappingID == ID && X.IsActive == true).FirstOrDefaultAsync();
                     responseModel.Data = data;
@@ -142,7 +140,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                 responseModel.Data = null;
             }
             return responseModel;
-        }   
+        }
 
         public async Task<APIResponseModel> Update(TblMedicineDiseaseMappingModel MedicineDiseaseMapping)
         {
@@ -153,7 +151,7 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                 {
                     TblMedicineDiseaseMappingModel? Data = await connection.TblMedicineDiseaseMappings
                         .Where(X => X.DieseaseTypeID == MedicineDiseaseMapping.DieseaseTypeID).FirstOrDefaultAsync();
-                    if(Data != null)
+                    if (Data != null)
                     {
                         Data.MedicineTypeID = MedicineDiseaseMapping.MedicineTypeID;
                         connection.Update(Data);
@@ -179,6 +177,6 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
             }
             return responseModel;
         }
-      
+
     }
 }

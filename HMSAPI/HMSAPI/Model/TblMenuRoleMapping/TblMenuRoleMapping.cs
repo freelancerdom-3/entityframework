@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HMSAPI.Model.GenericModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HMSAPI.Model.TblMenuRoleMapping
 {
-    public class TblMenuRoleMapping
+    public class TblMenuRoleMapping : SecurityModel
     {
         [Key]
         public int MenuRoleMappingID { get; set; }
@@ -11,7 +12,7 @@ namespace HMSAPI.Model.TblMenuRoleMapping
         public bool IsEdit { get; set; }
         public bool IsAdd { get; set; }
         public bool IsDelete { get; set; }
-        public bool IsView { get; set; }
+        public bool IsView { get; set; } 
     }
 }
 

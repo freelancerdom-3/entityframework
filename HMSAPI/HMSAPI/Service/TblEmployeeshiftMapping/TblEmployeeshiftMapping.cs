@@ -79,7 +79,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
         }
 
 
-       
+
 
 
         public async Task<APIResponseModel> delete(int id)
@@ -92,7 +92,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                     TblEmployeeshiftMappingModel? data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
-                        data.IsActive = false ;
+                        data.IsActive = false;
                         connection.TblEmployeeshifts.Update(data);
                         connection.SaveChanges();
                         responseModel.Data = true;
@@ -125,7 +125,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
 
                 if (empshiftid != null)
                 {
-                    foreach(TblEmployeeshiftMappingModel mappingModel in empshiftid)
+                    foreach (TblEmployeeshiftMappingModel mappingModel in empshiftid)
                     {
                         context.TblEmployeeshifts.Remove(mappingModel);
                     }
@@ -154,15 +154,17 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                 using (var connection = _hsmDbContext)
                 {
 
-                   lstEmployeeshiftMapping = await connection.getEmployeeMappings.FromSqlRaw($@"
-                 select TblUser.FullName,TblShift.Shiftname,te.EmployeeshiftMappingId,te.EmployeeshiftMappingStartingDate,
-           te.EmployeeshiftMappingEndingDate,tu.FullName as CreatedBy,te.CreatedOn,tt.FullName as UpdatedBy,te.UpdatedOn,
-            te.IsActive,te.VersionNo from TblEmployeeshiftMapping te
-         inner join TblUser tu on tu.UserId = te.CreatedBy
-           left join  TblUser tt on tt.UserId = te.UpdatedBy
-          inner join TblShift on TblShift.ShiftId=te.ShiftId
-             inner join TblUser on TblUser.UserId=te.UserId
-             where te.IsActive = 1 and TblUser.FullName like '%{searchBy}%'").ToListAsync();
+                    lstEmployeeshiftMapping = await connection.getEmployeeMappings.FromSqlRaw($@"
+                    select TblUser.FullName,TblShift.Shiftname,te.EmployeeshiftMappingId,te.EmployeeshiftMappingStartingDate,
+                    te.EmployeeshiftMappingEndingDate,tu.FullName as CreatedBy,te.CreatedOn,tt.FullName as UpdatedBy,te.UpdatedOn,
+                    te.IsActive,te.VersionNo,TblUser.UserId,
+                    TblShift.ShiftId from TblEmployeeshiftMapping te
+                    inner join TblUser tu on tu.UserId = te.CreatedBy   and tu.IsActive = 1
+                    left join  TblUser tt on tt.UserId = te.UpdatedBy
+                    inner join TblShift on TblShift.ShiftId=te.ShiftId  and TblShift.IsActive = 1 
+                    inner join TblUser on TblUser.UserId=te.UserId
+                    where te.IsActive = 1
+                    and TblUser.FullName like '%{searchBy}%'").ToListAsync();
 
                     responseModel.Data = lstEmployeeshiftMapping;
                     responseModel.StatusCode = HttpStatusCode.OK;
@@ -194,12 +196,13 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
 
                     if (data != null)
                     {
-                        responseModel.Data = new { 
+                        responseModel.Data = new
+                        {
                             data.EmployeeshiftMappingStartingDate,
                             data.EmployeeshiftMappingEndingDate,
                             data.UserId,
                             data.ShiftId,
-                            };
+                        };
                         responseModel.StatusCode = HttpStatusCode.OK;
 
                         responseModel.Message = "Your information";
@@ -233,7 +236,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                 {
 
 
-                    TblEmployeeshiftMappingModel? data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == employeeshiftmapping.EmployeeshiftMappingId 
+                    TblEmployeeshiftMappingModel? data = await connection.TblEmployeeshifts.Where(x => x.EmployeeshiftMappingId == employeeshiftmapping.EmployeeshiftMappingId
                     && x.UserId == employeeshiftmapping.UserId &&
                     x.ShiftId != employeeshiftmapping.ShiftId
                     && (
@@ -251,7 +254,7 @@ namespace HMSAPI.Service.TblEmployeeshiftMapping
                         data.UserId = employeeshiftmapping.UserId;
                         data.ShiftId = employeeshiftmapping.ShiftId;
                         data.UpdatedBy = employeeshiftmapping.UpdatedBy;
-                        data.UpdatedOn  = employeeshiftmapping.UpdatedOn;
+                        data.UpdatedOn = employeeshiftmapping.UpdatedOn;
                         data.IsActive = data.IsActive;
                         data.IncreamentVersion();
                         connection.TblEmployeeshifts.Update(data);

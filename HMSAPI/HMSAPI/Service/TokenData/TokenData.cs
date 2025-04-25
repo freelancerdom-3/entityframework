@@ -39,16 +39,16 @@ namespace HMSAPI.Service.TokenData
             switch (permissionType)
             {
                 case PermissionType.IsView:
-                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsView == true && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsView == true && x.RoleID == RoleId);
                     break;
                 case PermissionType.IsEdit:
-                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsEdit == true && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsEdit == true && x.RoleID == RoleId);
                     break;
                 case PermissionType.IsAdd:
-                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsAdd == true && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsAdd == true && x.RoleID == RoleId);
                     break;
                 case PermissionType.IsDelete:
-                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsDelete == true && RoleId == RoleId);
+                    result = lstMenuPermission.Any(x => x.MenuID == (int)menuId && x.IsDelete == true && x.RoleID == RoleId);
                     break;
                 default:
                     break;

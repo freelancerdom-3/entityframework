@@ -39,6 +39,9 @@ using HMSAPI.Model.TblEmployeeshiftMapping.ViewModel;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblMenuRoleMapping;
 using HMSAPI.Model.DashboardCardDetail;
+using HMSAPI.Model.TblMenuRoleMapping.GetTblMenuPermissionViewModel;
+using HMSAPI.Model.TblOTP;
+
 
 
 
@@ -59,8 +62,10 @@ namespace HMSAPI.EFContext
             var configdata = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-            string? DFConnection = configdata.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(DFConnection);
+            string decryptedConn = AESHelper.Decrypt(configdata.GetConnectionString("DefaultConnection"));
+
+          //  string? DFConnection = configdata.GetConnectionString("DefaultConnection");
+            optionsBuilder.UseSqlServer(decryptedConn);
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -109,6 +114,11 @@ namespace HMSAPI.EFContext
             modelBuilder.Entity<TblFacilityTypeModels>().ToTable("TblfacilityType");
             modelBuilder.Entity<TblRoomTypeFacilityMappingModel>().ToTable("TblRoomTypeFacilityMapping");
             modelBuilder.Entity<TblPatientAdmitionDetailsModel>().ToTable("TblPatientAdmitionDetails");
+            modelBuilder.Entity<TblOTPModel>().ToTable("Tblotp");
+
+
+            //new TblMenuRoleMapping
+           
 
         }
 
@@ -174,6 +184,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel { get; set; }
         public DbSet<TblMenuRoleMapping> TblMenuRolemapping { get; set; }
+        
         public DbSet<GetTblRoomTypeViewModel> GetTblRoomTypeViewModel { get; set; }
         public DbSet<TblHospitalDepartmentViewModel> TblHospitalDepartmentViewModel { get; set; }
 
@@ -196,10 +207,22 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition { get; set; }
 
+       
+
+        public DbSet<GetTblRoomTypeFacilityMappingModel> GetTblRoomTypeFacilityMappingModels { get; set; }
         public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
-        public DbSet<GetTblMedicineDiseaseMapping> gettblmedicinediseasemapping {  get; set; }
+       // public DbSet<GetTblMedicineDiseaseMapping> gettblmedicinediseasemapping {  get; set; }
 
         public DbSet<DashboardCardDetailViewModel> dashboardcarddetailviewmodel { get; set; }
+        public DbSet<GetTblMenuPermissionViewModel> gettblmenupermissionviewmodel { get; set; }
+
+
+
+        //TblMenuRoleMapping
+      
+        public DbSet<GetTblRoom> gettblroom {  get; set; }
+
+        public DbSet<TblOTPModel> tblotpmodel { get; set; }
     }
 }
 

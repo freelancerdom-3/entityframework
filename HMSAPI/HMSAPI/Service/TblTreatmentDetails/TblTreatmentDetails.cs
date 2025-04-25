@@ -39,6 +39,7 @@ namespace HMSAPI.Service.TblTreatmentDetails
                         //#1
                         deptModel.VersionNo = 1;
                     deptModel.CreatedBy=UserId;
+                    deptModel.IsActive = true;
                     deptModel.CreatedOn= Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     _ = await connection.TblTreatmentDetails.AddAsync(deptModel);

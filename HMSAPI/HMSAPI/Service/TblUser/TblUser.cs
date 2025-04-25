@@ -414,7 +414,10 @@ namespace HMSAPI.Service.TblUser
             var configdata = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configdata["Jwt:Key"]));
+            string decryptedJwtKey = AESHelper.Decrypt(configdata["Jwt:Key"]);
+
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(decryptedJwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]

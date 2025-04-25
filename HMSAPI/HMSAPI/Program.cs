@@ -31,11 +31,23 @@ using System.Text;
 using HMSAPI.Service.TokenData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HMSAPI.Service.DashboardCardDetail;
+using HMSAPI.Service.TblMenuPermission;
+using HMSAPI.Service.TblOTP;
 //using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//var config = builder.Configuration;
+//var config = new ConfigurationBuilder()
+//    .SetBasePath(Directory.GetCurrentDirectory())
+//    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//    .Build();
+
+
+//string decryptedConn = AESHelper.Decrypt(config.GetConnectionString("DefaultConnection"));
+//string decryptedJwtKey = AESHelper.Decrypt(config["Jwt:Key"]);
 
 
 
@@ -43,8 +55,15 @@ var builder = WebApplication.CreateBuilder(args);
 var configdata = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
-string? DFConnection = configdata.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<HSMDBContext>(options => options.UseSqlServer("DFConnection"));
+
+string decryptedConn = AESHelper.Decrypt(configdata.GetConnectionString("DefaultConnection"));
+string decryptedJwtKey = AESHelper.Decrypt(configdata["Jwt:Key"]);
+
+builder.Configuration["ConnectionStrings:DefaultConnection"] = decryptedConn;
+builder.Configuration["Jwt:Key"] = decryptedJwtKey;
+
+//string? DFConnection = configdata.GetConnectionString("decryptedConn");
+builder.Services.AddDbContext<HSMDBContext>(options => options.UseSqlServer(decryptedConn));
 
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -70,6 +89,8 @@ builder.Services.AddControllers(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDataProtection();
+
 
 //JWT Authentication
 
@@ -124,9 +145,14 @@ builder.Services.AddScoped<ITblFacility, TblFacility>();
 builder.Services.AddScoped<ITblRoom, TblRoom>();
 builder.Services.AddScoped<ITblRoomType, TblRoomType>();
 builder.Services.AddScoped<IDashboardCardDetail, DashboardCardDetail>();
+builder.Services.AddScoped<ITblOTP, TblOTP>();
 
 
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
+
+
+//GetTblMenupermissionViewModel
+builder.Services.AddScoped<ITblMenuPermission, TblMenuPermission>();
 
 builder.Services.AddSwaggerGen(options =>
 {
