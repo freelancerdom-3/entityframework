@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
 using System.IO;
+using System.Text.Json;
 
 public static class AESHelper
 {
@@ -23,4 +24,35 @@ public static class AESHelper
 
         return Convert.ToBase64String(msEncrypt.ToArray());
     }
+    public static string Decrypt(string cipherText)
+    {
+        using Aes aesAlg = Aes.Create();
+        aesAlg.Key = Encoding.UTF8.GetBytes(key);
+        aesAlg.IV = Encoding.UTF8.GetBytes(iv);
+        aesAlg.Mode = CipherMode.CBC;
+        aesAlg.Padding = PaddingMode.PKCS7;
+
+        ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+        using MemoryStream msDecrypt = new(Convert.FromBase64String(cipherText));
+        using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
+        using StreamReader srDecrypt = new(csDecrypt);
+        return srDecrypt.ReadToEnd();
+    }
+    public static T Decrypt<T>(string cipherText)
+    {
+        using Aes aesAlg = Aes.Create();
+        aesAlg.Key = Encoding.UTF8.GetBytes(key);
+        aesAlg.IV = Encoding.UTF8.GetBytes(iv);
+        aesAlg.Mode = CipherMode.CBC;
+        aesAlg.Padding = PaddingMode.PKCS7;
+
+        ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+        using MemoryStream msDecrypt = new(Convert.FromBase64String(cipherText));
+        using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
+        using StreamReader srDecrypt = new(csDecrypt);
+        string json = srDecrypt.ReadToEnd();
+
+        return JsonSerializer.Deserialize<T>(json)!;
+    }
+    
 }

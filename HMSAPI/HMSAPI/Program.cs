@@ -62,7 +62,11 @@ options.AddPolicy(name: MyAllowSpecificOrigins,
 });
 
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<DecryptQueryFilter>();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -163,7 +167,8 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 //app.UseAuthentication();
 //app.UseAuthorization();
-
+app.UseMiddleware<DecryptQueryMiddleware>();
+app.UseMiddleware<EncryptDataMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -171,6 +176,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+//app.UseMiddleware<EncryptDataMiddleware>();
+
 
 
 
