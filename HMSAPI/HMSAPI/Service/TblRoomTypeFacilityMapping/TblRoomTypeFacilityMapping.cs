@@ -187,6 +187,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
 
                     lsttblRoomTypeFacilityMappings = await connection.gettblroomtypefacilitymapping.FromSqlRaw($@"
                       SELECT  tblmapping.RoomTypeFacilityMappingID,
+                      troom.RoomNumber,
                       trt.RoomType AS RoomType,
                       tf.FacilityName AS FacilityName,
                       tu.FullName AS CreatedBy,
