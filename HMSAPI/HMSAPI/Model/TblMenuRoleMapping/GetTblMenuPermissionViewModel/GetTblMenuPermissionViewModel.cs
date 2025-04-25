@@ -6,9 +6,9 @@ namespace HMSAPI.Model.TblMenuRoleMapping.GetTblMenuPermissionViewModel
     {
         [Key]
         public int MenuRoleMappingID { get; set; }
-       // public int RoleID { get; set; }
+       public int RoleID { get; set; }
       
-        //public int MenuID { get; set; }
+        public int MenuID { get; set; }
         public bool IsEdit { get; set; }
         public bool IsAdd { get; set; }
         public bool IsDelete { get; set; }

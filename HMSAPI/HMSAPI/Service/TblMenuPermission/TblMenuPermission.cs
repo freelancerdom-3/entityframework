@@ -35,7 +35,9 @@ namespace HMSAPI.Service.TblMenuPermission
                     var query = @"
  SELECT 
      TMR.MenuRoleMappingID,   
-     TR.RoleName,        
+     TR.RoleName,
+TR.RoleID,
+TMR.MenuID,
      TM.MenuName,
      TMR.IsAdd,
      TMR.IsEdit,
@@ -90,6 +92,7 @@ AND (@searchBy IS NULL OR TU.FullName LIKE '%' + @searchBy + '%')";
                   
                     foreach (var item in newMappings)
                     {
+                        item.MenuRoleMappingID = 0; // new add
                         item.CreatedBy = UserId;
                         item.IsActive = true;
                         item.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
