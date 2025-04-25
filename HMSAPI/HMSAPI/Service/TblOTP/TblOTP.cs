@@ -2,19 +2,20 @@
 using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblOTP;
-using static System.Net.WebRequestMethods;
+
 
 namespace HMSAPI.Service.TblOTP
 {
     public class TblOTP : ITblOTP
     {
         private readonly HSMDBContext _hsmDbContext;
+        private readonly IConfiguration _configuration;
 
-        public TblOTP(HSMDBContext hsmDBContext)
+        public TblOTP(HSMDBContext hsmDbContext, IConfiguration configuration)
         {
-            _hsmDbContext = hsmDBContext;
+            _hsmDbContext = hsmDbContext;
+            _configuration = configuration;
         }
-
 
 
 
@@ -25,15 +26,25 @@ namespace HMSAPI.Service.TblOTP
 
             try
             {
-                    
+
+                string otpLengthDecrypted = AESHelper.Decrypt(_configuration["Otpsettings:Otplength"]);
+                string otpExpiryDecrypted = AESHelper.Decrypt(_configuration["Otpsettings:otpexpireduration"]);
+
+                int otpLength = int.Parse(otpLengthDecrypted);
+                int otpExpiry = int.Parse(otpExpiryDecrypted);
+
+                int minValue = (int)Math.Pow(10, otpLength - 4);
+                int maxValue = (int)Math.Pow(10, otpLength) - 1;
+
                 using (var connection = _hsmDbContext)
                 {
                     Random random = new ();
 
-                    string otpCode = random.Next(100, 100000).ToString();
+                    string otpCode = random.Next(minValue, maxValue).ToString();
 
 
-                    DateTime expiryTime = DateTime.Now.AddMinutes(3);
+                    
+                    DateTime expiryTime = DateTime.Now.AddMinutes(otpExpiry);
 
 
                   TblOTPModel otpModel = new TblOTPModel
