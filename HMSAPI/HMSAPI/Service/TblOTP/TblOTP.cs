@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblOTP;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblOTP
@@ -73,13 +74,58 @@ namespace HMSAPI.Service.TblOTP
 
                         connection.tblotpmodel.Add(otpModel);
                         connection.SaveChanges();
-                        responseModel.Data = otpCode;   
+
+                        responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "OTP generated successfully";
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
 
-               
+            return responseModel;
+        }
+
+
+
+        public async Task<APIResponseModel> VerifyOtp(int userId, string otpCode)
+        {
+            APIResponseModel responseModel = new();
+
+            try
+            {
+                using (HSMDBContext connection = _hsmDbContext)
+                {
+                    TblOTPModel? latestOtp = await connection.tblotpmodel.Where(x => x.CreatedBy == userId && x.IsUse == false).OrderByDescending(x => x.Expiry_time).FirstOrDefaultAsync();
+
+
+
+                    if (latestOtp?.Code == otpCode && DateTime.Now <= latestOtp.Expiry_time)
+                    {
+
+                        latestOtp.IsUse = true;
+                        connection.tblotpmodel.Update(latestOtp);
+                        
+                        await connection.SaveChangesAsync();
+
+                        responseModel.Data = true;
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "OTP verified successfully";
+                    }
+                    else
+                    {
+
+                        responseModel.Data = false;
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Invalid or expired OTP";
+                    }
+
+                }
             }
             catch (Exception ex)
             {
@@ -94,3 +140,5 @@ namespace HMSAPI.Service.TblOTP
 
     }
 }
+
+

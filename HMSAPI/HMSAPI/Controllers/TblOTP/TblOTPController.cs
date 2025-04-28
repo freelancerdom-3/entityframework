@@ -21,6 +21,11 @@ namespace HMSAPI.Controllers.TblOTP
         {
             return await _serviceOTP.GenerateOtp(userId);
         }
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> VerifyOtp(int userId, string otpCode)
+        {
+            return await _serviceOTP.VerifyOtp(userId, otpCode);
+        }
 
 
     }
