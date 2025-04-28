@@ -1,8 +1,9 @@
 ﻿using System.Net;
+using System.Net.NetworkInformation;
 using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblOTP;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblOTP
 {
@@ -20,7 +21,7 @@ namespace HMSAPI.Service.TblOTP
 
 
 
-        public async Task<APIResponseModel> GenerateOtp(int userId)
+        public async Task<APIResponseModel> GenerateOtp(int userId)  
         {
             APIResponseModel responseModel = new();
 
@@ -36,32 +37,49 @@ namespace HMSAPI.Service.TblOTP
                 int minValue = (int)Math.Pow(10, otpLength - 4);
                 int maxValue = (int)Math.Pow(10, otpLength) - 1;
 
-                using (var connection = _hsmDbContext)
+
+
+                var existingOtp = await _hsmDbContext.tblotpmodel.Where(x => x.CreatedBy == userId && x.IsUse == false).OrderByDescending(x => x.OtpID).FirstOrDefaultAsync();
+
+
+                if (existingOtp != null && existingOtp.Expiry_time > DateTime.Now)
                 {
-                    Random random = new ();
-
-                    string otpCode = random.Next(minValue, maxValue).ToString();
-
-
-                    
-                    DateTime expiryTime = DateTime.Now.AddMinutes(otpExpiry);
-
-
-                  TblOTPModel otpModel = new TblOTPModel
-
-                    {
-                      Code = otpCode,
-                      Expiry_time = expiryTime,
-                      IsUse = false,
-                      CreatedBy = userId
-                    };
-
-                     connection.tblotpmodel.Add(otpModel);
-                     connection.SaveChanges();
-
                     responseModel.StatusCode = HttpStatusCode.OK;
-                    responseModel.Message = "OTP generated successfully";
+                    responseModel.Message = "Existing OTP (valid)";
+                    responseModel.Data = existingOtp;
+                    return responseModel;
                 }
+                else
+                {
+                    using (var connection = _hsmDbContext)
+                    {
+                        Random random = new();
+
+                        string otpCode = random.Next(minValue, maxValue).ToString();
+
+
+
+                        DateTime expiryTime = DateTime.Now.AddMinutes(otpExpiry);
+
+
+                        TblOTPModel otpModel = new TblOTPModel
+
+                        {
+                            Code = otpCode,
+                            Expiry_time = expiryTime,
+                            IsUse = false,
+                            CreatedBy = userId
+                        };
+
+                        connection.tblotpmodel.Add(otpModel);
+                        connection.SaveChanges();
+                        responseModel.Data = otpCode;   
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "OTP generated successfully";
+                    }
+                }
+
+               
             }
             catch (Exception ex)
             {
