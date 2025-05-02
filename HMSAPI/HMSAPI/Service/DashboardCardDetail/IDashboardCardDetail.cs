@@ -5,5 +5,6 @@ namespace HMSAPI.Service.DashboardCardDetail
     public interface IDashboardCardDetail
     {
         Task<APIResponseModel> GetAllCardDetails();
+        Task<APIResponseModel> GetFeedbackCardDetails();
     }
 }

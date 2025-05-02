@@ -1,10 +1,11 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.DashboardCardDetail;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblMedicineType;
 using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Data.Common;
+using System.Net;
 
 namespace HMSAPI.Service.DashboardCardDetail
 {
@@ -29,7 +30,7 @@ namespace HMSAPI.Service.DashboardCardDetail
             {
                 using (var connection = _hsmDBContext)
                 {
-                     var results = connection.Database.SqlQueryRaw<int>($@"
+                    var results = connection.Database.SqlQueryRaw<int>($@"
                                     SELECT CAST((SELECT SUM(QuantityAvailable) AS totalMedicineStock
                                     FROM TblMedicineType) AS INT)
                                     
@@ -49,16 +50,48 @@ namespace HMSAPI.Service.DashboardCardDetail
                     viewModel.totalPatientsVisitedToday = results[2];
                     viewModel.totalAmountOfBillGeneratedToday = results[1];
                 }
-                
+
 
                 responseModel.StatusCode = System.Net.HttpStatusCode.OK;
                 responseModel.Message = "Dashboard card details retrieved successfully";
                 responseModel.Data = viewModel;
-                
+
             }
             catch (Exception ex)
             {
                 responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
+        public async Task<APIResponseModel> GetFeedbackCardDetails()
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            List<FeedbackCardDetailsViewModel> lstUsers = new List<FeedbackCardDetailsViewModel>();
+
+            try
+            {
+
+
+                using (var connection = _hsmDBContext)
+                {
+                    string query = "SELECT TOP 5 tf.FeedbackId,tu.FullName,tf.Comments FROM TblFeedback tf INNER JOIN TblPatient tp ON tp.PatientId = tf.PatientId INNER JOIN TblUser tu ON tp.UserId = tu.UserId ORDER BY tf.CreatedOn DESC;";
+
+                    lstUsers = await connection.feedbackcarddetailsviewmodel.FromSqlRaw(query).ToListAsync();
+
+
+                    responseModel.Data = lstUsers;
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Get Record Successfully";
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
                 responseModel.Message = ex.InnerException.Message;
                 responseModel.Data = null;
             }

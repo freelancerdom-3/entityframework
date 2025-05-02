@@ -20,6 +20,11 @@ namespace HMSAPI.Controllers.DashboardCardDetails
         {
             return await _serviceDashboardCardDetail.GetAllCardDetails();
         }
+        [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetFeedbackCardDetails()
+        {
+            return await _serviceDashboardCardDetail.GetFeedbackCardDetails();
+        }
 
     }
 }
