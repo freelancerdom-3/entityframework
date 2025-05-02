@@ -22,8 +22,6 @@ public class DecryptQueryFilter : IAsyncActionFilter
                     try
                     {
                         var decrypted = AESHelper.Decrypt(value as string);
-
-                        // 👇 Try to auto-convert decrypted string to int if possible
                         if (int.TryParse(decrypted, out int intResult))
                         {
                             context.ActionArguments[arg.Key] = intResult;

@@ -163,7 +163,52 @@ namespace HMSAPI.Service.TblUser
             return responseModel;
         }
 
+        public async Task<APIResponseModel> ValidateCredential(string email, string password)
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                using (var connection = _hsmDbContext)
+                {
+                    // Encrypt the input password before comparing
+                    string encryptedPassword = AESHelper.Encrypt(password);
 
+                    TblUserModel? duplicateEmail = connection.TblUsers
+                        .Where(x => x.Email.ToLower() == email.ToLower() && x.Password == encryptedPassword)
+                        .FirstOrDefault();
+
+                    List<TblMenuRoleMapping> _lstRoleMenumapping = connection.TblMenuRolemapping.ToList();
+
+                    if (duplicateEmail != null)
+                    {
+                        var token = GenerateJSONWebToken(duplicateEmail, _lstRoleMenumapping);
+
+                        responseModel.Data = new
+                        {
+                            data = token,
+                            userId = duplicateEmail.UserId,
+                            useName = duplicateEmail.FullName
+                        };
+                        responseModel.StatusCode = HttpStatusCode.OK;
+                        responseModel.Message = "Login Successfully";
+                    }
+                    else
+                    {
+                        responseModel.StatusCode = HttpStatusCode.BadRequest;
+                        responseModel.Message = "Invalid Credentials";
+                        responseModel.Data = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.Message;
+                responseModel.Data = null;
+            }
+
+            return responseModel;
+        }
 
         //public async Task<APIResponseModel> ValidateCredential(string email, string password)
         //{
@@ -174,18 +219,29 @@ namespace HMSAPI.Service.TblUser
         //        using (var connection = _hsmDbContext)
         //        {
         //            TblUserModel? duplicateEmail = connection.TblUsers
-        //                .Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
+        //                    .Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
 
-        //            List<TblMenuRoleMapping> _lstRoleMenumapping = connection.TblMenuRolemapping.ToList();//48
+
+
+        //            List<TblMenuRoleMapping> _lstRoleMenumapping = connection.TblMenuRolemapping.ToList();  // 23
+
+
+
+                    
 
         //            if (duplicateEmail != null)
         //            {
         //                var token = GenerateJSONWebToken(duplicateEmail, _lstRoleMenumapping);
 
-
-        //                responseModel.Data = token;
+        //                responseModel.Data = new
+        //                {
+        //                    data = token,
+        //                    userId = duplicateEmail.UserId,
+        //                    useName = duplicateEmail.FullName
+        //                };
         //                responseModel.StatusCode = HttpStatusCode.OK;
         //                responseModel.Message = "Login Successfully";
+
         //            }
         //            else
         //            {
@@ -204,57 +260,6 @@ namespace HMSAPI.Service.TblUser
         //    }
         //    return responseModel;
         //}
-
-        public async Task<APIResponseModel> ValidateCredential(string email, string password)
-        {
-            APIResponseModel responseModel = new();
-            try
-            {
-
-                using (var connection = _hsmDbContext)
-                {
-                    TblUserModel? duplicateEmail = connection.TblUsers
-                            .Where(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefault();
-
-
-
-                    List<TblMenuRoleMapping> _lstRoleMenumapping = connection.TblMenuRolemapping.ToList();  // 23
-
-
-
-                    
-
-                    if (duplicateEmail != null)
-                    {
-                        var token = GenerateJSONWebToken(duplicateEmail, _lstRoleMenumapping);
-
-                        responseModel.Data = new
-                        {
-                            data = token,
-                            userId = duplicateEmail.UserId,
-                            useName = duplicateEmail.FullName
-                        };
-                        responseModel.StatusCode = HttpStatusCode.OK;
-                        responseModel.Message = "Login Successfully";
-
-                    }
-                    else
-                    {
-                        responseModel.StatusCode = HttpStatusCode.BadRequest;
-                        responseModel.Message = "Invalid Credentials";
-                        responseModel.Data = false;
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                responseModel.StatusCode = HttpStatusCode.InternalServerError;
-                responseModel.Message = ex.InnerException.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
-        }
         public async Task<APIResponseModel> Add(TblUserModel model)
         {
             APIResponseModel responseModel = new();

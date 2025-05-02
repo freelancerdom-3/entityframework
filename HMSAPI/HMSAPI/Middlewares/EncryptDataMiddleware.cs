@@ -49,7 +49,7 @@ public class EncryptDataMiddleware
 
                     var modifiedJson = JsonSerializer.Serialize(responseObj, new JsonSerializerOptions
                     {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase // 👈 This ensures "data" not "Data"
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
                     });
                     var modifiedBytes = Encoding.UTF8.GetBytes(modifiedJson);
 

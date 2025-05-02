@@ -63,8 +63,9 @@ namespace HMSAPI.EFContext
                 .AddJsonFile("appsettings.json", optional: false)
                 .Build();
             string decryptedConn = AESHelper.Decrypt(configdata.GetConnectionString("DefaultConnection"));
+            //string decryptedConn = "Server= localhost\\MSSQLSERVER01; Database= HSMDB; Integrated Security=True; Encrypt=false;";
 
-          //  string? DFConnection = configdata.GetConnectionString("DefaultConnection");
+            string? DFConnection = configdata.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(decryptedConn);
             base.OnConfiguring(optionsBuilder);
         }
