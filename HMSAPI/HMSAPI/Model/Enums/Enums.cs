@@ -25,7 +25,7 @@
             FacilityType = 14,
             Employeeshift = 15,
             Room = 16,
-            RoomLocations = 17,
+            MedicineDisease = 17,
             RoomFacility = 18,
             EmployeeDepartment = 19,
             PatientData = 20,

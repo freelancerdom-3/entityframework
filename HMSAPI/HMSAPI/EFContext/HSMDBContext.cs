@@ -216,6 +216,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<DashboardCardDetailViewModel> dashboardcarddetailviewmodel { get; set; }
         public DbSet<GetTblMenuPermissionViewModel> gettblmenupermissionviewmodel { get; set; }
+        public DbSet<GetTblMedicineDiseaseMappingModel> gettblmedicinediseasemappingmodel { get; set; }
 
 
 
@@ -224,6 +225,8 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblRoom> gettblroom {  get; set; }
 
         public DbSet<TblOTPModel> tblotpmodel { get; set; }
+
+        public DbSet<FeedbackCardDetailsViewModel> feedbackcarddetailsviewmodel { get; set ;}
     }
 }
 

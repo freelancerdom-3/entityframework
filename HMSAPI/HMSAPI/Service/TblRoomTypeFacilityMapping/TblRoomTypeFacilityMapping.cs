@@ -34,6 +34,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                         facilitymodel.CreatedBy = UserId;
                         facilitymodel.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         facilitymodel.VersionNo = 1;
+                        facilitymodel.IsActive = true;
                         _ = await connection.TblRoomTypeFacilityMapping.AddAsync(facilitymodel);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -78,6 +79,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                         data.RoomID = facilitymodel.RoomID;
                         data.FacilityID = facilitymodel.FacilityID;
                         data.IsActive = data.IsActive;
+
                         connection.TblRoomTypeFacilityMapping.Update(data);
                         data.IncreamentVersion();
                         connection.SaveChanges();
@@ -113,6 +115,7 @@ namespace HMSAPI.Service.TblRoomTypeFacilityMapping
                    .Where(x => x.RoomTypeFacilityMappingID == id).FirstOrDefaultAsync();
                     if (data != null)
                     {
+                        
                         data.IsActive = false;
                         connection.TblRoomTypeFacilityMapping.Update(data);
                         connection.SaveChanges();
