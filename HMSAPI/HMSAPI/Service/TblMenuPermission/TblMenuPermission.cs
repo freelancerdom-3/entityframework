@@ -20,10 +20,12 @@ namespace HMSAPI.Service.TblMenuPermission
             _tokenData = tokenData;
         }
         private int UserId => Convert.ToInt32(_tokenData.UserID);
+        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
-              
-        public async Task<APIResponseModel> GetAll(int? roleId = null, string? searchBy = null)
+
+        public async Task<APIResponseModel> GetAll(int? roleId, string? searchBy = null)
         {
+            roleId = RoleId;
             APIResponseModel responseModel = new();
             List<GetTblMenuPermissionViewModel> lstmenupermisson = new();
 
@@ -31,7 +33,7 @@ namespace HMSAPI.Service.TblMenuPermission
             {
                 using (var connection = _hsmDbContext)
                 {
-                    
+
                     var query = @"
  SELECT 
      TMR.MenuRoleMappingID,   
@@ -85,21 +87,21 @@ AND (@searchBy IS NULL OR TU.FullName LIKE '%' + @searchBy + '%')";
             {
                 using (var connection = _hsmDbContext)
                 {
-                  
-                    var existingMappings = await connection.TblMenuRolemapping .Where(x => x.RoleID ==  roleId).ToListAsync();
+
+                    var existingMappings = await connection.TblMenuRolemapping.Where(x => x.RoleID == roleId).ToListAsync();
                     connection.TblMenuRolemapping.RemoveRange(existingMappings);
 
-                  
+
                     foreach (var item in newMappings)
                     {
-                       
+
                         item.CreatedBy = UserId;
                         item.IsActive = true;
                         item.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     }
 
                     await connection.TblMenuRolemapping.AddRangeAsync(newMappings);
-                  
+
                     await connection.SaveChangesAsync();
 
                     responseModel.StatusCode = HttpStatusCode.OK;

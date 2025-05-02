@@ -1,10 +1,9 @@
 ﻿using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
-using HMSAPI.Model.TblMedicineDetails;
 using HMSAPI.Model.TblMedicineDiseaseMapping;
 using HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel;
+using HMSAPI.Service.TokenData;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace HMSAPI.Service.TblMedicineDiseaseMapping
 {
@@ -12,11 +11,15 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
     {
 
         private readonly HSMDBContext _hsmDbContext;
-        public TblMedicineDiseaseMapping(HSMDBContext hsmDbContext)
+        private readonly ITokenData _tokenData;
+        public TblMedicineDiseaseMapping(HSMDBContext hsmDbContext, ITokenData tokendata)
         {
             _hsmDbContext = hsmDbContext;
+            _tokenData = tokendata;
         }
 
+        private int UserId => Convert.ToInt32(_tokenData.UserID);
+        
         public async Task<APIResponseModel> Add(TblMedicineDiseaseMappingModel model)
         {
             APIResponseModel responseModel = new APIResponseModel();
@@ -28,7 +31,10 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
 
                     if (!DuplicateDisease)
                     {
+                        model.CreatedBy = UserId;
+                        model.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         model.VersionNo = 1;
+                        model.IsActive = true;
                         _ = await connection.TblMedicineDiseaseMappings.AddAsync(model);
                         connection.SaveChanges();
                         responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -93,17 +99,25 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
         public async Task<APIResponseModel> GetAll(string? searchby = null)
         {
             APIResponseModel responseModel = new();
-            List<GetTblMedicineDiseaseMappingViewModel> lstmapping = new();
+            List<GetTblMedicineDiseaseMappingModel> lstmapping = new();
             try
             {
                 using (var connection = _hsmDbContext)
                 {
-                    lstmapping = await connection.GetTblMedicineDiseaseMappingViewModels.FromSqlRaw($@"
-                        select Tblmapping.MedicineDiseaseMappingID,dis.DieseaseName,tblmedi.TypeName
-                        from TblMedicineDiseaseMapping Tblmapping
-                        inner join TblDiseaseType dis on dis.DieseaseTypeID = Tblmapping.DieseaseTypeID  and dis.IsActive = 1
-                        inner join TblMedicineType tblmedi on Tblmapping.MedicineTypeID = tblmedi.MedicineTypeID   and tblmedi.IsActive = 1 
-                        where Tblmapping.IsActive = 1
+                    lstmapping = await connection.gettblmedicinediseasemappingmodel.FromSqlRaw($@"
+                        SELECT 
+                        mdm.MedicineDiseaseMappingID,
+                        dt.DieseaseName,
+                        mt.TypeName,
+                        createdBy.FullName AS CreatedBy,
+                        updatedBy.FullName AS UpdatedBy,
+	                    mdm.CreatedOn,mdm.UpdatedOn,mdm.IsActive,mdm.VersionNo
+	                    FROM TblMedicineDiseaseMapping mdm
+	                    LEFT JOIN TblDiseaseType dt ON mdm.DieseaseTypeID = dt.DieseaseTypeID
+	                    LEFT JOIN TblMedicineType mt ON mdm.MedicineTypeID = mt.MedicineTypeID
+	                    LEFT JOIN TblUser createdBy ON mdm.CreatedBy = createdBy.UserId
+	                    LEFT JOIN TblUser updatedBy ON mdm.UpdatedBy = updatedBy.UserId
+	                    where mdm.IsActive = 1 and dt.IsActive = 1 and mt.IsActive = 1
                         and  DieseaseName like '%{searchby}%'").ToListAsync();
                     responseModel.Data = lstmapping;
                     responseModel.StatusCode = System.Net.HttpStatusCode.OK;
@@ -153,7 +167,12 @@ namespace HMSAPI.Service.TblMedicineDiseaseMapping
                         .Where(X => X.DieseaseTypeID == MedicineDiseaseMapping.DieseaseTypeID).FirstOrDefaultAsync();
                     if (Data != null)
                     {
+                        MedicineDiseaseMapping.UpdatedBy = UserId;
+                        MedicineDiseaseMapping.UpdatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        Data.MedicineDiseaseMappingID = MedicineDiseaseMapping.MedicineDiseaseMappingID;
                         Data.MedicineTypeID = MedicineDiseaseMapping.MedicineTypeID;
+                        Data.DieseaseTypeID = MedicineDiseaseMapping.DieseaseTypeID;
+                        Data.IsActive = Data.IsActive;
                         connection.Update(Data);
                         Data.IncreamentVersion();
                         connection.SaveChanges();

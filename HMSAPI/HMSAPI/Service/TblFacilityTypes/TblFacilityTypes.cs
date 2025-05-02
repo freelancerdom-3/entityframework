@@ -35,6 +35,7 @@ namespace HMSAPI.Service.TblFacilityTypes
                         tblFacilityType.CreatedBy = UserId;
                         tblFacilityType.CreatedOn = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                         tblFacilityType.VersionNo = 1;
+                        tblFacilityType.IsActive = true;
                         connection.TblFacilityTypes.Add(tblFacilityType);
                         connection.SaveChanges();
                         responseModel.Data = true;

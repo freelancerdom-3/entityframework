@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HMSAPI.Model.GenericModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel
 {
@@ -9,5 +10,14 @@ namespace HMSAPI.Model.TblMedicineDiseaseMapping.ViewModel
         public string? DieseaseName { get; set; }
         public string? TypeName { get; set; }
 
+    }
+    public class GetTblMedicineDiseaseMappingModel : ListViewModel
+    {
+        [Key]
+        public int MedicineDiseaseMappingID { get; set; }
+
+        public string? DieseaseName { get; set; }
+
+        public string? TypeName { get; set; }
     }
 }
