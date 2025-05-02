@@ -119,7 +119,7 @@ namespace HMSAPI.EFContext
 
 
             //new TblMenuRoleMapping
-           
+
 
         }
 
@@ -185,7 +185,7 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblEmployeeshiftMappingViewModel> getTblEmployeeshiftMappingViewModel { get; set; }
         public DbSet<TblMenuRoleMapping> TblMenuRolemapping { get; set; }
-        
+
         public DbSet<GetTblRoomTypeViewModel> GetTblRoomTypeViewModel { get; set; }
         public DbSet<TblHospitalDepartmentViewModel> TblHospitalDepartmentViewModel { get; set; }
 
@@ -208,11 +208,11 @@ namespace HMSAPI.EFContext
 
         public DbSet<GetTblPatientAdmitionViewModel> getTblPatientAdmition { get; set; }
 
-       
+
 
         public DbSet<GetTblRoomTypeFacilityMappingModel> GetTblRoomTypeFacilityMappingModels { get; set; }
-        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels {  get; set; }
-       // public DbSet<GetTblMedicineDiseaseMapping> gettblmedicinediseasemapping {  get; set; }
+        public DbSet<GetTblFacilityTypeModels> gettblfacilitytypemodels { get; set; }
+        // public DbSet<GetTblMedicineDiseaseMapping> gettblmedicinediseasemapping {  get; set; }
 
         public DbSet<DashboardCardDetailViewModel> dashboardcarddetailviewmodel { get; set; }
         public DbSet<GetTblMenuPermissionViewModel> gettblmenupermissionviewmodel { get; set; }
@@ -221,12 +221,14 @@ namespace HMSAPI.EFContext
 
 
         //TblMenuRoleMapping
-      
-        public DbSet<GetTblRoom> gettblroom {  get; set; }
+
+        public DbSet<GetTblRoom> gettblroom { get; set; }
 
         public DbSet<TblOTPModel> tblotpmodel { get; set; }
 
         public DbSet<FeedbackCardDetailsViewModel> feedbackcarddetailsviewmodel { get; set ;}
+
+        public DbSet<CountOfTotaldoctor> countOftotaldoctors { get; set; }
     }
 }
 

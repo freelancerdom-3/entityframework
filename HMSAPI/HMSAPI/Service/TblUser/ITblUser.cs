@@ -24,5 +24,6 @@ namespace HMSAPI.Service.TblUser
         Task<APIResponseModel> Update(TblUserModel model);
 
         Task<APIResponseModel> Delete(int id);
+        Task<APIResponseModel> GetAllforcount();
     }
 }

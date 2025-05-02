@@ -27,7 +27,7 @@ namespace HMSAPI.Service.TblUser
     public class TblUser : ITblUser
     {
         private readonly HSMDBContext _hsmDbContext;
-        
+
         //private readonly HttpContextAccessor _contextAccessor;
 
         private readonly ITokenData _tokenData;
@@ -37,16 +37,16 @@ namespace HMSAPI.Service.TblUser
         {
             _hsmDbContext = hSMDBContext;
             _tokenData = tokendata;
-            
+
         }
 
         private int UserId => Convert.ToInt32(_tokenData.UserID);
         private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
 
-        
 
-      
+
+
 
         //  private string RoleName => Convert.ToString(_tokenData.RoleName);
 
@@ -134,7 +134,7 @@ namespace HMSAPI.Service.TblUser
 
                     bool duplicateEmail = connection.TblUsers
                         .Any(x => x.Email.ToLower() == userModel.Email.ToLower());
-                    
+
 
                     if (!duplicateEmail)
                     {
@@ -187,7 +187,8 @@ namespace HMSAPI.Service.TblUser
                         {
                             data = token,
                             userId = duplicateEmail.UserId,
-                            useName = duplicateEmail.FullName
+                            useName = duplicateEmail.FullName,
+                            Roleid=duplicateEmail.RoleId
                         };
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Login Successfully";
@@ -270,9 +271,9 @@ namespace HMSAPI.Service.TblUser
                     bool duplicateEmail = connection.TblUsers
                         .Any(x => x.Email.ToLower() == model.Email.ToLower() && x.MobileNumber == model.MobileNumber);
 
-                  //  if (_tokenData.IsPermission() = true) { }
+                    //  if (_tokenData.IsPermission() = true) { }
 
-                    if (RoleId == 3) 
+                    if (RoleId == 3)
                     {
                         if (!duplicateEmail)
                         {
@@ -299,7 +300,7 @@ namespace HMSAPI.Service.TblUser
                         responseModel.Message = "dont have p";
                     }
 
-                   
+
                 }
             }
             catch (Exception ex)
@@ -314,8 +315,8 @@ namespace HMSAPI.Service.TblUser
         public async Task<APIResponseModel> Update(TblUserModel model)
         {
             APIResponseModel responseModel = new();
-          //  if(true)
-            if(_tokenData.IsPermission(Enums.Menus.Users, PermissionType.IsEdit)) //(_tokenData.IsPermission((int)Enums.Menus.Users, "IsEdit")) //Enums.Users , ISAdd
+            //  if(true)
+            if (_tokenData.IsPermission(Enums.Menus.Users, PermissionType.IsEdit)) //(_tokenData.IsPermission((int)Enums.Menus.Users, "IsEdit")) //Enums.Users , ISAdd
             {
                 try
                 {
@@ -324,39 +325,39 @@ namespace HMSAPI.Service.TblUser
                         bool duplicateEmail = connection.TblUsers.Any(x => x.Email == model.Email.ToLower());
                         bool duplicateMobile = connection.TblUsers.Any(x => x.MobileNumber == model.MobileNumber);
                         TblUserModel? data = await connection.TblUsers.Where(x => x.UserId == model.UserId).FirstOrDefaultAsync();
-                            if (data != null && !duplicateEmail && !duplicateMobile)
+                        if (data != null && !duplicateEmail && !duplicateMobile)
 
-                            {
+                        {
                             model.UpdatedBy = UserId;
-                                //  model.UpdateBy=_tokenData.UserID
+                            //  model.UpdateBy=_tokenData.UserID
 
-                                data.RoleId = model.RoleId;
-                                data.MobileNumber = model.MobileNumber;
-                                data.Email = model.Email;
-                                data.Password = model.Password;
-                                data.FullName = model.FullName;
-                                data.UpdatedBy = model.UpdatedBy;
-                                data.UpdatedOn = model.UpdatedOn;
-                                data.IsActive = model.IsActive;
+                            data.RoleId = model.RoleId;
+                            data.MobileNumber = model.MobileNumber;
+                            data.Email = model.Email;
+                            data.Password = model.Password;
+                            data.FullName = model.FullName;
+                            data.UpdatedBy = model.UpdatedBy;
+                            data.UpdatedOn = model.UpdatedOn;
+                            data.IsActive = model.IsActive;
 
-                                data.IncreamentVersion();
-                                connection.TblUsers.Update(data);
+                            data.IncreamentVersion();
+                            connection.TblUsers.Update(data);
 
 
-                                connection.SaveChanges();
-                                responseModel.Data = true;
-                                responseModel.StatusCode = HttpStatusCode.OK;
-                                responseModel.Message = "Update Successfully";
-                            }
-                            else
-                            {
-                                responseModel.StatusCode = HttpStatusCode.BadRequest;
-                                responseModel.Message = "Duplicate  Found";
-                                responseModel.Data = false;
-                            }
-                        
+                            connection.SaveChanges();
+                            responseModel.Data = true;
+                            responseModel.StatusCode = HttpStatusCode.OK;
+                            responseModel.Message = "Update Successfully";
+                        }
+                        else
+                        {
+                            responseModel.StatusCode = HttpStatusCode.BadRequest;
+                            responseModel.Message = "Duplicate  Found";
+                            responseModel.Data = false;
+                        }
 
-                       
+
+
 
 
 
@@ -446,6 +447,43 @@ namespace HMSAPI.Service.TblUser
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public async Task<APIResponseModel> GetAllforcount()
+        {
+            APIResponseModel responseModel = new();
+            try
+            {
+                List<CountOfTotaldoctor> lstUsers = new();
+                using (var connection = _hsmDbContext)
+                {
+                    lstUsers = connection.countOftotaldoctors.FromSqlRaw($@"
+select COUNT(*) AS totalDoctorCount  from tbluser  where RoleId=1
+
+ UNION ALL
+
+SELECT COUNT(*) 
+FROM TblEmployeeShiftMapping esm
+INNER JOIN TblUser tu ON esm.UserId = tu.UserId
+INNER JOIN TblShift TS ON TS.ShiftId=esm.ShiftId
+WHERE tu.RoleId = 1
+ AND (CAST(GETDATE() AS DATE) BETWEEN esm.EmployeeShiftMappingStartingDate AND esm.EmployeeShiftMappingEndingDate) AND 
+ (CAST(GETDATE() AS TIME)BETWEEN TS.StartTime AND TS.EndTime)
+").ToList();
+
+                    responseModel.Data = lstUsers;
+                    responseModel.StatusCode = HttpStatusCode.OK;
+                    responseModel.Message = "Successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
 
     }
 }
