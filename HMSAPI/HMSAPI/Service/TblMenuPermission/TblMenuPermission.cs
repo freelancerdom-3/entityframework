@@ -20,12 +20,10 @@ namespace HMSAPI.Service.TblMenuPermission
             _tokenData = tokenData;
         }
         private int UserId => Convert.ToInt32(_tokenData.UserID);
-        private int RoleId => Convert.ToInt32(_tokenData.RoleId);
 
 
         public async Task<APIResponseModel> GetAll(int? roleId, string? searchBy = null)
         {
-            roleId = RoleId;
             APIResponseModel responseModel = new();
             List<GetTblMenuPermissionViewModel> lstmenupermisson = new();
 
