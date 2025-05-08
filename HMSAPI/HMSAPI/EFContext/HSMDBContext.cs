@@ -229,6 +229,10 @@ namespace HMSAPI.EFContext
         public DbSet<FeedbackCardDetailsViewModel> feedbackcarddetailsviewmodel { get; set ;}
 
         public DbSet<CountOfTotaldoctor> countOftotaldoctors { get; set; }
+
+        public DbSet<TotalAmountModel> TotalAmountModels { get; set; }
+
+        public DbSet<TotalWeelAmountModel> TotalWeelAmountModels { get; set; }
     }
 }
 

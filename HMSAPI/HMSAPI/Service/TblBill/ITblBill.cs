@@ -12,5 +12,8 @@ namespace HMSAPI.Service.TblBill
         Task<APIResponseModel> Update(int id, TblBillModel bill);
         Task<APIResponseModel> Delete(int id);
         Task<APIResponseModel> Deletebyid(HSMDBContext context, int id);
+        //Task<APIResponseModel> GetTotalEarnings(string? searchBy = null);
+        Task<APIResponseModel> GetTotalEarningsByDate();
+        Task<APIResponseModel> GetTotalEarningsWeek (string? searchBy = null);
     }
 }
