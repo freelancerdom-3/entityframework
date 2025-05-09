@@ -21,7 +21,9 @@ public class DecryptQueryFilter : IAsyncActionFilter
                 {
                     try
                     {
-                        var decrypted = AESHelper.Decrypt(value as string);
+                        var decrypted = AESHelper.DecryptURI(value as string);
+
+                        // 👇 Try to auto-convert decrypted string to int if possible
                         if (int.TryParse(decrypted, out int intResult))
                         {
                             context.ActionArguments[arg.Key] = intResult;
@@ -50,7 +52,7 @@ public class DecryptQueryFilter : IAsyncActionFilter
                             {
                                 try
                                 {
-                                    var decrypted = AESHelper.Decrypt(encryptedValue);
+                                    var decrypted = AESHelper.DecryptURI(encryptedValue);
                                     prop.SetValue(value, decrypted);
                                 }
                                 catch

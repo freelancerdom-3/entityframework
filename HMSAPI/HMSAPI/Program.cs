@@ -70,14 +70,14 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
 {
-options.AddPolicy(name: MyAllowSpecificOrigins,
-                  policy =>
-                  {
-                        policy.WithOrigins("http://localhost:4200")
-                       .AllowAnyMethod()  
-                        .AllowAnyHeader()  
-                        .AllowCredentials();
-                  });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                     .AllowAnyMethod()
+                      .AllowAnyHeader()
+                      .AllowCredentials();
+                      });
 });
 
 
@@ -117,7 +117,7 @@ builder.Services.AddAuthentication();
 //builder.Services.AddScoped<ITokenData, TokenData>();
 
 builder.Services.AddSingleton<ITokenData, TokenData>();
-builder.Services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ITblUser, TblUser>();
 builder.Services.AddScoped<ITblHospitalDepartment, TblHospitalDepartment>();
 builder.Services.AddScoped<ITblRole, TblRole>();
@@ -126,7 +126,7 @@ builder.Services.AddScoped<ITblDiseaseType, TblDiseaseType>();
 builder.Services.AddScoped<ITblMedicineType, TblMedicineType>();
 builder.Services.AddScoped<ITblHospitalType, TblHospitalType>();
 builder.Services.AddScoped<ITblEmployeeDepartmentMapping, TblEmployeeDepartmentMapping>();
-builder.Services.AddScoped<ITblRoomLocations ,TblRoomLocations>();
+builder.Services.AddScoped<ITblRoomLocations, TblRoomLocations>();
 builder.Services.AddScoped<ITblPatient, TblPatient>();
 builder.Services.AddScoped<ITblMedicineDiseaseMapping, TblMedicineDiseaseMapping>();
 builder.Services.AddScoped<ITblEmployeeshiftMapping, TblEmployeeshiftMapping>();
@@ -193,8 +193,14 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 //app.UseAuthentication();
 //app.UseAuthorization();
-app.UseMiddleware<DecryptQueryMiddleware>();
-app.UseMiddleware<EncryptDataMiddleware>();
+bool encryptionEnabled = bool.Parse(AESHelper.Decrypt(configdata["EncryptionStatus:EncryptionEnabled"]));
+//bool encryptionEnabled = true;
+if (encryptionEnabled)
+{
+    app.UseMiddleware<DecryptQueryMiddleware>();
+    app.UseMiddleware<EncryptDataMiddleware>();
+
+}
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -203,10 +209,3 @@ app.MapControllers();
 
 app.Run();
 //app.UseMiddleware<EncryptDataMiddleware>();
-
-
-
-
-
-
-
