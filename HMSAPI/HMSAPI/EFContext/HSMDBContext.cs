@@ -225,6 +225,7 @@ namespace HMSAPI.EFContext
         public DbSet<GetTblRoom> gettblroom { get; set; }
 
         public DbSet<TblOTPModel> tblotpmodel { get; set; }
+        public DbSet<PatientTableViewModel> patientTableViewModels { get; set; }
 
         public DbSet<FeedbackCardDetailsViewModel> feedbackcarddetailsviewmodel { get; set ;}
 

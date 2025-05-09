@@ -4,6 +4,7 @@ using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblOTP;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMSAPI.Service.TblOTP
@@ -93,7 +94,7 @@ namespace HMSAPI.Service.TblOTP
 
 
 
-        public async Task<APIResponseModel> VerifyOtp(int userId, string otpCode)
+        public async Task<APIResponseModel> VerifyOtp([FromQuery] int userId, [FromQuery] string otpCode)
         {
             APIResponseModel responseModel = new();
 

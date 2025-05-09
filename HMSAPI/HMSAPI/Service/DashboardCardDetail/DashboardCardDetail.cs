@@ -66,6 +66,67 @@ namespace HMSAPI.Service.DashboardCardDetail
             return responseModel;
         }
 
+        public async Task<APIResponseModel> GetPatientTableDetails()
+        {
+            APIResponseModel responseModel = new APIResponseModel();
+            List<PatientTableViewModel> patientTableViewModels = new List<PatientTableViewModel>();
+            try
+            {
+                using(var connection = _hsmDBContext)
+                {
+                    patientTableViewModels = connection.patientTableViewModels.FromSqlRaw($@"SELECT 
+    tp.PateintDoctormappingId,
+	tr.TreatmentDetailsId,
+	tbb.TotalAmount,
+	tbb.PaymentMethod,
+    tu.FullName AS DocterName,
+    tuu.FullName AS PatientName,
+    tpa.Gender,
+    ISNULL(tbb.BillDate, tr.TreatmentDate) AS FinalDate,
+    CASE 
+        WHEN tbb.BillDate IS NOT NULL THEN 1 
+        ELSE 0 
+    END AS DateSource
+FROM TblPateintDoctormapping tp
+INNER JOIN TblTreatmentDetails tr ON tr.TreatmentDetailsId = tp.TreatmentDetailsId
+LEFT JOIN TblBill tbb ON tbb.TreatmentDetailsId = tr.TreatmentDetailsId
+INNER JOIN TblPatient tpa ON tpa.PatientId = tr.PatientId
+INNER JOIN TblUser tuu ON tuu.UserId = tpa.UserId
+INNER JOIN TblUser tu ON tu.UserId = tp.UserId
+WHERE tbb.BillDate IS NULL
+
+UNION
+
+SELECT 
+    tp.PateintDoctormappingId,
+	tr.TreatmentDetailsId,
+	tbb.TotalAmount,
+	tbb.PaymentMethod,
+    tu.FullName AS DocterName,
+    tuu.FullName AS PatientName,
+    tpa.Gender,
+    tbb.BillDate AS FinalDate,
+    1 AS DateSource
+FROM TblPateintDoctormapping tp
+INNER JOIN TblTreatmentDetails tr ON tr.TreatmentDetailsId = tp.TreatmentDetailsId
+INNER JOIN TblBill tbb ON tbb.TreatmentDetailsId = tr.TreatmentDetailsId
+INNER JOIN TblPatient tpa ON tpa.PatientId = tr.PatientId
+INNER JOIN TblUser tuu ON tuu.UserId = tpa.UserId
+INNER JOIN TblUser tu ON tu.UserId = tp.UserId").ToList();
+                    responseModel.StatusCode = System.Net.HttpStatusCode.OK;
+                    responseModel.Message = "Get All Record Successfully";
+                    responseModel.Data = patientTableViewModels;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseModel.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                responseModel.Message = ex.InnerException.Message;
+                responseModel.Data = null;
+            }
+            return responseModel;
+        }
+
         public async Task<APIResponseModel> GetFeedbackCardDetails()
         {
             APIResponseModel responseModel = new APIResponseModel();

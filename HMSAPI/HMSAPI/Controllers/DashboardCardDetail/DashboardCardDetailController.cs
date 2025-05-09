@@ -27,6 +27,11 @@ namespace HMSAPI.Controllers.DashboardCardDetails
             return await _serviceDashboardCardDetail.GetAllCardDetails();
         }
         [HttpGet("[action]")]
+        public async Task<APIResponseModel> GetPatientTableDetails()
+        {
+            return await _serviceDashboardCardDetail.GetPatientTableDetails();
+        }
+        [HttpGet("[action]")]
         public async Task<APIResponseModel> GetAllforcount()
         {
             return await _serviceTblUser.GetAllforcount();
