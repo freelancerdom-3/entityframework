@@ -33,6 +33,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HMSAPI.Service.DashboardCardDetail;
 using HMSAPI.Service.TblMenuPermission;
 using HMSAPI.Service.TblOTP;
+using HMSAPI.Service.TblUserRoleMapping;
 //using HMSAPI.Service.TokenDate;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,11 +82,11 @@ builder.Services.AddCors(options =>
 });
 
 
-//builder.Services.AddControllers();
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<DecryptQueryFilter>();
-});
+builder.Services.AddControllers();
+//builder.Services.AddControllers(options =>
+//{
+//    options.Filters.Add<DecryptQueryFilter>();
+//});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -146,6 +147,7 @@ builder.Services.AddScoped<ITblRoom, TblRoom>();
 builder.Services.AddScoped<ITblRoomType, TblRoomType>();
 builder.Services.AddScoped<IDashboardCardDetail, DashboardCardDetail>();
 builder.Services.AddScoped<ITblOTP, TblOTP>();
+builder.Services.AddScoped<ITblUserRoleMapping, TblUserRoleMapping>();
 
 
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
