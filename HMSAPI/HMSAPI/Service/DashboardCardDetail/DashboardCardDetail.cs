@@ -77,8 +77,8 @@ namespace HMSAPI.Service.DashboardCardDetail
                     patientTableViewModels = connection.patientTableViewModels.FromSqlRaw($@"SELECT 
     tp.PateintDoctormappingId,
 	tr.TreatmentDetailsId,
-	tbb.TotalAmount,
-	tbb.PaymentMethod,
+	isnull (tbb.TotalAmount, 0) as TotalAmount,
+	isnull (tbb.PaymentMethod, 0)as PaymentMethod,
     tu.FullName AS DocterName,
     tuu.FullName AS PatientName,
     tpa.Gender,
@@ -100,8 +100,8 @@ UNION
 SELECT 
     tp.PateintDoctormappingId,
 	tr.TreatmentDetailsId,
-	tbb.TotalAmount,
-	tbb.PaymentMethod,
+	isnull (tbb.TotalAmount, 0) as TotalAmount,
+	isnull (tbb.PaymentMethod, 0)as PaymentMethod,
     tu.FullName AS DocterName,
     tuu.FullName AS PatientName,
     tpa.Gender,
