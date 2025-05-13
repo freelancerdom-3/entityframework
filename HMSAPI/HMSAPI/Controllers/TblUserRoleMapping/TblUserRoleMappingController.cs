@@ -26,8 +26,8 @@ namespace HMSAPI.Controllers.TblUserRoleMapping
         }
 
 
-        [HttpPut("ToggleUserRoles")]
-        public async Task<APIResponseModel> ToggleUserRoles([FromBody]TblUserRoleMappingModel model)
+        [HttpPut("[action]")]
+        public async Task<APIResponseModel> Add([FromBody]TblUserRoleMappingModel model)
         {
             return await _serviceTblUserRoleMapping.Add(model);
         }
