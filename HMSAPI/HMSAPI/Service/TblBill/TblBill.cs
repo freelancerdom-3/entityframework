@@ -3,6 +3,7 @@ using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
 using HMSAPI.Model.TblBill.ViewModel;
+using HMSAPI.Service.Email;
 using HMSAPI.Service.TokenData;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,13 @@ namespace HMSAPI.Service.TblBill
 
         private readonly ITokenData _tokenData;
 
+        private readonly IEmailService _emailService;
 
-        public TblBill(HSMDBContext hSMDBContext, ITokenData tokendata)
+        public TblBill(HSMDBContext hSMDBContext, ITokenData tokendata, IEmailService emailService)
         {
             _hsmDbContext = hSMDBContext;
             _tokenData = tokendata;
+            _emailService = emailService;
 
         }
 
@@ -235,6 +238,57 @@ left join TblUser pr on pr.UserId = tb.UpdatedBy
             }
             return responseModel;
         }
+
+      public async Task<APIResponseModel> EmailBillPdfToPatient(int billId,byte[] pdfBytes)
+{
+    APIResponseModel responseModel = new();
+    try
+    {
+                // Fetch the bill and include the related TreatmentDetails and Patient
+                var bill = await _hsmDbContext.TblBills
+                    .Include(b => b.TreatmentDetails)  // Include TreatmentDetails
+                    .ThenInclude(t => t.Patient)      // Include the Patient entity
+                    .ThenInclude(p => p.User)   
+                  .FirstOrDefaultAsync(x => x.BillId == billId);// Include the User for Patient (for email)
+
+
+                if (bill == null)
+        {
+            responseModel.StatusCode = HttpStatusCode.NotFound;
+            responseModel.Message = "Bill not found.";
+            return responseModel;
+        }
+
+        // Ensure the patient email is available
+        var patientEmail = bill.TreatmentDetails.Patient.User.Email;
+        if (string.IsNullOrEmpty(patientEmail))
+        {
+            responseModel.StatusCode = HttpStatusCode.BadRequest;
+            responseModel.Message = "Patient email is not available.";
+            return responseModel;
+        }
+
+        var subject = "Your Hospital Bill";
+        var body = "Dear Patient,\n\nPlease find attached your bill.\n\nRegards,\nHospital Team";
+
+        // Send the email with the PDF attachment
+        await _emailService.SendEmailWithAttachmentAsync(patientEmail, subject, body, pdfBytes, $"Bill_{billId}.pdf");
+
+        responseModel.StatusCode = HttpStatusCode.OK;
+        responseModel.Message = "Email sent successfully.";
+        responseModel.Data = true;
+    }
+    catch (Exception ex)
+    {
+        responseModel.StatusCode = HttpStatusCode.InternalServerError;
+        responseModel.Message = ex.Message;
+        responseModel.Data = false;
+    }
+
+    return responseModel;
+}
+
+        
 
 
 

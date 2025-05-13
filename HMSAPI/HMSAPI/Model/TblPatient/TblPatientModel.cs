@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblUser;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HMSAPI.Model.TblPatient
@@ -22,5 +23,6 @@ namespace HMSAPI.Model.TblPatient
         public string? Medical_History {  get; set; }
 
         public int UserId { get; set; }
+        public TblUserModel User { get; set; }
     }
 }

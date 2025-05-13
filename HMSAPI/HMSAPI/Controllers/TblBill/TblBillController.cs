@@ -1,4 +1,5 @@
-﻿using HMSAPI.Model.GenericModel;
+﻿using HMSAPI.Model.EmailModel;
+using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblBill;
 using HMSAPI.Service.TblBill;
 using Microsoft.AspNetCore.Authorization;
@@ -50,6 +51,18 @@ namespace HMSAPI.Controllers.TblBill
         {
             return await _serviceTblBill.Delete(id);
         }
+        [HttpPost("[action]")]
+        [AllowAnonymous]
+        public async Task<IActionResult> EmailBillPdfToPatient(EmailBillRequest request)
+        {
+            var pdfBytes = Convert.FromBase64String(request.PdfBase64);
+            var result = await _serviceTblBill.EmailBillPdfToPatient(request.BillId, pdfBytes);
+
+            return StatusCode((int)result.StatusCode, result);
+        }
+
+
+
 
     }
 }

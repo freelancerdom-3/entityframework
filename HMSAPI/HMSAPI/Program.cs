@@ -33,6 +33,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HMSAPI.Service.DashboardCardDetail;
 using HMSAPI.Service.TblMenuPermission;
 using HMSAPI.Service.TblOTP;
+using HMSAPI.Model.EmailModel;
+using HMSAPI.Service.Email;
 using HMSAPI.Service.TblUserRoleMapping;
 //using HMSAPI.Service.TokenDate;
 
@@ -71,14 +73,14 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.WithOrigins("http://localhost:4200")
-                     .AllowAnyMethod()
-                      .AllowAnyHeader()
-                      .AllowCredentials();
-                      });
+options.AddPolicy(name: MyAllowSpecificOrigins,
+                  policy =>
+                  {
+                        policy.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()  
+                        .AllowAnyHeader()  
+                        .AllowCredentials();
+                  });
 });
 
 
@@ -151,6 +153,9 @@ builder.Services.AddScoped<ITblUserRoleMapping, TblUserRoleMapping>();
 
 
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 
 //GetTblMenupermissionViewModel

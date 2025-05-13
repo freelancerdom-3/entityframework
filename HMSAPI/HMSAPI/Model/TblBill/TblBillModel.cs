@@ -1,5 +1,7 @@
 ﻿using HMSAPI.Model.GenericModel;
 using System.ComponentModel.DataAnnotations;
+using HMSAPI.Model.TblBill.ViewModel;
+using HMSAPI.Model.TblTreatmentDetails;
 
 namespace HMSAPI.Model.TblBill
 {
@@ -13,5 +15,10 @@ namespace HMSAPI.Model.TblBill
         public DateOnly BillDate { get; set; }
          
         public int TreatmentDetailsId { get; set; }
+
+        public TblTreatmentDetailsModel TreatmentDetails { get; set; }
+
+
+
     }
 }
