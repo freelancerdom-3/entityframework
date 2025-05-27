@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using HMSAPI.EFContext;
 using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblOTP;
+using HMSAPI.Service.Email;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,19 @@ namespace HMSAPI.Service.TblOTP
     {
         private readonly HSMDBContext _hsmDbContext;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public TblOTP(HSMDBContext hsmDbContext, IConfiguration configuration)
+        public TblOTP(HSMDBContext hsmDbContext, IEmailService emailService, IConfiguration configuration)
         {
             _hsmDbContext = hsmDbContext;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
 
 
 
-        public async Task<APIResponseModel> GenerateOtp(int userId)  
+        public async Task<APIResponseModel> GenerateOtp(int userId, string email)  
         {
             APIResponseModel responseModel = new();
 
@@ -75,7 +78,7 @@ namespace HMSAPI.Service.TblOTP
 
                         connection.tblotpmodel.Add(otpModel);
                         connection.SaveChanges();
-
+                        await _emailService.SendOtpEmailAsync(email, otpCode);
                         responseModel.Data = true;
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "OTP generated successfully";

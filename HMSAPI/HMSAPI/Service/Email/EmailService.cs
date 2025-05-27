@@ -32,5 +32,38 @@ public class EmailService : IEmailService
         await smtp.SendMailAsync(message);
     }
 
+    public async Task SendOtpEmailAsync(string toEmail, string otpCode)
+    {
+        try
+        {
+            var subject = "Your OTP Code";
+            var body = $"Your verification code is: {otpCode}";
+
+            using var message = new MailMessage
+            {
+                From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.SenderName),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = false
+            };
+
+            message.To.Add(toEmail);
+
+            using var smtp = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.Port)
+            {
+                Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password),
+                EnableSsl = true
+            };
+
+            await smtp.SendMailAsync(message);
+        }
+        catch (Exception ex)
+        {
+            // Log error
+            throw new ApplicationException("Failed to send OTP email", ex);
+        }
+    }
 }
+
+
 

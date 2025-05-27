@@ -1,4 +1,5 @@
 ﻿using HMSAPI.Model.GenericModel;
+using HMSAPI.Model.TblOTP;
 using HMSAPI.Service.TblOTP;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,15 @@ namespace HMSAPI.Controllers.TblOTP
             _serviceOTP = serviceOTP;
         }
 
-        [HttpGet("[action]")]
-        public async Task<APIResponseModel> GenerateOtp(int userId)
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> GenerateOtp([FromBody] GenerateOtpRequest request)
         {
-            return await _serviceOTP.GenerateOtp(userId);
+            return await _serviceOTP.GenerateOtp(request.UserId, request.Email);
         }
-        [HttpGet("[action]")]
-        public async Task<APIResponseModel> VerifyOtp(int userId, string otpCode)
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> VerifyOtp([FromBody] OtpVerificationModel model)
         {
-            return await _serviceOTP.VerifyOtp(userId, otpCode);
+            return await _serviceOTP.VerifyOtp(model.userId, model.otpCode);
         }
 
 
