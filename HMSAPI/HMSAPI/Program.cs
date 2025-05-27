@@ -36,9 +36,14 @@ using HMSAPI.Service.TblOTP;
 using HMSAPI.Model.EmailModel;
 using HMSAPI.Service.Email;
 using HMSAPI.Service.TblUserRoleMapping;
+using HMSAPI.Service.ProfileImage;
 //using HMSAPI.Service.TokenDate;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    ContentRootPath = Directory.GetCurrentDirectory(),
+    WebRootPath = "wwwroot"
+});
 
 // Add services to the container.
 
@@ -150,13 +155,15 @@ builder.Services.AddScoped<ITblRoomType, TblRoomType>();
 builder.Services.AddScoped<IDashboardCardDetail, DashboardCardDetail>();
 builder.Services.AddScoped<ITblOTP, TblOTP>();
 builder.Services.AddScoped<ITblUserRoleMapping, TblUserRoleMapping>();
-
-
+builder.Services.AddScoped<IProfileImageService, ProfileImageService>();
 builder.Services.AddScoped<IGetDropDownList, GetDropDownList>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
 
-
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = 2 * 1024 * 1024; // 2MB
+});
 
 //GetTblMenupermissionViewModel
 builder.Services.AddScoped<ITblMenuPermission, TblMenuPermission>();
@@ -198,6 +205,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 //app.UseAuthentication();
 //app.UseAuthorization();
 bool encryptionEnabled = bool.Parse(AESHelper.Decrypt(configdata["EncryptionStatus:EncryptionEnabled"]));

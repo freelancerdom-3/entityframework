@@ -14,5 +14,8 @@ namespace HMSAPI.Model.TblUser
         public string? MobileNumber { get; set; }
 
         public int RoleId { get; set; }
+
+        public string? ProfileImagePath { get; set; }
+        public string? ProfileImageThumbnailPath { get; set; }  
     }
 }

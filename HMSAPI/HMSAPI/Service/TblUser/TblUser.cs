@@ -188,7 +188,8 @@ namespace HMSAPI.Service.TblUser
                             data = token,
                             userId = duplicateEmail.UserId,
                             useName = duplicateEmail.FullName,
-                            Roleid=duplicateEmail.RoleId
+                            Roleid=duplicateEmail.RoleId,
+                            profileImage = duplicateEmail.ProfileImagePath
                         };
                         responseModel.StatusCode = HttpStatusCode.OK;
                         responseModel.Message = "Login Successfully";
@@ -425,7 +426,7 @@ namespace HMSAPI.Service.TblUser
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(decryptedJwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+                
             var claims = new[]
             {
                 
@@ -436,6 +437,7 @@ namespace HMSAPI.Service.TblUser
                 new Claim("UserId",Convert.ToBase64String(Encoding.UTF8.GetBytes(user.UserId.ToString()))),
                 new Claim("Roleid",Convert.ToBase64String(Encoding.UTF8.GetBytes(user.RoleId.ToString()))),
                 new Claim("Permission",JsonConvert.SerializeObject(tblMenuRoles)),
+                new Claim("ProfileImage", user.ProfileImagePath ?? "")
 
             };
 
@@ -483,7 +485,7 @@ WHERE tu.RoleId = 1
             }
             return responseModel;
         }
-
+    
 
     }
 }
