@@ -1,6 +1,8 @@
 ﻿using HMSAPI.Model.GenericModel;
 using HMSAPI.Model.TblUser;
+using HMSAPI.Service.ProfileImage;
 using HMSAPI.Service.TblUser;
+using HMSAPI.Service.TokenData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +14,13 @@ namespace HMSAPI.Controllers.TblUser
     public class TblUserController : ControllerBase
     {
         private readonly ITblUser _serviceTblUser;
-        public TblUserController(ITblUser tblUser)
+        private readonly IProfileImageService _profileImageService;
+        private readonly ITokenData _tokenData;
+        public TblUserController(ITblUser tblUser, IProfileImageService profileImageService, ITokenData tokenData)
         {
             _serviceTblUser = tblUser;
+            _profileImageService = profileImageService;
+            _tokenData = tokenData;
         }
 
 
@@ -63,6 +69,28 @@ namespace HMSAPI.Controllers.TblUser
         {   
             return await _serviceTblUser.Delete(id);
         }
+
+        [HttpPost("[action]")]
+        public async Task<APIResponseModel> UploadProfileImage(IFormFile file)
+        {
+
+            return await _profileImageService.UploadProfileImage((int)_tokenData.UserID, file);
+
+        }
+
+        [HttpGet("[action]")]
         
+        public async Task<APIResponseModel> GetProfileImage()
+        {
+            return await _profileImageService.GetProfileImage((int)_tokenData.UserID);
+        }
+
+        [HttpDelete("[action]")]
+      
+        public async Task<APIResponseModel> DeleteProfileImage()
+        {
+            return await _profileImageService.DeleteProfileImage((int)_tokenData.UserID);
+        }
+
     }
 }

@@ -25,6 +25,7 @@ namespace HMSAPI.Service.TokenData
 
 
 
+
         public long UserID => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "UserId").Value)));
        // public long UserID => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String((_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "UserId").Value))));
         public long RoleId => Convert.ToInt64(System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "Roleid").Value)));
@@ -32,6 +33,10 @@ namespace HMSAPI.Service.TokenData
         .FirstOrDefault(x => x.Type == "Permission")?
         .ToString()
          ?.Replace("Permission:", "") ?? "[]");
+        public string ProfileImage =>
+    _contextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "ProfileImage")?.Value ?? "";
+
+
 
         public bool IsPermission(Menus menuId, PermissionType permissionType)
         {
@@ -57,5 +62,6 @@ namespace HMSAPI.Service.TokenData
             return result;
 
         }
+
     }
 }
