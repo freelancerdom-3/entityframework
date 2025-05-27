@@ -64,14 +64,24 @@ namespace HMSAPI.Service.TblFeedback
                 {
                     lstUsers = await connection.GetTblFeedbackViewModel.FromSqlRaw($@"
                     SELECT 
-                    TblFeedback.FeedbackId,
-                    TblUser.FullName,
-                    TblFeedback.Comments,
-                    TblFeedback.Rating,  
-                    TblFeedback.FeedbackDate
-                    FROM TblUser 
-                    inner join TblPatient on TblPatient.UserId = TblUser.UserId 
-                    inner join TblFeedback on TblFeedback.PatientId = TblPatient.PatientId").ToListAsync();
+    f.FeedbackId,
+    u.FullName AS FullName,
+    f.Comments,
+    f.Rating,
+    f.FeedbackDate,
+    f.TreatmentDetailsId,
+    f.CreatedBy,
+    f.CreatedOn,
+    f.UpdatedBy,
+    f.UpdatedOn,
+    f.IsActive,
+    f.VersionNo
+FROM TblFeedback f
+INNER JOIN TblTreatmentDetails td ON td.TreatmentDetailsId = f.TreatmentDetailsId
+INNER JOIN TblPatient p ON p.PatientId = td.PatientId
+INNER JOIN TblUser u ON u.UserId = p.UserId
+
+").ToListAsync();
                     responseModel.Data = lstUsers;
                     responseModel.StatusCode = HttpStatusCode.OK;
                     responseModel.Message = "Successfully";
